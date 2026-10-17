@@ -97,6 +97,12 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
 .ticker-text span { margin-inline-start:40px; font-weight:600; color:var(--ink); }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
+/* شارات حالات وقواعد المسابقات */
+.badge-status { padding:2px 8px; border-radius:6px; font-size:12px; font-weight:600; display:inline-block; }
+.badge-status.open { background:color-mix(in srgb, var(--open) 15%, var(--surface)); color:var(--open); border:1px solid var(--open); }
+.badge-status.soon { background:color-mix(in srgb, var(--soon) 15%, var(--surface)); color:var(--soon); border:1px solid var(--soon); }
+.badge-status.ended { background:color-mix(in srgb, var(--ended) 15%, var(--surface)); color:var(--ended); border:1px solid var(--ended); }
+
 @media print {
   .no-print { display:none !important; }
   body { background:#fff; }
@@ -112,6 +118,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   <div class="stat"><span class="label">بنود الخطة</span><strong id="statPlan">0</strong></div> 
   <div class="stat"><span class="label">بطاقات التنفيذ</span><strong id="statCards">0</strong></div> 
   <div class="stat"><span class="label">الإعلانات المنشورة</span><strong id="statAnnouncements">0</strong></div>
+  <div class="stat"><span class="label">المسابقات المعتمدة</span><strong id="statCompetitions">0</strong></div>
 </section>
 
 <nav class="tabs no-print" aria-label="التبويبات الرئيسية"> 
@@ -119,10 +126,89 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   <button class="tab" data-tab="plan"><i class="fa-solid fa-calendar-check"></i> خطة التنفيذ</button> 
   <button class="tab" data-tab="cards"><i class="fa-solid fa-file-signature"></i> بطاقات التنفيذ</button> 
   <button class="tab" data-tab="announcements"><i class="fa-solid fa-bullhorn"></i> الإعلانات</button>
+  <button class="tab" data-tab="competitions"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
 </nav>
 
 <main>
- <!-- PAGE 4: ANNOUNCEMENTS --> 
+ <!-- PAGE: HOME --> 
+ <section id="page-home" class="page">  
+  <div class="panel">   
+   <div class="section-head">    
+    <div>     
+     <h2>مرحباً بكم في البوابة الرقمية للنشاط الطلابي</h2>     
+     <p>منصة متكاملة لإدارة ومتابعة خطط العمل، والمبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بابتدائية مكة المكرمة.</p>    
+    </div>   
+   </div>   
+   <div class="notice">    
+    تُربط هذه البوابة آلياً مع سحابة Google Firebase، وتدعم عرض الفيديوهات والملفات الكبيرة عبر روابط Google Drive ويوتيوب فوراً.   
+   </div>  
+  </div>
+ </section>
+
+ <!-- PAGE: PLAN --> 
+ <section id="page-plan" class="page hidden">  
+  <div class="panel">   
+   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
+    <div><h2>خطة تنفيذ النشاط الطلابي</h2><p>إدارة وتسجيل الأنشطة والبرامج المدرسية وتتبع حالتها مباشرة بالسحابة.</p></div>    
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('planFormPanel')">+ إضافة بند للخطة</button>   
+   </div>
+   <div id="planFormPanel" class="panel hidden" style="background:#fcfdfe;">    
+    <form id="planEntryForm" class="formgrid">     
+     <div class="field"><label>اسم البرنامج / الفعالية</label><input type="text" id="planTitle" required placeholder="مثال: حفل اليوم الوطني"></div>     
+     <div class="field"><label>تاريخ التنفيذ</label><input type="date" id="planDate" required></div>     
+     <div class="field"><label>المسؤول عن التنفيذ</label><input type="text" id="planResponsible" placeholder="اسم رائد النشاط / المعلم"></div>     
+     <div class="field">      
+      <label>حالة التنفيذ</label>      
+      <select id="planStatus">       
+       <option value="مخطط">مخطط له</option>       
+       <option value="جاري">جاري التنفيذ</option>       
+       <option value="مكتمل">مكتمل</option>      
+      </select>     
+     </div>     
+     <div class="actions full">      
+      <button type="submit" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ المزامنة مع السحابة</button>      
+      <button type="button" class="btn" onclick="hideForm('planFormPanel')">إلغاء</button>     
+     </div>    
+    </form>   
+   </div>
+   <div id="planTableContainer"></div>  
+  </div> 
+ </section>
+
+ <!-- PAGE: CARDS --> 
+ <section id="page-cards" class="page hidden">  
+  <div class="panel">   
+   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
+    <div><h2>بطاقات توثيق وتنفيذ البرامج</h2><p>إنشاء وتوثيق بطاقات الأنشطة مع إمكانية إرفاق الصور، ملفات PDF، أو رابط Google Drive / يوتيوب للفيديو.</p></div>    
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('cardFormPanel')">+ إنشاء بطاقة تنفيذ</button>   
+   </div>
+   <div id="cardFormPanel" class="panel hidden" style="background:#fcfdfe;">    
+    <form id="cardEntryForm" class="formgrid">     
+     <div class="field"><label>اسم البرنامج المنفذ</label><input type="text" id="cardName" required placeholder="أدخل اسم البرنامج"></div>     
+     <div class="field">      
+      <label>المجال</label>      
+      <select id="cardCategory">       
+       <option value="ثقافي">ثقافي</option>       
+       <option value="علمي">علمي</option>       
+       <option value="رياضي">رياضي</option>       
+       <option value="اجتماعي">اجتماعي / تطوعي</option>      
+      </select>     
+     </div>     
+     <div class="field"><label>عدد المستفيدين</label><input type="number" id="cardBeneficiaries" min="0" placeholder="0"></div>     
+     <div class="field"><label>إرفاق صورة أو مستند PDF (اختياري)</label><input type="file" id="cardFile" accept="image/*,.pdf"></div>     
+     <div class="field full"><label>رابط فيديو Google Drive أو يوتيوب (اختياري)</label><input type="url" id="cardVideoUrl" placeholder="https://drive.google.com/file/d/... أو رابط يوتيوب"></div>     
+     <div class="field full"><label>وصف مختصر للنتائج والمخرجات</label><textarea id="cardDesc" placeholder="أهم النتائج والإنجازات التي تحققت..."></textarea></div>     
+     <div class="actions full">      
+      <button type="submit" id="saveCardBtn" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ البطاقة سحابياً</button>      
+      <button type="button" class="btn" onclick="hideForm('cardFormPanel')">إلغاء</button>     
+     </div>    
+    </form>   
+   </div>
+   <div id="cardsGrid" class="grid"></div>  
+  </div> 
+ </section>
+
+ <!-- PAGE: ANNOUNCEMENTS --> 
  <section id="page-announcements" class="page hidden">
   <div class="ticker-wrap no-print">    
     <div class="ticker-badge"><i class="fa-solid fa-bullhorn"></i> شريط الأخبار:</div>    
@@ -167,82 +253,90 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   </div> 
  </section>
 
- <!-- PAGE 1: HOME --> 
- <section id="page-home" class="page">  
-  <div class="panel">   
-   <div class="section-head">    
-    <div>     
-     <h2>مرحباً بكم في البوابة الرقمية للنشاط الطلابي</h2>     
-     <p>منصة متكاملة لإدارة ومتابعة خطط العمل، والمبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بابتدائية مكة المكرمة.</p>    
-    </div>   
-   </div>   
-   <div class="notice">    
-    تُربط هذه البوابة آلياً مع سحابة Google Firebase، وتدعم عرض الفيديوهات والملفات الكبيرة عبر روابط Google Drive ويوتيوب فوراً.   
-   </div>  
+ <!-- PAGE: COMPETITIONS (NEW TAB) -->
+ <section id="page-competitions" class="page hidden">
+  <div class="panel">
+   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+    <div><h2>المسابقات الطلابية والوزارية المعتمدة</h2><p>دليل المسابقات والفعاليات الوزارية المتاحة للطلاب مع تفاصيل المواعيد وآليات التسجيل.</p></div>
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('compFormPanel')">+ إضافة مسابقة جديدة</button>
+   </div>
+
+   <!-- أدوات التصفية والبحث للمسابقات -->
+   <div class="panel no-print" style="background:var(--surface2); padding:12px; margin-bottom:14px;">
+    <div class="formgrid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+     <div class="field">
+      <label>المرحلة الدراسية</label>
+      <select id="filterStage" onchange="renderCompetitions()">
+       <option value="">كل المراحل</option>
+       <option value="k">رياض الأطفال</option>
+       <option value="p">الابتدائية</option>
+       <option value="m">المتوسطة</option>
+       <option value="s">الثانوية</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>حالة التسجيل</label>
+      <select id="filterStatus" onchange="renderCompetitions()">
+       <option value="">كل حالات التسجيل</option>
+       <option value="open">مفتوح الآن</option>
+       <option value="soon">لم يبدأ بعد</option>
+       <option value="ended">انتهى</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>آلية التقديم</label>
+      <select id="filterMethod" onchange="renderCompetitions()">
+       <option value="">كل آليات التقديم</option>
+       <option value="raed">ترشيح عبر رائد النشاط/المدرسة</option>
+       <option value="self">تسجيل ذاتي من الطالب</option>
+       <option value="edu">ترشيح من إدارة التعليم</option>
+      </select>
+     </div>
+    </div>
+   </div>
+
+   <!-- نموذج إضافة مسابقة جديدة (خاص بالمسؤولين) -->
+   <div id="compFormPanel" class="panel hidden" style="background:#fcfdfe;">
+    <form id="competitionEntryForm" class="formgrid">
+     <div class="field"><label>عنوان المسابقة</label><input type="text" id="compTitle" required placeholder="مثال: مسابقة القرآن الكريم والحديث الشريف"></div>
+     <div class="field">
+      <label>المرحلة المستهدفة</label>
+      <select id="compStage">
+       <option value="p">الابتدائية</option>
+       <option value="m">المتوسطة</option>
+       <option value="s">الثانوية</option>
+       <option value="k">رياض الأطفال</option>
+       <option value="all">جميع المراحل</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>حالة التسجيل</label>
+      <select id="compStatus">
+       <option value="open">مفتوح الآن</option>
+       <option value="soon">لم يبدأ بعد</option>
+       <option value="ended">انتهى</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>آلية التقديم</label>
+      <select id="compMethod">
+       <option value="raed">ترشيح عبر رائد النشاط/المدرسة</option>
+       <option value="self">تسجيل ذاتي من الطالب</option>
+       <option value="edu">ترشيح من إدارة التعليم</option>
+      </select>
+     </div>
+     <div class="field"><label>رابط المشاركة أو التسجيل (اختياري)</label><input type="url" id="compLink" placeholder="https://..."></div>
+     <div class="field full"><label>تفاصيل وشروط المسابقة</label><textarea id="compDesc" placeholder="أدخل تفاصيل ومواعيد وشروط المسابقة..."></textarea></div>
+     <div class="actions full">
+      <button type="submit" id="saveCompBtn" class="btn primary"><i class="fa-solid fa-trophy"></i> حفظ ونشر المسابقة سحابياً</button>
+      <button type="button" class="btn" onclick="hideForm('compFormPanel')">إلغاء</button>
+     </div>
+    </form>
+   </div>
+
+   <!-- شبكة عرض المسابقات -->
+   <div id="competitionsGrid" class="grid"></div>
   </div>
- </section>
-
- <!-- PAGE 2: EXECUTION PLAN --> 
- <section id="page-plan" class="page hidden">  
-  <div class="panel">   
-   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
-    <div><h2>خطة تنفيذ النشاط الطلابي</h2><p>إدارة وتسجيل الأنشطة والبرامج المدرسية وتتبع حالتها مباشرة بالسحابة.</p></div>    
-    <button class="btn primary no-print admin-only hidden" onclick="showForm('planFormPanel')">+ إضافة بند للخطة</button>   
-   </div>
-   <div id="planFormPanel" class="panel hidden" style="background:#fcfdfe;">    
-    <form id="planEntryForm" class="formgrid">     
-     <div class="field"><label>اسم البرنامج / الفعالية</label><input type="text" id="planTitle" required placeholder="مثال: حفل اليوم الوطني"></div>     
-     <div class="field"><label>تاريخ التنفيذ</label><input type="date" id="planDate" required></div>     
-     <div class="field"><label>المسؤول عن التنفيذ</label><input type="text" id="planResponsible" placeholder="اسم رائد النشاط / المعلم"></div>     
-     <div class="field">      
-      <label>حالة التنفيذ</label>      
-      <select id="planStatus">       
-       <option value="مخطط">مخطط له</option>       
-       <option value="جاري">جاري التنفيذ</option>       
-       <option value="مكتمل">مكتمل</option>      
-      </select>     
-     </div>     
-     <div class="actions full">      
-      <button type="submit" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ المزامنة مع السحابة</button>      
-      <button type="button" class="btn" onclick="hideForm('planFormPanel')">إلغاء</button>     
-     </div>    
-    </form>   
-   </div>
-   <div id="planTableContainer"></div>  
-  </div> 
- </section>
-
- <!-- PAGE 3: EXECUTION CARDS --> 
- <section id="page-cards" class="page hidden">  
-  <div class="panel">   
-   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
-    <div><h2>بطاقات توثيق وتنفيذ البرامج</h2><p>إنشاء وتوثيق بطاقات الأنشطة مع إمكانية إرفاق الصور، ملفات PDF، أو رابط Google Drive / يوتيوب للفيديو.</p></div>    
-    <button class="btn primary no-print admin-only hidden" onclick="showForm('cardFormPanel')">+ إنشاء بطاقة تنفيذ</button>   
-   </div>
-   <div id="cardFormPanel" class="panel hidden" style="background:#fcfdfe;">    
-    <form id="cardEntryForm" class="formgrid">     
-     <div class="field"><label>اسم البرنامج المنفذ</label><input type="text" id="cardName" required placeholder="أدخل اسم البرنامج"></div>     
-     <div class="field">      
-      <label>المجال</label>      
-      <select id="cardCategory">       
-       <option value="ثقافي">ثقافي</option>       
-       <option value="علمي">علمي</option>       
-       <option value="رياضي">رياضي</option>       
-       <option value="اجتماعي">اجتماعي / تطوعي</option>      
-      </select>     
-     </div>     
-     <div class="field"><label>عدد المستفيدين</label><input type="number" id="cardBeneficiaries" min="0" placeholder="0"></div>     
-     <div class="field"><label>إرفاق صورة أو مستند PDF (اختياري)</label><input type="file" id="cardFile" accept="image/*,.pdf"></div>     
-     <div class="field full"><label>رابط فيديو Google Drive أو يوتيوب (اختياري)</label><input type="url" id="cardVideoUrl" placeholder="https://drive.google.com/file/d/... أو رابط يوتيوب"></div>     
-     <div class="field full"><label>وصف مختصر للنتائج والمخرجات</label><textarea id="cardDesc" placeholder="أهم النتائج والإنجازات التي تحققت..."></textarea></div>     
-     <div class="actions full">      
-      <button type="submit" id="saveCardBtn" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ البطاقة سحابياً</button>      
-      <button type="button" class="btn" onclick="hideForm('cardFormPanel')">إلغاء</button>     
-     </div>    
-    </form>   
-   </div>
-   <div id="cardsGrid" class="grid"></div>  
-  </div> 
  </section>
 </main>
 
@@ -295,7 +389,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   const db = getFirestore(app);
   
   let currentUser = null;  
-  let state = { plan: [], cards: [], announcements: [] };
+  let state = { plan: [], cards: [], announcements: [], competitions: [] };
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -387,6 +481,11 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   
   onSnapshot(collection(db, "announcements"), (snapshot) => {      
       state.announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
+      renderAll();  
+  });
+
+  onSnapshot(collection(db, "competitions"), (snapshot) => {      
+      state.competitions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderAll();  
   });
   
@@ -495,6 +594,40 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
           try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }      }  
   };
 
+  // معالجة إضافة وتخزين المسابقات
+  document.getElementById('competitionEntryForm').addEventListener('submit', async function(e) {      
+      e.preventDefault();      
+      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً كمسؤول.");
+
+      const title = document.getElementById('compTitle').value;      
+      const stage = document.getElementById('compStage').value;      
+      const status = document.getElementById('compStatus').value;      
+      const method = document.getElementById('compMethod').value;      
+      const link = document.getElementById('compLink').value.trim();      
+      const desc = document.getElementById('compDesc').value;      
+
+      const saveBtn = document.getElementById('saveCompBtn');      
+      saveBtn.disabled = true;      
+      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...`;
+      try {          
+          await addDoc(collection(db, "competitions"), {               
+              title, stage, status, method, link, desc, createdAt: Date.now()           
+          });
+
+          this.reset();          
+          hideForm('compFormPanel');          
+          toast("تم حفظ المسابقة بنجاح!");      } catch (err) {          
+          alert("حدث خطأ أثناء الحفظ: " + err.message);      } finally {          
+          saveBtn.disabled = false;          
+          saveBtn.innerHTML = `<i class="fa-solid fa-trophy"></i> حفظ ونشر المسابقة سحابياً`;      }  
+  });
+
+  window.deleteCompetition = async function(docId) {      
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
+      if (confirm("هل تريد حذف هذه المسابقة؟")) {          
+          try { await deleteDoc(doc(db, "competitions", docId)); toast("تم الحذف بنجاح."); } catch(e) { alert("خطأ: " + e.message); }      }  
+  };
+
   function renderPlan() {      
       const container = document.getElementById('planTableContainer');      
       if (!state.plan || !state.plan.length) {          
@@ -590,16 +723,57 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
               <span><i class="fa-solid fa-bullhorn"></i> ${esc(a.title)}: ${esc(a.desc)}</span>          `).join('');      } else {          
           tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;      }  
   }
+
+  // دالة عرض وتصفية المسابقات
+  window.renderCompetitions = function() {
+      const container = document.getElementById('competitionsGrid');
+      const fStage = document.getElementById('filterStage').value;
+      const fStatus = document.getElementById('filterStatus').value;
+      const fMethod = document.getElementById('filterMethod').value;
+
+      let filtered = (state.competitions || []).filter(c => {
+          if (fStage && c.stage !== fStage && c.stage !== 'all') return false;
+          if (fStatus && c.status !== fStatus) return false;
+          if (fMethod && c.method !== fMethod) return false;
+          return true;
+      });
+
+      if (!filtered.length) {
+          container.innerHTML = '<div class="empty full">لا توجد مسابقات تطابق خيارات التصفية الحالية.</div>';
+          return;
+      }
+
+      const stageNames = { 'k': 'رياض الأطفال', 'p': 'الابتدائية', 'm': 'المتوسطة', 's': 'الثانوية', 'all': 'جميع المراحل' };
+      const statusNames = { 'open': 'مفتوح الآن', 'soon': 'لم يبدأ بعد', 'ended': 'انتهى' };
+      const methodNames = { 'raed': 'ترشيح عبر رائد النشاط/المدرسة', 'self': 'تسجيل ذاتي من الطالب', 'edu': 'ترشيح من إدارة التعليم' };
+
+      container.innerHTML = filtered.map(c => `
+          <article class="card">
+              <div class="card-top">
+                  <span class="category">${esc(stageNames[c.stage] || c.stage)}</span>
+                  <span class="badge-status ${esc(c.status)}">${esc(statusNames[c.status] || c.status)}</span>
+              </div>
+              <h3>${esc(c.title)}</h3>
+              <div class="muted"><i class="fa-solid fa-info-circle"></i> الآلية: <strong>${esc(methodNames[c.method] || c.method)}</strong></div>
+              <div class="muted">${esc(c.desc)}</div>
+              ${c.link ? `<div style="margin-top:4px;"><a href="${esc(c.link)}" target="_blank" class="btn small primary" style="display:inline-block; text-decoration:none;"><i class="fa-solid fa-external-link-alt"></i> رابط المسابقة / التسجيل</a></div>` : ''}
+              ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteCompetition('${c.id}')">حذف المسابقة</button></div>` : ''}
+          </article>
+      `).join('');
+  };
   
   function renderStats() {      
       document.getElementById("statPlan").textContent = (state.plan || []).length;      
       document.getElementById("statCards").textContent = (state.cards || []).length;      
-      document.getElementById("statAnnouncements").textContent = (state.announcements || []).length;  }
+      document.getElementById("statAnnouncements").textContent = (state.announcements || []).length;  
+      document.getElementById("statCompetitions").textContent = (state.competitions || []).length;  
+  }
   
   function renderAll() {      
       renderPlan();      
       renderCards();      
       renderAnnouncements();      
+      renderCompetitions();
       renderStats();  }
   
   window.switchTab = function(tabId) {      
