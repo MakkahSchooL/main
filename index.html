@@ -420,7 +420,11 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";  
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";  
   import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-  
+  window.addEventListener('mousedown', function(e) {
+  if (e.button === 1) {
+    e.preventDefault();
+  }
+});
   const firebaseConfig = {    
     apiKey: "AIzaSyDWSwOLWEhS5MR0R98r6cwiQljEd8WH_kY",    
     authDomain: "makkahschool-32961.firebaseapp.com",    
