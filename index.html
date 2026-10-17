@@ -84,55 +84,60 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
 .field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
 .field textarea { min-height:80px; resize:vertical; }
 
-/* تنسيق بطاقة التنفيذ الرسمية (مطابقة للنموذج A4 وبمقاسات الطباعة) */
-.cardsbox { overflow:hidden; }
+/* ==========================================================================
+   تنسيق بطاقة التنفيذ الرسمية المطابق للأصل (الألوان والأبعاد الشكليّة 100%)
+   ========================================================================== */
+.cardsbox { overflow:x-auto; padding: 10px 0; }
 .card-activity {
   width: 210mm;
-  min-height: 297mm;
-  background: #fff;
+  min-height: 285mm;
+  background: #EEF3F2;
   color: #003845;
-  margin: 0 auto 18px;
+  margin: 0 auto;
   position: relative;
-  padding: 12mm 14mm;
-  font-family: "IBM Plex Sans Arabic", Tahoma, sans-serif;
-  box-shadow: 0 2px 14px rgba(0,40,50,.16);
+  padding: 10mm 12mm 8mm;
+  font-family: "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
   box-sizing: border-box;
 }
-.cd-logo { position: absolute; top: 12mm; left: 14mm; width: 35mm; text-align: center; line-height: 1.25; color: #003845; }
-.cd-logo b { display: block; font-size: 11pt; }
-.cd-logo span { font-size: 7pt; }
-.cd-title { margin: 12mm 0 6mm; text-align: center; font-size: 18pt; font-weight: 700; color: #003744; }
 
-table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 10px; }
-.ct td { border: 1px solid #003845; padding: 5px 8px; text-align: center; vertical-align: middle; font-size: 10.5pt; line-height: 1.4; color: #003845; }
-.ct tr:nth-child(even) td { background: #F4F8F8; }
-.ct td.lb { font-weight: 700; font-size: 11pt; text-align: right; background: #EAEFF1; }
-.ct td.sm { font-size: 10pt; text-align: right; }
+/* الشعار العلوي والمناطق */
+.cd-logo-img { position: absolute; top: 10mm; right: 12mm; width: 42mm; height: auto; }
+.cd-title { margin: 12mm 0 6mm; text-align: center; font-size: 19pt; font-weight: 700; color: #003845; letter-spacing: -0.2px; }
 
-.ce { display: block; min-height: 1.3em; outline: 0; border-radius: 2px; }
+/* جدول البطاقة الأصلي */
+table.ct-orig { width: 100%; border-collapse: collapse; table-layout: fixed; background: #EEF3F2; }
+.ct-orig td { border: 1.5px solid #003845; padding: 4px 6px; text-align: center; vertical-align: middle; font-size: 11pt; color: #003845; }
+.ct-orig td.lbl { font-weight: 700; font-size: 11.5pt; text-align: center; background: #C1D5D8; }
+.ct-orig td.bg-light { background: #C1D5D8; }
+.ct-orig td.val-sm { font-size: 10pt; text-align: right; }
+
+.ce { display: block; min-height: 1.2em; outline: 0; border-radius: 2px; }
 .ce:focus { background: #FFF6CC; }
-.ce:empty::before { content: attr(data-ph); color: #9AA7A5; }
-.ce.inl { display: inline-block; min-width: 15mm; }
+.ce:empty::before { content: attr(data-ph); color: #8C9896; }
+.ce.inl { display: inline-block; min-width: 10mm; text-align: center; }
 
-.card-activity .date-row {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 10pt;
-}
-.card-activity label {
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-.cd-sign { display: flex; justify-content: space-between; margin-top: 10mm; font-size: 10.5pt; line-height: 1.8; color: #003845; }
-.cd-sign div { min-width: 60mm; }
-.cd-sign b { display: block; font-weight: 700; }
-.cd-note { margin: 6mm 0 0; font-size: 9pt; line-height: 1.5; color: #555; position: relative; }
+/* تواريخ البدء والنهاية */
+.date-flex { display: flex; justify-content: space-around; align-items: center; width: 100%; font-size: 10.5pt; font-weight: 600; }
 
-/* شريط الإعلانات المتحرك التفاعلي */
+/* خيارات المنصة الدائرية */
+.platform-options { text-align: right; font-size: 10pt; line-height: 1.6; padding-right: 4px; }
+.platform-options label { display: flex; align-items: center; justify-content: flex-end; gap: 8px; cursor: pointer; margin-bottom: 2px; }
+.platform-options input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 13px; height: 13px; border: 1.5px solid #003845; border-radius: 50%; outline: none; cursor: pointer;
+}
+.platform-options input[type="checkbox"]:checked { background-color: #003845; box-shadow: inset 0 0 0 2px #EEF3F2; }
+
+/* التوقيع والملاحظات */
+.cd-sign-grid { display: flex; justify-content: space-between; margin-top: 8mm; padding: 0 5mm; font-size: 11pt; line-height: 1.9; color: #003845; }
+.cd-sign-grid div { min-width: 60mm; }
+.cd-sign-grid b { display: block; font-weight: 700; font-size: 12pt; margin-bottom: 2px; }
+
+.cd-footer-note { margin-top: 8mm; font-size: 9.5pt; line-height: 1.5; color: #003845; position: relative; padding-right: 14px; text-align: right; }
+.cd-footer-note::before { content: "•"; position: absolute; right: 2px; top: 0; font-size: 12pt; }
+
+/* شريط الإعلانات */
 .ticker-wrap { display:flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:16px; box-shadow:var(--shadow); }
 .ticker-badge { background:var(--brand); color:var(--brand-ink); padding:10px 14px; font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:6px; flex-shrink:0; }
 .ticker-container { overflow:hidden; white-space:nowrap; position:relative; width:100%; padding:10px; }
@@ -142,9 +147,9 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; margin-t
 
 @media print {
   .no-print { display:none !important; }
-  body { background:#fff; }
+  body { background:#fff; padding: 0; margin: 0; }
   .wrap { max-width:none; padding:0; }
-  .card-activity { box-shadow: none; margin: 0; width: 100%; height: 100%; page-break-after: always; }
+  .card-activity { box-shadow: none; margin: 0 auto; width: 100%; height: 100%; padding: 5mm; background: #EEF3F2 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 </style>
 </head>
@@ -224,127 +229,129 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; margin-t
   </div> 
  </section>
 
- <!-- PAGE: CARDS (تبويب بطاقات تنفيذ برامج النشاط الطلابي - مطابق لطلبك) --> 
+ <!-- PAGE: CARDS (بطاقات تنفيذ البرامج - ألوان وأبعاد مطابقة 100%) --> 
  <section id="page-cards" class="page hidden">  
   <div class="panel">   
-   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
-    <div><h2>بطاقات تنفيذ برامج النشاط الطلابي</h2><p>نموذج معتمد لتوثيق وتعبئة البرامج والأنشطة المدرسية - جاهز للكتابة الرقمية والطباعة المباشرة.</p></div>    
-    <button class="btn primary no-print" onclick="window.print()"><i class="fa-solid fa-print"></i> طباعة البطاقة A4</button>   
+   <div class="section-head no-print" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
+    <div><h2>بطاقة تنفيذ برنامج نشاط طلابي</h2><p>نسخة مطابقة للنموذج المعتمد لوزارة التعليم - قابلة للتعبئة المباشرة والطباعة.</p></div>    
+    <button class="btn primary" onclick="window.print()"><i class="fa-solid fa-print"></i> طباعة البطاقة A4</button>   
    </div>
 
-   <!-- الحاوية الخاصة ببطاقة التنفيذ بتنسيق A4 والتعديل المباشر -->
    <div class="cardsbox">
-     <div class="card card-activity">
+     <div class="card-activity">
        
-       <!-- شعار الوزارة -->
-       <div class="cd-logo">
-         <svg viewBox="0 0 100 40" style="width: 28mm; height: auto; margin-bottom: 2px;" fill="#003845">
-           <path d="M10,30 L30,10 L50,30 L40,30 L30,20 L20,30 Z" />
-         </svg>
-         <b>وزارة التعليم</b>
-         <span>Ministry of Education</span>
-       </div>
+       <!-- شعار وزارة التعليم الأصلي الرسمية -->
+       <svg class="cd-logo-img" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <g fill="#003845">
+           <circle cx="15" cy="15" r="3.5"/><circle cx="27" cy="15" r="3.5"/><circle cx="39" cy="15" r="3.5"/><circle cx="51" cy="15" r="3.5"/><circle cx="63" cy="15" r="3.5"/>
+           <circle cx="21" cy="26" r="3.5"/><circle cx="33" cy="26" r="3.5"/><circle cx="45" cy="26" r="3.5"/><circle cx="57" cy="26" r="3.5"/>
+           <circle cx="27" cy="37" r="3.5"/><circle cx="39" cy="37" r="3.5"/><circle cx="51" cy="37" r="3.5"/>
+           <circle cx="33" cy="48" r="3.5"/><circle cx="45" cy="48" r="3.5"/>
+         </g>
+         <text x="5" y="68" font-family="'IBM Plex Sans Arabic', sans-serif" font-weight="700" font-size="14" fill="#006A64">وزارة التـعـلـيـم</text>
+         <text x="5" y="78" font-family="sans-serif" font-size="7" fill="#006A64" letter-spacing="0.5">Ministry of Education</text>
+       </svg>
 
        <div class="cd-title">بطاقة تنفيذ برنامج نشاط طلابي*</div>
 
-       <!-- جدول البيانات الرئيسي للبطاقة -->
-       <table class="ct">
-         <tr>
-           <td class="lb" style="width: 32%;">اسم البرنامج</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="اكتب اسم البرنامج هنا..."></span></td>
+       <!-- الجدول المطابق للأصل -->
+       <table class="ct-orig">
+         <tr style="height: 10mm;">
+           <td class="lbl" style="width: 32%;">اسم البرنامج</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">المجال</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="اختر المجال (ثقافي، علمي، رياضي...)"></span></td>
+         <tr style="height: 8mm;">
+           <td class="lbl">المجال</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">عدد حصص البرنامج</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="عدد الحصص..."></span></td>
+         <tr style="height: 8mm;">
+           <td class="lbl">عدد حصص البرنامج</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">الفصل الدراسي</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="الفصل الدراسي الأول / الثاني..."></span></td>
+         <tr style="height: 8mm;">
+           <td class="lbl">الفصل الدراسي</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">بداية التنفيذ</td>
-           <td colspan="3" class="sm">
-             <div class="date-row">
-               <span>اليوم: <span class="ce inl" contenteditable="true">------</span></span>
-               <span>الأسبوع: <span class="ce inl" contenteditable="true">--</span></span>
-               <span>التاريخ: <span class="ce inl" contenteditable="true">--</span> / <span class="ce inl" contenteditable="true">--</span> / 1448هـ</span>
+         <tr style="height: 9mm;">
+           <td class="lbl">بداية التنفيذ</td>
+           <td colspan="3">
+             <div class="date-flex">
+               <span>اليوم: <span class="ce inl" contenteditable="true"></span></span>
+               <span>الأسبوع: <span class="ce inl" contenteditable="true"></span></span>
+               <span>التاريخ: <span class="ce inl" contenteditable="true"></span> / <span class="ce inl" contenteditable="true"></span> / 1448هـ</span>
              </div>
            </td>
          </tr>
-         <tr>
-           <td class="lb">نهاية التنفيذ</td>
-           <td colspan="3" class="sm">
-             <div class="date-row">
-               <span>اليوم: <span class="ce inl" contenteditable="true">------</span></span>
-               <span>الأسبوع: <span class="ce inl" contenteditable="true">--</span></span>
-               <span>التاريخ: <span class="ce inl" contenteditable="true">--</span> / <span class="ce inl" contenteditable="true">--</span> / 1448هـ</span>
+         <tr style="height: 9mm;">
+           <td class="lbl">نهاية التنفيذ</td>
+           <td colspan="3">
+             <div class="date-flex">
+               <span>اليوم: <span class="ce inl" contenteditable="true"></span></span>
+               <span>الأسبوع: <span class="ce inl" contenteditable="true"></span></span>
+               <span>التاريخ: <span class="ce inl" contenteditable="true"></span> / <span class="ce inl" contenteditable="true"></span> / 1448هـ</span>
              </div>
            </td>
          </tr>
-         <tr>
-           <td class="lb">الصف</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="حدد الصف المستهدف..."></span></td>
+         <tr style="height: 8mm;">
+           <td class="lbl">الصف</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">المعلم/ة المنفذ/ة</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="اسم المعلم / المعلمة..."></span></td>
+         <tr style="height: 8mm;">
+           <td class="lbl">المعلم/ة المنفذ/ة</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">عدد الطلبة المشاركين</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="أدخل عدد الطلاب..."></span></td>
+         <tr style="height: 8mm;">
+           <td class="lbl">عدد الطلبة المشاركين</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">عدد الطلبة المشاركين من ذوي الإعاقة</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" data-ph="أدخل العدد (إن وجد)..."></span></td>
+         <tr style="height: 8mm;">
+           <td class="lbl">عدد الطلبة المشاركين من ذوي الإعاقة</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">عدد أولياء الأمور المشاركين في البرنامج</td>
-           <td class="sm" style="width: 25%;"><span class="ce" contenteditable="true" data-ph="العدد"></span></td>
-           <td colspan="2" class="sm" style="font-size: 9.5pt; line-height: 1.4;">
-             عند تنفيذ المشاركة عبر منصة مدرستي ماهي أيقونة التنفيذ:<br>
-             <div style="margin-top: 4px; text-align: right; font-size: 9pt;">
-               <label><input type="checkbox"> بنك الإثراءات</label><br>
-               <label><input type="checkbox"> التطوير الذاتي</label><br>
-               <label><input type="checkbox"> قيمنا الغالية</label><br>
-               <label><input type="checkbox"> نادي القراءة</label>
+         <tr style="height: 24mm;">
+           <td class="lbl">عدد أولياء الأمور المشاركين في البرنامج</td>
+           <td style="width: 20%;"><span class="ce" contenteditable="true" data-ph=""></span></td>
+           <td colspan="2" class="val-sm" style="vertical-align: top; padding-top: 6px;">
+             <div style="font-weight: 600; text-align: center; margin-bottom: 6px;">عند تنفيذ المشاركة عبر منصة مدرستي ماهي أيقونة التنفيذ:</div>
+             <div class="platform-options">
+               <label>بنك الإثراءات <input type="checkbox"></label>
+               <label>التطوير الذاتي <input type="checkbox"></label>
+               <label>قيمنا الغالية <input type="checkbox"></label>
+               <label>نادي القراءة <input type="checkbox"></label>
              </div>
            </td>
          </tr>
-         <tr>
-           <td class="lb">عدد الشراكات المجتمعية</td>
-           <td class="sm"><span class="ce" contenteditable="true" data-ph="العدد"></span></td>
-           <td class="lb" style="width: 20%;">أسماء الشراكات المجتمعية</td>
-           <td class="sm"><span class="ce" contenteditable="true" data-ph="اكتب الأسماء..."></span></td>
+         <tr style="height: 12mm;">
+           <td class="lbl">عدد الشراكات المجتمعية</td>
+           <td><span class="ce" contenteditable="true" data-ph=""></span></td>
+           <td class="bg-light" style="width: 25%; font-weight: 700;">أسماء الشراكات المجتمعية</td>
+           <td><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
-         <tr>
-           <td class="lb">ملاحظات</td>
-           <td colspan="3" class="sm" style="height: 16mm;"><span class="ce" contenteditable="true" data-ph="أضف ملاحظاتك أو مخرجات البرنامج هنا..."></span></td>
+         <tr style="height: 16mm;">
+           <td class="lbl">ملاحظات</td>
+           <td colspan="3"><span class="ce" contenteditable="true" data-ph=""></span></td>
          </tr>
        </table>
 
-       <!-- التوقيعات والاعتمادات -->
-       <div class="cd-sign">
-         <div>
-           <b>المعلم/ة المنفذ/ة</b>
-           <span>الاسم: <span class="ce inl" contenteditable="true" style="min-width: 35mm;"></span></span><br>
-           <span>التاريخ: <span class="ce inl" contenteditable="true" style="min-width: 35mm;"></span></span><br>
-           <span>التوقيع: <span class="ce inl" contenteditable="true" style="min-width: 35mm;"></span></span>
-         </div>
+       <!-- الاعتماد والتوقيع -->
+       <div class="cd-sign-grid">
          <div>
            <b>رائد/ة النشاط</b>
-           <span>الاسم: <span class="ce inl" contenteditable="true" style="min-width: 35mm;"></span></span><br>
-           <span>التاريخ: <span class="ce inl" contenteditable="true" style="min-width: 35mm;"></span></span><br>
-           <span>التوقيع: <span class="ce inl" contenteditable="true" style="min-width: 35mm;"></span></span>
+           <span>الاسم: <span class="ce inl" contenteditable="true" style="min-width: 40mm;"></span></span><br>
+           <span>التاريخ: <span class="ce inl" contenteditable="true" style="min-width: 40mm;"></span></span><br>
+           <span>التوقيع: <span class="ce inl" contenteditable="true" style="min-width: 40mm;"></span></span>
+         </div>
+         <div>
+           <b>المعلم/ة المنفذ/ة</b>
+           <span>الاسم: <span class="ce inl" contenteditable="true" style="min-width: 40mm;"></span></span><br>
+           <span>التاريخ: <span class="ce inl" contenteditable="true" style="min-width: 40mm;"></span></span><br>
+           <span>التوقيع: <span class="ce inl" contenteditable="true" style="min-width: 40mm;"></span></span>
          </div>
        </div>
 
-       <!-- ملاحظة أسفل البطاقة -->
-       <div class="cd-note">
-         * يتم تعبئة هذه البطاقة عند استكمال الحصص المخصصة للبرنامج وفق ما ورد للبرنامج من حصص في دليل الخطط الدراسية/الإصدار السادس.
+       <!-- التذييل والملاحظة التوجيهية -->
+       <div class="cd-footer-note">
+         يتم تعبئة هذه البطاقة عند استكمال الحصص المخصصة للبرنامج وفق ما ورد للبرنامج من حصص في دليل الخطط الدراسية/الإصدار السادس.
        </div>
 
      </div>
