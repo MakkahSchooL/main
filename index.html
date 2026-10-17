@@ -118,7 +118,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   <div class="stat"><span class="label">بنود الخطة</span><strong id="statPlan">0</strong></div> 
   <div class="stat"><span class="label">بطاقات التنفيذ</span><strong id="statCards">0</strong></div> 
   <div class="stat"><span class="label">الإعلانات المنشورة</span><strong id="statAnnouncements">0</strong></div>
-  <div class="stat"><span class="label">المسابقات المعتمدة</span><strong id="statCompetitions">19</strong></div>
+  <div class="stat"><span class="label">المسابقات المعتمدة</span><strong id="statCompetitions">0</strong></div>
 </section>
 
 <nav class="tabs no-print" aria-label="التبويبات الرئيسية"> 
@@ -126,7 +126,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   <button class="tab" data-tab="plan"><i class="fa-solid fa-calendar-check"></i> خطة التنفيذ</button> 
   <button class="tab" data-tab="cards"><i class="fa-solid fa-file-signature"></i> بطاقات التنفيذ</button> 
   <button class="tab" data-tab="announcements"><i class="fa-solid fa-bullhorn"></i> الإعلانات</button>
-  <button class="tab" data-tab="competitions"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية (19 مسابقة)</button>
+  <button class="tab" data-tab="competitions"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
 </nav>
 
 <main>
@@ -253,17 +253,17 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   </div> 
  </section>
 
- <!-- PAGE: COMPETITIONS (19 مسابقة معتمدة والبطاقات والخطة) -->
+ <!-- PAGE: COMPETITIONS (NEW TAB) -->
  <section id="page-competitions" class="page hidden">
   <div class="panel">
    <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-    <div><h2>دليل الـ 19 مسابقة الطلابية المعتمدة (1448هـ)</h2><p>الدليل الشامل للمسابقات الوزارية مع التواريخ وحالات التسجيل وخطة التنفيذ وبطاقات التنفيذ التلقائية.</p></div>
-    <button class="btn primary no-print admin-only hidden" onclick="showForm('compFormPanel')">+ إضافة مسابقة مخصصة</button>
+    <div><h2>المسابقات الطلابية والوزارية المعتمدة</h2><p>دليل المسابقات والفعاليات الوزارية المتاحة للطلاب مع تفاصيل المواعيد وآليات التسجيل.</p></div>
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('compFormPanel')">+ إضافة مسابقة جديدة</button>
    </div>
 
    <!-- أدوات التصفية والبحث للمسابقات -->
    <div class="panel no-print" style="background:var(--surface2); padding:12px; margin-bottom:14px;">
-    <div class="formgrid" style="grid-type:columns; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+    <div class="formgrid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
      <div class="field">
       <label>المرحلة الدراسية</label>
       <select id="filterStage" onchange="renderCompetitions()">
@@ -272,7 +272,6 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
        <option value="p">الابتدائية</option>
        <option value="m">المتوسطة</option>
        <option value="s">الثانوية</option>
-       <option value="all">جميع المراحل</option>
       </select>
      </div>
      <div class="field">
@@ -299,7 +298,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
    <!-- نموذج إضافة مسابقة جديدة (خاص بالمسؤولين) -->
    <div id="compFormPanel" class="panel hidden" style="background:#fcfdfe;">
     <form id="competitionEntryForm" class="formgrid">
-     <div class="field"><label>عنوان المسابقة</label><input type="text" id="compTitle" required placeholder="مثال: مسابقة جديدة"></div>
+     <div class="field"><label>عنوان المسابقة</label><input type="text" id="compTitle" required placeholder="مثال: مسابقة القرآن الكريم والحديث الشريف"></div>
      <div class="field">
       <label>المرحلة المستهدفة</label>
       <select id="compStage">
@@ -326,17 +325,16 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
        <option value="edu">ترشيح من إدارة التعليم</option>
       </select>
      </div>
-     <div class="field"><label>الفترة الزمنية / المواعيد</label><input type="text" id="compDates" placeholder="مثال: آخر موعد للتسجيل 9/5"></div>
-     <div class="field"><label>رابط المشاركة (اختياري)</label><input type="url" id="compLink" placeholder="https://..."></div>
-     <div class="field full"><label>تفاصيل وشروط المسابقة</label><textarea id="compDesc" placeholder="تفاصيل المسابقة والبرنامج الزمني..."></textarea></div>
+     <div class="field"><label>رابط المشاركة أو التسجيل (اختياري)</label><input type="url" id="compLink" placeholder="https://..."></div>
+     <div class="field full"><label>تفاصيل وشروط المسابقة</label><textarea id="compDesc" placeholder="أدخل تفاصيل ومواعيد وشروط المسابقة..."></textarea></div>
      <div class="actions full">
-      <button type="submit" id="saveCompBtn" class="btn primary"><i class="fa-solid fa-trophy"></i> حفظ ونشر المسابقة</button>
+      <button type="submit" id="saveCompBtn" class="btn primary"><i class="fa-solid fa-trophy"></i> حفظ ونشر المسابقة سحابياً</button>
       <button type="button" class="btn" onclick="hideForm('compFormPanel')">إلغاء</button>
      </div>
     </form>
    </div>
 
-   <!-- شبكة عرض الـ 19 مسابقة والبطاقات -->
+   <!-- شبكة عرض المسابقات -->
    <div id="competitionsGrid" class="grid"></div>
   </div>
  </section>
@@ -391,31 +389,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   const db = getFirestore(app);
   
   let currentUser = null;  
-  
-  // قائمة الـ 19 مسابقة المعتمدة لعام 1448هـ كاملة مع مواعيدها وآلياتها
-  const defaultCompetitions = [
-    { id: 'c1', title: 'مسابقة القرآن الكريم والحديث الشريف', stage: 'all', status: 'open', method: 'raed', dates: 'التسجيل متاح خلال الأسبوع الحالي', desc: 'العناية بكتاب الله وسنة نبيه صلى الله عليه وسلم وتحفيز الطلاب على الحفظ والتدبر.' },
-    { id: 'c2', title: 'مسابقة التحدث باللغة العربية الفصحى', stage: 'p', status: 'open', method: 'raed', dates: 'آخر موعد للتسجيل: 9/5', desc: 'تعزيز مكانة اللغة العربية الفصحى والاعتزاز بها لدى طلاب المرحلتين الابتدائية والمتوسطة.' },
-    { id: 'c3', title: 'مسابقة الإلقاء والارتجال', stage: 'all', status: 'soon', method: 'raed', dates: 'تنطلق الفعاليات الشهر القادم', desc: 'تنمية مهارات الخطابة والجرأة الأدبية وإبراز المواهب الواعدة في الإلقاء.' },
-    { id: 'c4', title: 'مسابقة الابتكارات العلمية (روبوت واختراعات)', stage: 'all', status: 'open', method: 'self', dates: 'الرفع الإلكتروني مستمر', desc: 'تحفيز التفكير العلمي والابتكار والهندسة والبرمجة بين النشء.' },
-    { id: 'c5', title: 'مسابقة الأولمبياد الوطني للرياضيات والعلوم', stage: 'p', status: 'open', method: 'edu', dates: 'التصفيات الأولية تبدأ قريباً', desc: 'اكتشاف الموهوبين في مجالات الرياضيات والعلوم وتطوير قدراتهم التنافسية.' },
-    { id: 'c6', title: 'مسابقة التصميم الرقمي والجرافيك', stage: 'all', status: 'soon', method: 'self', dates: 'تبدأ في منتصف الفصل الدراسي', desc: 'توظيف التقنية والبرمجيات الحديثة في التعبير الفني والإبداعي.' },
-    { id: 'c7', title: 'مسابقة الفيلم القصير التوعوي', stage: 'all', status: 'ended', method: 'self', dates: 'انتهت فترة رفع الأعمال', desc: 'إنتاج رسائل إعلامية وتربوية قصيرة بأيدي الطلاب.' },
-    { id: 'c8', title: 'مسابقة البحوث التاريخية والتراثية', stage: 'p', status: 'open', method: 'raed', dates: 'متاح للترشيح المدرسي', desc: 'تعزيز الهوية الوطنية والتعرف على إرث المملكة التاريخي العريق.' },
-    { id: 'c9', title: 'مسابقة المهارات الأدبية (القصة القصيرة)', stage: 'all', status: 'open', method: 'self', dates: 'آخر موعد بنهاية الشهر', desc: 'تشجيع المواهب الكتابية وتأليف القصص الهادفة.' },
-    { id: 'c10', title: 'مسابقة المهارات الأدبية (الشعر العربي)', stage: 'all', status: 'soon', method: 'raed', dates: 'قريباً', desc: 'العناية بالشعر الفصيح وتذوق جماليات اللفظ والبيان.' },
-    { id: 'c11', title: 'مسابقة التميز الكشفي والنشاط التطوعي', stage: 'p', status: 'open', method: 'raed', dates: 'طوال العام الدراسي', desc: 'تعزيز قيم العمل التطوعي وخدمة المجتمع المدرسي والمحلي.' },
-    { id: 'c12', title: 'مسابقة الفنون التشكيلية والرسم', stage: 'all', status: 'open', method: 'self', dates: 'مستقبل الأعمال مفتوح', desc: 'التعبير الفني والتشكيلي عن المناسبات الوطنية والمجتمعية.' },
-    { id: 'c13', title: 'مسابقة التصوير الضوئي والتوثيق', stage: 'all', status: 'soon', method: 'self', dates: 'تبدأ قريباً', desc: 'اكتشاف وتطوير مهارات التصوير الاحترافي للفعاليات والبيئة.' },
-    { id: 'c14', title: 'مسابقة الألعاب الرياضية الفردية', stage: 'p', status: 'open', method: 'raed', dates: 'حسب الجدول المدرسي للنشاط الرياضي', desc: 'بناء الجسم السليم وتعزيز الروح الرياضية والتنافس الشريف.' },
-    { id: 'c15', title: 'مسابقة الألعاب الرياضية الجماعية (كرة القدم/السلة)', stage: 'p', status: 'open', method: 'raed', dates: 'دوري المدارس جارٍ', desc: 'تعزيز العمل الجماعي وروح الفريق الواحد.' },
-    { id: 'c16', title: 'مسابقة ريادة الأعمال والادخار المالي', stage: 'all', status: 'soon', method: 'self', dates: 'تنطلق خلال الأسابيع القادمة', desc: 'نشر ثقافة الادخار والتخطيط المالي والمشاريع الناشئة المبكرة.' },
-    { id: 'c17', title: 'مسابقة البيئة والتنمية المستدامة', stage: 'all', status: 'open', method: 'raed', dates: 'متاح للمشاركة المدرسية', desc: 'التوعية بأهمية التشجير والمحافظة على البيئة وترشيد الاستهلاك.' },
-    { id: 'c18', title: 'مسابقة الثقافة المالية الرقمية', stage: 'all', status: 'ended', method: 'self', dates: 'انتهت فترة التسجيل', desc: 'فهم التعاملات الرقمية الآمنة والوعي المالي.' },
-    { id: 'c19', title: 'مسابقة الموثق الصغير للإذاعة المدرسية', stage: 'p', status: 'open', method: 'raed', dates: 'مستمرة طوال الفصل', desc: 'تفعيل الإذاعة الصباحية وتدريب الطلاب على فنون الإلقاء الإعلامي المدرسي.' }
-  ];
-
-  let state = { plan: [], cards: [], announcements: [], competitions: defaultCompetitions };
+  let state = { plan: [], cards: [], announcements: [], competitions: [] };
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -511,10 +485,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   });
 
   onSnapshot(collection(db, "competitions"), (snapshot) => {      
-      const remoteComps = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      if (remoteComps.length > 0) {
-          state.competitions = [...defaultCompetitions, ...remoteComps];
-      }
+      state.competitions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderAll();  
   });
   
@@ -623,7 +594,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
           try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }      }  
   };
 
-  // معالجة إضافة مسابقة مخصصة جديدة
+  // معالجة إضافة وتخزين المسابقات
   document.getElementById('competitionEntryForm').addEventListener('submit', async function(e) {      
       e.preventDefault();      
       if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً كمسؤول.");
@@ -632,20 +603,30 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
       const stage = document.getElementById('compStage').value;      
       const status = document.getElementById('compStatus').value;      
       const method = document.getElementById('compMethod').value;      
-      const dates = document.getElementById('compDates').value;
       const link = document.getElementById('compLink').value.trim();      
       const desc = document.getElementById('compDesc').value;      
 
+      const saveBtn = document.getElementById('saveCompBtn');      
+      saveBtn.disabled = true;      
+      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...`;
       try {          
           await addDoc(collection(db, "competitions"), {               
-              title, stage, status, method, dates, link, desc, createdAt: Date.now()           
+              title, stage, status, method, link, desc, createdAt: Date.now()           
           });
 
           this.reset();          
           hideForm('compFormPanel');          
-          toast("تم إضافة المسابقة بنجاح!");      } catch (err) {          
-          alert("حدث خطأ أثناء الحفظ: " + err.message);      }  
+          toast("تم حفظ المسابقة بنجاح!");      } catch (err) {          
+          alert("حدث خطأ أثناء الحفظ: " + err.message);      } finally {          
+          saveBtn.disabled = false;          
+          saveBtn.innerHTML = `<i class="fa-solid fa-trophy"></i> حفظ ونشر المسابقة سحابياً`;      }  
   });
+
+  window.deleteCompetition = async function(docId) {      
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
+      if (confirm("هل تريد حذف هذه المسابقة؟")) {          
+          try { await deleteDoc(doc(db, "competitions", docId)); toast("تم الحذف بنجاح."); } catch(e) { alert("خطأ: " + e.message); }      }  
+  };
 
   function renderPlan() {      
       const container = document.getElementById('planTableContainer');      
@@ -743,7 +724,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
           tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;      }  
   }
 
-  // دالة عرض وتصفية المسابقات الـ 19 والمخصصة
+  // دالة عرض وتصفية المسابقات
   window.renderCompetitions = function() {
       const container = document.getElementById('competitionsGrid');
       const fStage = document.getElementById('filterStage').value;
@@ -766,18 +747,17 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
       const statusNames = { 'open': 'مفتوح الآن', 'soon': 'لم يبدأ بعد', 'ended': 'انتهى' };
       const methodNames = { 'raed': 'ترشيح عبر رائد النشاط/المدرسة', 'self': 'تسجيل ذاتي من الطالب', 'edu': 'ترشيح من إدارة التعليم' };
 
-      container.innerHTML = filtered.map((c, idx) => `
+      container.innerHTML = filtered.map(c => `
           <article class="card">
               <div class="card-top">
                   <span class="category">${esc(stageNames[c.stage] || c.stage)}</span>
                   <span class="badge-status ${esc(c.status)}">${esc(statusNames[c.status] || c.status)}</span>
               </div>
-              <h3>${idx + 1}. ${esc(c.title)}</h3>
-              <div class="muted"><i class="fa-solid fa-calendar-days"></i> الفترات/المواعيد: <strong>${esc(c.dates || 'محدد حسب التعاميم')}</strong></div>
+              <h3>${esc(c.title)}</h3>
               <div class="muted"><i class="fa-solid fa-info-circle"></i> الآلية: <strong>${esc(methodNames[c.method] || c.method)}</strong></div>
               <div class="muted">${esc(c.desc)}</div>
               ${c.link ? `<div style="margin-top:4px;"><a href="${esc(c.link)}" target="_blank" class="btn small primary" style="display:inline-block; text-decoration:none;"><i class="fa-solid fa-external-link-alt"></i> رابط المسابقة / التسجيل</a></div>` : ''}
-              ${currentUser && c.id && !c.id.startsWith('c') ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteCompetition('${c.id}')">حذف المسابقة</button></div>` : ''}
+              ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteCompetition('${c.id}')">حذف المسابقة</button></div>` : ''}
           </article>
       `).join('');
   };
