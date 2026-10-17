@@ -38,9 +38,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .today{font-size:clamp(16px,2vw,19px);font-weight:500;max-width:46ch}
 .today b{color:var(--open)}
 
-/* tabs */
-.tabs{display:flex;gap:4px;margin:18px 0 14px;border-bottom:1px solid var(--line);overflow-x:auto}
-.tab{background:none;border:0;padding:10px 14px;cursor:pointer;color:var(--muted);font-weight:600;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+/* tabs - تم تعديل المسافات وحجم الخط وإلغاء التمرير الأفقي لمنع ظهور أيقونة التمرير المزعجة */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 14px;border-bottom:1px solid var(--line);overflow-x:visible}
+.tab{background:none;border:0;padding:8px 12px;cursor:pointer;color:var(--muted);font-weight:600;font-size:13.5px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.2s ease}
 .tab.active,.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
 .tab .n{display:inline-block;min-width:22px;padding:0 6px;margin-inline-start:6px;border-radius:11px;background:var(--brand);color:var(--brand-ink);font-size:12px;text-align:center}
 
@@ -91,21 +91,6 @@ table.guide{width:100%;border-collapse:collapse;min-width:1080px}
   .guide td.c-name::before{content:none}
 }
 
-/* timeline */
-.tl{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
-.tl-in{min-width:880px;position:relative}
-.tl-row{display:grid;grid-template-columns:240px 1fr;border-bottom:1px solid var(--line)}
-.tl-row:last-child{border-bottom:0}
-.tl-name{padding:8px 10px;font-size:13.5px;font-weight:600;display:flex;gap:8px;align-items:center}
-.tl-name input{flex:none}
-.tl-track{position:relative;min-height:36px;background-image:repeating-linear-gradient(to left,transparent 0,transparent calc(100%/12 - 1px),var(--line) calc(100%/12 - 1px),var(--line) calc(100%/12))}
-.tl-head .tl-track{display:grid;grid-template-columns:repeat(12,1fr);background:none}
-.tl-head .tl-track span{font-size:12px;color:var(--muted);text-align:center;padding:8px 2px;border-inline-start:1px solid var(--line)}
-.tl-bar{position:absolute;top:9px;height:18px;border-radius:4px;min-width:6px;opacity:.9}
-.tl-bar.ended{opacity:.35}
-.tl-now{position:absolute;top:0;bottom:0;width:2px;background:var(--open);z-index:2;pointer-events:none}
-.tl-now::after{content:"اليوم";position:absolute;top:2px;inset-inline-start:4px;font-size:11px;color:var(--open);font-weight:700;white-space:nowrap}
-
 /* plan & forms */
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
 .panel h2{margin:0 0 10px;font-size:17px}
@@ -152,7 +137,7 @@ table.plan{width:100%;border-collapse:collapse}
 .mfoot{display:flex;gap:8px;justify-content:space-between;padding:10px 12px;border-top:1px solid var(--line)}
 .fab{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom,0px));inset-inline-end:14px;z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 
-/* Extra UI Components requested */
+/* Extra UI Components */
 .hero-bottom { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; width:100%; margin-top:12px; }
 .pill-group { display:flex; flex-wrap:wrap; gap:8px; }
 .pill { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); padding:4px 12px; border-radius:999px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
@@ -224,7 +209,6 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
 <main>
  <!-- PAGE 5: ANNOUNCEMENTS --> 
  <section id="page-announcements" class="page hidden">
-  <!-- شريط الإعلانات المتحرك التفاعلي -->  
   <div class="ticker-wrap no-print">    
     <div class="ticker-badge"><i class="fa-solid fa-bullhorn"></i> شريط الأخبار:</div>    
     <div class="ticker-container">      
@@ -278,7 +262,10 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
      <p>منصة متكاملة لإدارة ومتابعة المسابقات، المبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بابتدائية مكة المكرمة.</p>    
     </div>   
    </div>   
-  </div>  
+   <div class="notice">    
+    تُربط هذه البوابة آلياً مع سحابة Google Firebase، وتدعم عرض الفيديوهات والملفات الكبيرة عبر روابط Google Drive ويوتيوب فوراً.   
+   </div>  
+  </div>
   <div class="panel">   
    <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
     <div><h2>أبرز المسابقات والأنشطة القادمة</h2><p>استعراض سريع لأحدث البرامج والمسابقات المتاحة للطلاب.</p></div>    
@@ -292,34 +279,34 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
  <section id="page-competitions" class="page hidden">  
   <div class="panel">   
    <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
-    <div><h2>دليل المسابقات والبرامج المعتمدة</h2><p>تصفح المسابقات المتاحة واستخدم التصفية للبحث باسم المسابقة أو المسار.</p></div>    
+    <div><h2>دليل المسابقات والبرامج المعتمدة</h2><p>تصفح المسابقات المتاحة واستخدم التصفية المتقدمة للبحث باسم المسابقة أو المسار.</p></div>    
     <div class="actions no-print"><button class="btn" onclick="window.print()"><i class="fa-solid fa-print"></i> طباعة / PDF</button></div>   
    </div>
-   <div class="filters no-print" style="margin-bottom:14px;">    
-    <div class="field">     
-     <label>البحث</label>     
-     <input id="searchInput" oninput="filterCompetitions()" placeholder="ابحث باسم المسابقة أو الوصف...">    
-    </div>    
-    <div class="field">     
-     <label>المسار / المجال</label>     
-     <select id="stageFilter" onchange="filterCompetitions()">      
-      <option value="">جميع المسارات</option>      
-      <option value="عام">مسار عام</option>      
-      <option value="تخصصي">مسار تخصصي</option>      
-      <option value="موهبة">موهبة وإبداع</option>     
-     </select>    
-    </div>    
-    <div class="field">     
-     <label>حالة التسجيل</label>     
-     <select id="statusFilter" onchange="filterCompetitions()">      
-      <option value="">جميع الحالات</option>      
-      <option value="مفتوح">مفتوح الآن</option>      
-      <option value="قريباً">قريباً</option>      
-      <option value="منتهي">منتهي</option>     
-     </select>    
-    </div>   
+
+   <div class="filters">
+      <input class="q" id="q" type="search" placeholder="ابحث باسم المسابقة أو الجهة المنظمة">
+      <div class="fsel">
+      <select id="fStage" aria-label="المرحلة">
+        <option value="">كل المراحل</option><option value="k">رياض الأطفال</option><option value="p">الابتدائية</option><option value="m">المتوسطة</option><option value="s">الثانوية</option>
+      </select>
+      <select id="fStatus" aria-label="حالة التسجيل">
+        <option value="">كل حالات التسجيل</option><option value="open">مفتوح الآن</option><option value="soon">لم يبدأ بعد</option><option value="ended">انتهى</option>
+      </select>
+      <select id="fApply" aria-label="آلية التقديم">
+        <option value="">كل آليات التقديم</option><option value="raed">ترشيح عبر رائد النشاط/المدرسة</option><option value="self">تسجيل ذاتي من الطالب</option><option value="edu">ترشيح من إدارة التعليم</option>
+      </select>
+      </div>
    </div>
-   <div id="competitionsGrid" class="grid"></div>  
+   <div class="chips" id="domChips"></div>
+   <div class="bar">
+      <span id="resultInfo"></span>
+      <div class="views">
+        <button class="btn" id="vTable" aria-pressed="true">جدول</button>
+        <button class="btn" id="vTime" aria-pressed="false">خط زمني</button>
+      </div>
+   </div>
+   <div id="guideBody"></div>
+   <div id="competitionsGrid" class="grid" style="display:none;"></div>  
   </div> 
  </section>
 
@@ -420,11 +407,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";  
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";  
   import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-  window.addEventListener('mousedown', function(e) {
-  if (e.button === 1) {
-    e.preventDefault();
-  }
-});
+  
   const firebaseConfig = {    
     apiKey: "AIzaSyDWSwOLWEhS5MR0R98r6cwiQljEd8WH_kY",    
     authDomain: "makkahschool-32961.firebaseapp.com",    
@@ -516,9 +499,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
           adminElems.forEach(el => el.classList.remove('hidden'));      } else {          
           document.getElementById('loginBtn').classList.remove('hidden');          
           document.getElementById('userInfo').classList.add('hidden');          
-          adminElems.forEach(el => el.classList.remove('hidden')); // Note: kept hidden per admin check
-          adminElems.forEach(el => el.classList.add('hidden'));
-      }      
+          adminElems.forEach(el => el.classList.add('hidden'));      }      
       renderAll();  
   });
   
@@ -641,65 +622,88 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
       if (confirm("هل تريد حذف هذا الإعلان؟")) {          
           try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }      }  
   };
-  
-  const competitionsData = [      
-      { id: 1, title: "أولمبياد العلوم الوطني (إبداع)", cat: "موهبة", status: "مفتوح", desc: "مسابقة علمية سنوية تقوم على تقديم مشروع علمي أو بحثي في مجالات مختلفة.", date: "1447-03-15", target: "جميع الطلاب" },      
-      { id: 2, title: "مسابقة نافس الوطنية", cat: "عام", status: "مفتوح", desc: "اختبارات مقننة لرفع جودة التعليم ومخرجات التعلم بالمدرسة.", date: "1447-04-01", target: "طلاب المرحلة الابتدائية" },      
-      { id: 3, title: "تحدي القراءة العربي", cat: "تخصصي", status: "قريباً", desc: "مشروع إلقاء وقراءة 50 كتاباً وتلخيصها وتذوقها أدبياً.", date: "1447-05-10", target: "المهتمين بالقراءة" },      
-      { id: 4, title: "مسابقة مهارات الإلقاء والارتجال", cat: "تخصصي", status: "مفتوح", desc: "تعزيز الخطابة والإلقاء الفردي وتنمية مهارات التحدث الفصيح.", date: "1447-02-20", target: "جميع الصفوف" },      
-      { id: 5, title: "دوري المدرسة الرياضي", cat: "عام", status: "منتهي", desc: "منافسات كرة القدم والكرة الطائرة بين الفصول الدراسية.", date: "1447-01-10", target: "فرق الفصول" }  
-  ];
-  
-  function renderCompetitions(items = competitionsData) {      
-      const grid = document.getElementById('competitionsGrid');      
-      const homeGrid = document.getElementById('homeFeaturedGrid');            
-      let html = items.length ? items.map(c => `          
-          <article class="card">              
-              <div class="card-top">                  
-                  <span class="category">${esc(c.cat)}</span>                  
-                  <span class="status ${c.status==='مفتوح'?'open':c.status==='قريباً'?'soon':'closed'}" style="font-weight:bold; font-size:12px;">${esc(c.status)}</span>              
-              </div>              
-              <h3>${esc(c.title)}</h3>              
-              <div class="muted">${esc(c.desc)}</div>              
-              <div class="meta">                  
-                  <div><b>الفئة المستهدفة</b>${esc(c.target)}</div>                  
-                  <div><b>تاريخ التفعيل</b>${esc(c.date)}</div>              
-              </div>              
-              <div class="actions no-print">                  
-                  <button class="btn small" onclick="alert('تفاصيل التسجيل متاحة عبر رائد النشاط بالمدرسة')">التفاصيل المعتمده</button>              
-              </div>          
-          </article>      `).join('') : '<div class="empty full">لا توجد مسابقات مطابقة للبحث.</div>';
-      grid.innerHTML = html;
-      if (homeGrid) {          
-          let homeItems = competitionsData.slice(0, 3);          
-          homeGrid.innerHTML = homeItems.map(c => `              
-              <article class="card">                  
-                  <div class="card-top">                      
-                      <span class="category">${esc(c.cat)}</span>                      
-                      <span class="status ${c.status==='مفتوح'?'open':c.status==='قريباً'?'soon':'closed'}" style="font-weight:bold; font-size:12px;">${esc(c.status)}</span>                  
-                  </div>                  
-                  <h3>${esc(c.title)}</h3>                  
-                  <div class="muted">${esc(c.desc)}</div>                  
-                  <div class="meta">                      
-                      <div class="full"><b>الفئة المستهدفة</b>${esc(c.target)}</div>                  
-                  </div>              
-              </article>          `).join('');      }  
-  }
-  
-  window.filterCompetitions = function() {      
-      const search = document.getElementById('searchInput').value.toLowerCase();      
-      const stage = document.getElementById('stageFilter').value;      
-      const status = document.getElementById('statusFilter').value;
 
-      const filtered = competitionsData.filter(item => {          
-          const matchesSearch = item.title.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search);          
-          const matchesStage = stage === '' || item.cat === stage;          
-          const matchesStatus = status === '' || item.status === status;          
-          return matchesSearch && matchesStage && matchesStatus;      });
-
-      renderCompetitions(filtered);  
+  const DOMS={
+    cit:{n:"المواطنة والحياة",c:"var(--c-cit)"},
+    cult:{n:"الثقافة والفنون",c:"var(--c-cult)"},
+    sci:{n:"العلوم والتقنية",c:"var(--c-sci)"},
+    sport:{n:"الرياضة والصحة",c:"var(--c-sport)"},
+    scout:{n:"المجال الكشفي",c:"var(--c-scout)"}
   };
-  
+  const ORDER=Object.keys(DOMS);
+  const NA="وزارة التعليم (الإدارة العامة للنشاط الطلابي)";
+  const MW="وزارة التعليم (الإدارة العامة لبرامج الموهوبين)";
+  const R=(s,e,l)=>({s,e:e||s,l:l||"",single:!e});
+  const ALL=[
+    {id:"sp1",dom:"sport",n:"دورة الألعاب الأولمبية المدرسية الأولى",stage:"الابتدائية، المتوسطة",g:"بنين",tags:["p","m"],grades:"من الرابع الابتدائي إلى الثالث المتوسط",level:"مدرسي، إدارة تعليم",reg:[R("1448/07/23","1448/10/23")],apply:"ترشيح من إدارة التعليم",ak:"edu",org:"الاتحاد السعودي للرياضة المدرسية",ok:"sport",type:"فردية، جماعية",mode:"حضورية"},
+    {id:"sp2",dom:"sport",n:"دوري المشي للمدارس",stage:"المتوسطة، الثانوية",g:"بنين وبنات",tags:["m","s"],grades:"من الأول المتوسط إلى الثالث الثانوي",level:"مدرسي، إدارة تعليم، وطني",reg:[R("1448/08/16","1448/09/25")],apply:"تسجيل ذاتي من الطالب",ak:"self",org:NA,ok:"nashat",type:"فردية",mode:"افتراضية"},
+    {id:"sc1",dom:"sci",n:"معرض ومسابقة الأمن والابتكار العالمية (سيف)",stage:"جميع المراحل",g:"بنين وبنات",tags:["p","m","s"],grades:"جميع الصفوف",level:"وطني، دولي",reg:[R("1448/02/08","1448/04/17")],apply:"تسجيل ذاتي من الطالب",ak:"self",org:MW,ok:"mawhoob",type:"فردية، جماعية",mode:"حضورية، افتراضية"},
+    {id:"ci1",dom:"cit",n:"مسابقة القرآن الكريم",stage:"جميع المراحل",g:"بنين وبنات",tags:["p","m","s"],grades:"جميع الصفوف",level:"إدارة تعليم",reg:[R("1448/04/16","1448/04/27")],apply:"ترشيح من المدرسة",ak:"raed",org:NA,ok:"nashat",type:"فردية",mode:"حضورية، افتراضية"},
+    {id:"sk1",dom:"scout",n:"منافسة رسل السلام (للتميز الكشفي)",stage:"جميع المراحل",g:"بنين وبنات",tags:["p","m","s"],grades:"من الرابع الابتدائي إلى الثالث الثانوي",level:"إدارة تعليم، وطني",reg:[R("1448/04/02","1448/04/06")],apply:"ترشيح من المدرسة",ak:"raed",org:NA,ok:"nashat",type:"فردية، جماعية",mode:"حضورية"},
+    {id:"cu1",dom:"cult",n:"مسابقة أقرأ",stage:"جميع المراحل",g:"بنين وبنات",tags:["p","m","s"],grades:"جميع الصفوف",level:"إدارة تعليم، وطني",reg:[R("1448/04/01","1448/08/20")],apply:"تسجيل ذاتي من الطالب",ak:"self",org:NA,ok:"nashat",type:"فردية",mode:"حضورية، افتراضية"}
+  ];
+  const D=ALL.filter(c=>c.ok==="nashat").map((c,i)=>({...c,_i:i})).sort((a,b)=>ORDER.indexOf(a.dom)-ORDER.indexOf(b.dom)||a._i-b._i);
+
+  let T=[1448,4,21];
+  const TK=14480421;
+
+  function status(c){
+    let best=null;
+    for(const w of c.reg){
+      const s=w.s.split("/").map(Number),e=w.e.split("/").map(Number),sk=s[0]*10000+s[1]*100+s[2],ek=e[0]*10000+e[1]*100+e[2];
+      let st;
+      if(w.single){st={k:"open",t:"بدأ التسجيل"};}
+      else if(TK<sk) st={k:"soon",t:"قريباً"};
+      else if(TK<=ek) st={k:"open",t:"مفتوح الآن"};
+      else st={k:"ended",t:"انتهى"};
+      if(!best||st.k==="open")best=st;
+    }
+    return best||{k:"open",t:"مفتوح"};
+  }
+  const regText=c=>c.reg.map(w=>`<div>${w.s}هـ${w.single?"":` ← ${w.e}هـ`}</div>`).join("");
+
+  let guideState = {view:"table", doms:[]};
+
+  document.getElementById("domChips").innerHTML=Object.entries(DOMS).map(([k,v])=>`<button class="chip" data-d="${k}" aria-pressed="false"><span class="dot" style="background:${v.c}"></span>${v.n} <span style="color:var(--muted)">(${D.filter(c=>c.dom===k).length})</span></button>`).join("");
+  document.getElementById("domChips").addEventListener("click",e=>{
+    const b=e.target.closest("[data-d]");if(!b)return;const k=b.dataset.d;
+    if(guideState.doms.includes(k)){guideState.doms=guideState.doms.filter(x=>x!==k);b.setAttribute("aria-pressed","false");}else{guideState.doms.push(k);b.setAttribute("aria-pressed","true");}
+    renderGuide();
+  });
+
+  function filterGuide(){
+    const q=document.getElementById("q").value.trim(),st=document.getElementById("fStage").value,stat=document.getElementById("fStatus").value,ap=document.getElementById("fApply").value;
+    return D.filter(c=>{
+      if(guideState.doms.length&&!guideState.doms.includes(c.dom))return false;
+      if(q&&!(c.n+c.org).includes(q))return false;
+      if(st&&!c.tags.includes(st))return false;
+      if(ap&&!c.ak.split(" ").includes(ap))return false;
+      if(stat&&status(c).k!==stat)return false;
+      return true;
+    });
+  }
+
+  function renderGuide(){
+    const list=filterGuide();
+    document.getElementById("resultInfo").textContent=`${list.length} من ${D.length} مسابقة`;
+    const grid=document.getElementById("guideBody");
+    if(!list.length){grid.innerHTML=`<div class="empty">لا توجد مسابقات تطابق هذه التصفية.</div>`;return;}
+    grid.innerHTML=`<div class="tablebox"><table class="guide"><thead><tr>
+      <th>المسابقة</th><th>المجال</th><th>المرحلة المستهدفة</th><th>الصفوف المستهدفة</th><th>التسجيل</th><th>آلية التقديم</th></tr></thead><tbody>
+    ${list.map(c=>{const st=status(c);return `<tr>
+      <td class="c-name"><div class="cname">${esc(c.n)}<small>${esc(c.org)}</small></div></td>
+      <td><span class="dom"><i style="background:${DOMS[c.dom].c}"></i>${DOMS[c.dom].n}</span></td>
+      <td>${esc(c.stage)}</td><td>${esc(c.grades)}</td>
+      <td class="reg">${regText(c)}<span class="st ${st.k}">${st.t}</span></td>
+      <td>${esc(c.apply)}</td></tr>`}).join("")}
+    </tbody></table></div>`;
+  }
+
+  ["#q","#fStage","#fStatus","#fApply"].forEach(s=>document.querySelector(s).addEventListener("input",renderGuide));
+  document.getElementById("vTable").onclick=()=>{guideState.view="table";renderGuide()};
+  document.getElementById("vTime").onclick=()=>{guideState.view="time";renderGuide()};
+  renderGuide();
+
   function renderPlan() {      
       const container = document.getElementById('planTableContainer');      
       if (!state.plan || !state.plan.length) {          
@@ -797,13 +801,13 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   }
   
   function renderStats() {      
-      document.getElementById("statCompetitions").textContent = competitionsData.length;      
+      document.getElementById("statCompetitions").textContent = D.length;      
       document.getElementById("statPlan").textContent = (state.plan || []).length;      
       document.getElementById("statCards").textContent = (state.cards || []).length;      
       document.getElementById("statAnnouncements").textContent = (state.announcements || []).length;  }
   
   function renderAll() {      
-      renderCompetitions();      
+      renderGuide();
       renderPlan();      
       renderCards();      
       renderAnnouncements();      
