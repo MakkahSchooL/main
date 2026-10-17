@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#176b59">
+<title>ابتدائية مكة المكرمة - بوابة النشاط الطلابي والفعاليات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+    --primary:#176b59;
+    --primary2:#0f5144;
+    --mint:#e9f4f0;
+    --gold:#c69a3a;
+    --ink:#20312d;
+    --muted:#6b7b76;
+    --line:#dfe8e4;
+    --bg:#f5f8f7;
+    --white:#fff;
+    --red:#b94141;
+    --blue:#326d9a;
+    --shadow:0 8px 28px rgba(20,68,56,.07);
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Tajawal', Tahoma, Arial, sans-serif;
+    line-height:1.7;
+    direction:rtl;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.topline{height:5px;background:linear-gradient(90deg,var(--gold),var(--primary),var(--primary2))}
+.wrap{max-width:1240px;margin:auto;padding:22px}
+
+.hero{
+    background:linear-gradient(120deg,#0f5144,#176b59 65%,#2d8873);
+    color:#fff;
+    border-radius:20px;
+    padding:26px 30px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+.hero:after{
+    content:"";
+    position:absolute;
+    width:240px;
+    height:240px;
+    border:1px solid #ffffff24;
+    border-radius:50%;
+    left:-60px;
+    top:-100px;
+    box-shadow:0 0 0 25px #ffffff0c,0 0 0 50px #ffffff08;
+}
+.hero-content{position:relative;z-index:1}
+.eyebrow{font-size:13px;letter-spacing:.3px;color:#dcefe9}
+.hero h1{font-size:clamp(23px,4vw,36px);margin:5px 0 4px;line-height:1.4;font-weight:800}
+.hero p{margin:0;color:#e2f0eb}
+.hero-bottom{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:18px}
+.pill-group{display:flex;gap:10px;flex-wrap:wrap}
+.pill{border:1px solid #ffffff40;border-radius:999px;padding:5px 12px;font-size:12px;background:#ffffff12}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0}
+.stat,.panel,.card{background:var(--white);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}
+.stat{padding:15px 17px;text-align:center}
+.stat .label{color:var(--muted);font-size:13px;display:block}
+.stat strong{display:block;font-size:25px;color:var(--primary);margin-top:2px;font-weight:800}
+
+.tabs{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    background:#fff;
+    border:1px solid var(--line);
+    padding:8px;
+    border-radius:14px;
+    margin:18px 0;
+    position:sticky;
+    top:10px;
+    z-index:100;
+    box-shadow:var(--shadow);
+}
+.tab{
+    border:0;
+    background:transparent;
+    color:#50615b;
+    border-radius:10px;
+    padding:10px 15px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:all 0.2s ease;
+}
+.tab.active{background:var(--primary);color:#fff}
+.tab:hover:not(.active){background:var(--mint)}
+
+.panel{padding:20px;margin:15px 0}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.section-head h2,.section-head h3{font-size:21px;margin:0;color:var(--primary2)}
+.section-head p{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{
+    padding:17px;
+    box-shadow:none;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    border-right:4px solid var(--primary);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+    overflow:hidden;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.category{font-size:12px;color:var(--primary);background:var(--mint);padding:4px 9px;border-radius:999px;white-space:nowrap;font-weight:700}
+.card h3{margin:0;font-size:17px;line-height:1.55;color:var(--ink)}
+.muted{color:var(--muted);font-size:13px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f8faf9;border-radius:10px;padding:10px;font-size:12px}
+
+.card-media{width:100%;max-height:220px;object-fit:cover;border-radius:10px;margin-top:8px}
+.card-video-container{position:relative;width:100%;padding-bottom:56.25%;height:0;margin-top:8px;border-radius:10px;overflow:hidden;background:#000}
+.card-video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.pdf-viewer{width:100%;height:350px;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+.media-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+
+.status{font-size:12px;font-weight:bold;border-radius:999px;padding:4px 9px;white-space:nowrap}
+.status.open{color:#176b59;background:#e3f4ed}
+.status.soon{color:#8b6516;background:#fff3d8}
+.status.closed{color:#a33d3d;background:#fbe9e9}
+
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.btn{
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:8px 12px;
+    background:#fff;
+    color:var(--ink);
+    font-weight:700;
+    font-size:13px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    text-decoration:none;
+}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.primary:hover{background:var(--primary2)}
+.btn.gold{background:#fff7e5;border-color:#ecd7a7;color:#765515}
+.btn.danger{color:var(--red);border-color:#f0d0d0}
+.btn.small{padding:5px 9px;font-size:12px}
+
+.controls{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:15px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:13px;font-weight:700;color:#43554e}
+.field input,.field select,.field textarea{
+    width:100%;
+    border:1px solid #d5e1dc;
+    background:#fff;
+    border-radius:9px;
+    padding:10px 11px;
+    outline:none;
+    color:var(--ink);
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px #176b5915;
+}
+.field textarea{min-height:90px;resize:vertical}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.full{grid-column:1/-1}
+.empty{border:1px dashed #b9cec5;border-radius:12px;text-align:center;padding:30px;color:var(--muted);background:#fbfdfc}
+.hidden{display:none!important}
+.notice{background:#f2f7f5;border-right:4px solid var(--gold);border-radius:8px;padding:12px 14px;color:#53645d;font-size:13px;margin:12px 0}
+
+/* تصميم شريط الإعلانات المتحرك */
+.ticker-wrap {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: 15px 0;
+    box-shadow: var(--shadow);
+}
+.ticker-badge {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    z-index: 2;
+}
+.ticker-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+.ticker-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 30s linear infinite;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+}
+.ticker-text span {
+    margin-left: 50px;
+    color: var(--primary2);
+}
+.ticker-text span i {
+    color: var(--gold);
+    margin-left: 6px;
+}
+@keyframes ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+}
+.ticker-wrap:hover .ticker-text {
+    animation-play-state: paused;
+}
+
+.modal-overlay{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+}
+.modal-card{
+    background:#fff;
+    padding:25px;
+    border-radius:16px;
+    width:100%;
+    max-width:400px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:650px;background:#fff}
+th,td{text-align:right;padding:11px 12px;border-bottom:1px solid var(--line);font-size:13px}
+th{background:#eff6f3;color:#37574c;font-weight:700}
+tr:last-child td{border-bottom:0}
+
+.footer{
+    background:var(--primary2);
+    color:#e2f0eb;
+    text-align:center;
+    font-size:13px;
+    padding:24px 15px;
+    border-radius:15px;
+    margin-top:20px;
+}
+.footer p{margin:4px 0}
+.toast{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    background:#153f35;
+    color:white;
+    padding:11px 16px;
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    z-index:2000;
+    display:none;
+}
+
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){
+    .wrap{padding:12px}
+    .hero{padding:22px 18px}
+    .grid{grid-template-columns:1fr}
+    .controls,.formgrid{grid-template-columns:1fr}
+    .stats{gap:8px}
+    .stat{padding:12px}
+    .stat strong{font-size:22px}
+    .tab{flex:1;min-width:45%;padding:9px 8px;font-size:12px}
+    .panel{padding:14px}
+}
+@media print{
+    body{background:#fff}
+    .topline,.tabs,.no-print,.ticker-wrap,.hero-bottom,.actions,.toast{display:none!important}
+    .wrap{max-width:none;padding:0}
+    .hero{background:#fff!important;color:#111;border:1px solid #ccc;box-shadow:none;padding:12px}
+    .hero p,.eyebrow{color:#444}
+    .panel,.stat,.card{box-shadow:none;break-inside:avoid}
+    .panel{border:0;padding:8px}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .stats{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="topline"></div>
+<div class="wrap">
+
+<header class="hero">
+ <div class="hero-content">
+  <div class="eyebrow"><i class="fa-solid fa-graduation-cap"></i> الإدارة العامة للتعليم بمنطقة المدينة المنورة - قسم النشاط الطلابي</div>
+  <h1>ابتدائية مكة المكرمة</h1>
+  <p>بوابة النشاط الطلابي والفعاليات والبرامج الإثرائية</p>
+  <div class="hero-bottom">
+    <div class="pill-group">
+      <span class="pill"><i class="fa-solid fa-calendar-days"></i> العام الدراسي 1447 - 1448 هـ</span>
+      <span class="pill"><i class="fa-solid fa-user-tie"></i> رائد النشاط: عواد محمد العوفي</span>
+    </div>
+    <div id="authStatusArea" class="no-print">
+      <button id="loginBtn" class="btn gold small"><i class="fa-solid fa-right-to-bracket"></i> دخول المسؤول</button>
+      <span id="userInfo" class="hidden" style="color:#dcefe9; font-size:13px; font-weight:bold;">
+        <i class="fa-solid fa-user-check"></i> <span id="userEmailSpan"></span>
+        <button id="logoutBtn" class="btn danger small" style="margin-right:8px;"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+      </span>
+    </div>
+ </div>
+</header>
+
+<section class="stats">
+ <div class="stat"><span class="label">المسابقات المعتمدة</span><strong id="statCompetitions">0</strong></div>
+ <div class="stat"><span class="label">بنود الخطة</span><strong id="statPlan">0</strong></div>
+ <div class="stat"><span class="label">بطاقات التنفيذ</span><strong id="statCards">0</strong></div>
+ <div class="stat"><span class="label">الإعلانات المنشورة</span><strong id="statAnnouncements">0</strong></div>
+</section>
+
+<nav class="tabs no-print" aria-label="التبويبات الرئيسية">
+ <button class="tab active" data-tab="home"><i class="fa-solid fa-house"></i> الرئيسية</button>
+ <button class="tab" data-tab="competitions"><i class="fa-solid fa-trophy"></i> المسابقات والبرامج</button>
+ <button class="tab" data-tab="plan"><i class="fa-solid fa-calendar-check"></i> خطة التنفيذ</button>
+ <button class="tab" data-tab="cards"><i class="fa-solid fa-file-signature"></i> بطاقات التنفيذ</button>
+ <button class="tab" data-tab="announcements"><i class="fa-solid fa-bullhorn"></i> الإعلانات</button>
+</nav>
+
+<main>
+
+ <!-- PAGE 5: ANNOUNCEMENTS -->
+ <section id="page-announcements" class="page hidden">
+
+  <!-- شريط الإعلانات المتحرك التفاعلي -->
+  <div class="ticker-wrap no-print">
+    <div class="ticker-badge">
+      <i class="fa-solid fa-bullhorn"></i> شريط الأخبار:
+    </div>
+    <div class="ticker-container">
+      <div id="tickerContent" class="ticker-text">
+        <span><i class="fa-solid fa-star"></i> أهلاً بكم في بوابة النشاط الطلابي...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+   <div class="section-head">
+    <div><h2>سجل الإعلانات المدرسية والوسائط</h2><p>عرض الإعلانات الرسمية، والتعاميم، والفيديوهات والملفات.</p></div>
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('announcementFormPanel')">+ إضافة إعلان جديد</button>
+   </div>
+
+   <div id="announcementFormPanel" class="panel hidden" style="background:#fcfdfe;">
+    <form id="announcementEntryForm" class="formgrid">
+     <div class="field"><label>عنوان الإعلان</label><input type="text" id="ancTitle" required placeholder="مثال: الإذاعة المدرسية للأسبوع الثاني"></div>
+     <div class="field">
+      <label>المجال / الفئة</label>
+      <select id="ancCategory">
+       <option value="عام">إعلان عام</option>
+       <option value="مسابقات">مسابقات وبرامج</option>
+       <option value="إذاعة">إذاعة مدرسية</option>
+       <option value="تكريم">تكريم وتميز</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>عرض في شريط الإعلانات المتحرك؟</label>
+      <select id="ancShowInTicker">
+       <option value="no">لا (إعلان عادي فقط)</option>
+       <option value="yes">نعم (عرض في الشريط المتحرك)</option>
+      </select>
+     </div>
+     <div class="field"><label>إرفاق ملف (صورة أو مستند PDF للطباعة)</label><input type="file" id="ancFile" accept="image/*,.pdf"></div>
+     <div class="field full"><label>رابط فيديو Google Drive أو يوتيوب (اختياري)</label><input type="url" id="ancVideoUrl" placeholder="https://drive.google.com/file/d/... أو رابط يوتيوب"></div>
+     <div class="field full"><label>تفاصيل الإعلان</label><textarea id="ancDesc" placeholder="أدخل نص وتفاصيل الإعلان..."></textarea></div>
+     <div class="actions full">
+      <button type="submit" id="saveAncBtn" class="btn primary"><i class="fa-solid fa-bullhorn"></i> نشر الإعلان سحابياً</button>
+      <button type="button" class="btn" onclick="hideForm('announcementFormPanel')">إلغاء</button>
+     </div>
+    </form>
+   </div>
+
+   <div id="announcementsGrid" class="grid"></div>
+  </div>
+ </section>
+
+ <!-- PAGE 1: HOME -->
+ <section id="page-home" class="page">
+  <div class="panel">
+   <div class="section-head">
+    <div>
+     <h2>مرحباً بكم في البوابة الرقمية للنشاط الطلابي</h2>
+     <p>منصة متكاملة لإدارة ومتابعة المسابقات، المبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بابتدائية مكة المكرمة.</p>
+    </div>
+   </div>
+   <div class="notice">
+    تُربط هذه البوابة آلياً مع سحابة Google Firebase، وتدعم عرض الفيديوهات والملفات الكبيرة عبر روابط Google Drive ويوتيوب فوراً.
+   </div>
+  </div>
+
+  <div class="panel">
+   <div class="section-head">
+    <div><h2>أبرز المسابقات والأنشطة القادمة</h2><p>استعراض سريع لأحدث البرامج والمسابقات المتاحة للطلاب.</p></div>
+    <button class="btn primary no-print" onclick="switchTab('competitions')">عرض كل المسابقات ←</button>
+   </div>
+   <div id="homeFeaturedGrid" class="grid"></div>
+  </div>
+ </section>
+
+ <!-- PAGE 2: COMPETITIONS -->
+ <section id="page-competitions" class="page hidden">
+  <div class="panel">
+   <div class="section-head">
+    <div><h2>دليل المسابقات والبرامج المعتمدة</h2><p>تصفح المسابقات المتاحة واستخدم التصفية للبحث باسم المسابقة أو المسار.</p></div>
+    <div class="actions no-print"><button class="btn" onclick="window.print()"><i class="fa-solid fa-print"></i> طباعة / PDF</button></div>
+   </div>
+
+   <div class="controls no-print">
+    <div class="field">
+     <label>البحث</label>
+     <input id="searchInput" oninput="filterCompetitions()" placeholder="ابحث باسم المسابقة أو الوصف...">
+    </div>
+    <div class="field">
+     <label>المسار / المجال</label>
+     <select id="stageFilter" onchange="filterCompetitions()">
+      <option value="">جميع المسارات</option>
+      <option value="عام">مسار عام</option>
+      <option value="تخصصي">مسار تخصصي</option>
+      <option value="موهبة">موهبة وإبداع</option>
+     </select>
+    </div>
+    <div class="field">
+     <label>حالة التسجيل</label>
+     <select id="statusFilter" onchange="filterCompetitions()">
+      <option value="">جميع الحالات</option>
+      <option value="مفتوح">مفتوح الآن</option>
+      <option value="قريباً">قريباً</option>
+      <option value="منتهي">منتهي</option>
+     </select>
+    </div>
+   </div>
+
+   <div id="competitionsGrid" class="grid"></div>
+  </div>
+ </section>
+
+ <!-- PAGE 3: EXECUTION PLAN -->
+ <section id="page-plan" class="page hidden">
+  <div class="panel">
+   <div class="section-head">
+    <div><h2>خطة تنفيذ النشاط الطلابي</h2><p>إدارة وتسجيل الأنشطة والبرامج المدرسية وتتبع حالتها مباشرة بالسحابة.</p></div>
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('planFormPanel')">+ إضافة بند للخطة</button>
+   </div>
+
+   <div id="planFormPanel" class="panel hidden" style="background:#fcfdfe;">
+    <form id="planEntryForm" class="formgrid">
+     <div class="field"><label>اسم البرنامج / المسابقة</label><input type="text" id="planTitle" required placeholder="مثال: أولمبياد العلوم"></div>
+     <div class="field"><label>تاريخ التنفيذ</label><input type="date" id="planDate" required></div>
+     <div class="field"><label>المسؤول عن التنفيذ</label><input type="text" id="planResponsible" placeholder="اسم رائد النشاط / المعلم"></div>
+     <div class="field">
+      <label>حالة التنفيذ</label>
+      <select id="planStatus">
+       <option value="مخطط">مخطط له</option>
+       <option value="جاري">جاري التنفيذ</option>
+       <option value="مكتمل">مكتمل</option>
+      </select>
+     </div>
+     <div class="actions full">
+      <button type="submit" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ المزامنة مع السحابة</button>
+      <button type="button" class="btn" onclick="hideForm('planFormPanel')">إلغاء</button>
+     </div>
+    </form>
+   </div>
+
+   <div id="planTableContainer"></div>
+  </div>
+ </section>
+
+ <!-- PAGE 4: EXECUTION CARDS -->
+ <section id="page-cards" class="page hidden">
+  <div class="panel">
+   <div class="section-head">
+    <div><h2>بطاقات توثيق وتنفيذ البرامج</h2><p>إنشاء وتوثيق بطاقات الأنشطة مع إمكانية إرفاق الصور، ملفات PDF، أو رابط Google Drive / يوتيوب للفيديو.</p></div>
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('cardFormPanel')">+ إنشاء بطاقة تنفيذ</button>
+   </div>
+
+   <div id="cardFormPanel" class="panel hidden" style="background:#fcfdfe;">
+    <form id="cardEntryForm" class="formgrid">
+     <div class="field"><label>اسم البرنامج المنفذ</label><input type="text" id="cardName" required placeholder="أدخل اسم البرنامج"></div>
+     <div class="field">
+      <label>المجال</label>
+      <select id="cardCategory">
+       <option value="ثقافي">ثقافي</option>
+       <option value="علمي">علمي</option>
+       <option value="رياضي">رياضي</option>
+       <option value="اجتماعي">اجتماعي / تطوعي</option>
+      </select>
+     </div>
+     <div class="field"><label>عدد المستفيدين</label><input type="number" id="cardBeneficiaries" min="0" placeholder="0"></div>
+     <div class="field"><label>إرفاق صورة أو مستند PDF (اختياري)</label><input type="file" id="cardFile" accept="image/*,.pdf"></div>
+     <div class="field full"><label>رابط فيديو Google Drive أو يوتيوب (اختياري)</label><input type="url" id="cardVideoUrl" placeholder="https://drive.google.com/file/d/... أو رابط يوتيوب"></div>
+     <div class="field full"><label>وصف مختصر للنتائج والمخرجات</label><textarea id="cardDesc" placeholder="أهم النتائج والإنجازات التي تحققت..."></textarea></div>
+     <div class="actions full">
+      <button type="submit" id="saveCardBtn" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ البطاقة سحابياً</button>
+      <button type="button" class="btn" onclick="hideForm('cardFormPanel')">إلغاء</button>
+     </div>
+    </form>
+   </div>
+
+   <div id="cardsGrid" class="grid"></div>
+  </div>
+ </section>
+
+</main>
+
+<div id="loginModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3 style="margin-top:0; color:var(--primary);"><i class="fa-solid fa-lock"></i> تسجيل دخول المسؤول</h3>
+    <p class="muted" style="margin-bottom:15px; font-size:12px;">أدخل البريد الإلكتروني وكلمة المرور لإتاحة خيارات إضافة وتعديل البيانات.</p>
+    <form id="loginForm">
+      <div class="field" style="margin-bottom:10px;">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="loginEmail" required placeholder="example@domain.com">
+      </div>
+      <div class="field" style="margin-bottom:15px;">
+        <label>كلمة المرور</label>
+        <input type="password" id="loginPassword" required placeholder="••••••••">
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn primary" style="width:100%; justify-content:center;">تسجيل الدخول</button>
+        <button type="button" class="btn" style="width:100%; justify-content:center; margin-top:5px;" onclick="hideForm('loginModal')">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="footer no-print">
+ <p><strong>ابتدائية مكة المكرمة</strong> · الإدارة العامة للتعليم بمنطقة المدينة المنورة</p>
+ <p>إعداد وتنظيم رائد النشاط الطلابي: عواد محمد العوفي · 1447 / 1448 هـ</p>
+</footer>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDWSwOLWEhS5MR0R98r6cwiQljEd8WH_kY",
+    authDomain: "makkahschool-32961.firebaseapp.com",
+    projectId: "makkahschool-32961",
+    storageBucket: "makkahschool-32961.firebasestorage.app",
+    messagingSenderId: "502489720942",
+    appId: "1:502489720942:web:9738bda6457aec5904de7f",
+    measurementId: "G-HMQSMFF391"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let currentUser = null;
+  let state = { plan: [], cards: [], announcements: [] };
+
+  window.toast = function(msg) {
+      let el = document.getElementById("toast");
+      el.textContent = msg;
+      el.style.display = "block";
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => el.style.display = "none", 2500);
+  };
+
+  window.showForm = function(id) { document.getElementById(id).classList.remove("hidden"); };
+  window.hideForm = function(id) { document.getElementById(id).classList.add("hidden"); };
+
+  function esc(s) {
+      return String(s??"").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+  }
+
+  window.printMedia = function(mediaUrl, type) {
+      if (type === 'image') {
+          const win = window.open('');
+          win.document.write(`<img src="${mediaUrl}" onload="window.print();window.close();" style="max-width:100%;">`);
+      } else if (type === 'pdf') {
+          const win = window.open(mediaUrl, '_blank');
+          win.focus();
+          setTimeout(() => { win.print(); }, 1000);
+      }
+  };
+
+  function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+      });
+  }
+
+  function getEmbedVideoUrl(url) {
+      if (!url) return '';
+      if (url.includes('youtube.com/watch?v=')) {
+          let videoId = url.split('watch?v=')[1].split('&')[0];
+          return `https://www.youtube.com/embed/${videoId}`;
+      } else if (url.includes('youtu.be/')) {
+          let videoId = url.split('youtu.be/')[1].split('?')[0];
+          return `https://www.youtube.com/embed/${videoId}`;
+      }
+      else if (url.includes('drive.google.com')) {
+          if (url.includes('/file/d/')) {
+              let fileId = url.split('/file/d/')[1].split('/')[0];
+              return `https://drive.google.com/file/d/${fileId}/preview`;
+          } else if (url.includes('id=')) {
+              let fileId = url.split('id=')[1].split('&')[0];
+              return `https://drive.google.com/file/d/${fileId}/preview`;
+          }
+      }
+      return url;
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', () => showForm('loginModal'));
+  
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      try {
+          await signInWithEmailAndPassword(auth, email, pass);
+          hideForm('loginModal');
+          toast("تم تسجيل الدخول بنجاح كمسؤول!");
+      } catch (error) {
+          alert("خطأ في بيانات الدخول: " + error.message);
+      }
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+      signOut(auth).then(() => toast("تم تسجيل الخروج."));
+  });
+
+  onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      const adminElems = document.querySelectorAll('.admin-only');
+      if (user) {
+          document.getElementById('loginBtn').classList.add('hidden');
+          document.getElementById('userInfo').classList.remove('hidden');
+          document.getElementById('userEmailSpan').textContent = user.email;
+          adminElems.forEach(el => el.classList.remove('hidden'));
+      } else {
+          document.getElementById('loginBtn').classList.remove('hidden');
+          document.getElementById('userInfo').classList.add('hidden');
+          adminElems.forEach(el => el.classList.add('hidden'));
+      }
+      renderAll();
+  });
+
+  onSnapshot(collection(db, "plan"), (snapshot) => {
+      state.plan = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderAll();
+  });
+
+  onSnapshot(collection(db, "cards"), (snapshot) => {
+      state.cards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderAll();
+  });
+
+  onSnapshot(collection(db, "announcements"), (snapshot) => {
+      state.announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderAll();
+  });
+
+  document.getElementById('planEntryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً كمسؤول.");
+      
+      const title = document.getElementById('planTitle').value;
+      const date = document.getElementById('planDate').value;
+      const responsible = document.getElementById('planResponsible').value || 'غير محدد';
+      const status = document.getElementById('planStatus').value;
+
+      try {
+          await addDoc(collection(db, "plan"), { title, date, responsible, status, createdAt: Date.now() });
+          this.reset();
+          hideForm('planFormPanel');
+          toast("تم حفظ البند في الخطة سحابياً!");
+      } catch (err) { alert("حدث خطأ: " + err.message); }
+  });
+
+  window.deletePlan = async function(docId) {
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");
+      if (confirm("هل تريد حذف هذا البند؟")) {
+          try { await deleteDoc(doc(db, "plan", docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }
+      }
+  };
+
+  document.getElementById('cardEntryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً.");
+
+      const title = document.getElementById('cardName').value;
+      const category = document.getElementById('cardCategory').value;
+      const beneficiaries = document.getElementById('cardBeneficiaries').value;
+      const desc = document.getElementById('cardDesc').value;
+      const videoUrl = document.getElementById('cardVideoUrl').value.trim();
+      const fileInput = document.getElementById('cardFile');
+      const file = fileInput.files[0];
+
+      let fileData = "";
+      let fileType = "";
+
+      const saveBtn = document.getElementById('saveCardBtn');
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...`;
+
+      try {
+          if (file) {
+              if (file.size > 5 * 1024 * 1024) {
+                  throw new Error("حجم الملف كبير، يرجى اختيار ملف أقل من 5 ميجابايت.");
+              }
+              fileData = await fileToDataUrl(file);
+              fileType = file.type.startsWith('image/') ? 'image' : (file.type.includes('pdf') ? 'pdf' : 'other');
+          }
+
+          await addDoc(collection(db, "cards"), { 
+              title, category, beneficiaries, desc, fileData, fileType, videoUrl, createdAt: Date.now() 
+          });
+
+          this.reset();
+          hideForm('cardFormPanel');
+          toast("تم حفظ البطاقة بنجاح!");
+      } catch (err) {
+          alert("حدث خطأ أثناء الحفظ: " + err.message);
+      } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> حفظ البطاقة سحابياً`;
+      }
+  });
+
+  window.deleteCard = async function(docId) {
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");
+      if (confirm("هل تريد حذف هذه البطاقة؟")) {
+          try { await deleteDoc(doc(db, "cards", docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }
+      }
+  };
+
+  // نشر الإعلان مع خيار إظهاره في الشريط المتحرك
+  document.getElementById('announcementEntryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً.");
+
+      const title = document.getElementById('ancTitle').value;
+      const category = document.getElementById('ancCategory').value;
+      const showInTicker = document.getElementById('ancShowInTicker').value;
+      const desc = document.getElementById('ancDesc').value;
+      const videoUrl = document.getElementById('ancVideoUrl').value.trim();
+      const fileInput = document.getElementById('ancFile');
+      const file = fileInput.files[0];
+
+      let fileData = "";
+      let fileType = "";
+
+      const saveBtn = document.getElementById('saveAncBtn');
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري النشر...`;
+
+      try {
+          if (file) {
+              if (file.size > 5 * 1024 * 1024) {
+                  throw new Error("حجم الملف كبير، يرجى اختيار ملف أقل من 5 ميجابايت.");
+              }
+              fileData = await fileToDataUrl(file);
+              fileType = file.type.startsWith('image/') ? 'image' : (file.type.includes('pdf') ? 'pdf' : 'other');
+          }
+
+          await addDoc(collection(db, "announcements"), { 
+              title, category, showInTicker, desc, fileData, fileType, videoUrl, date: new Date().toLocaleDateString('ar-SA'), createdAt: Date.now() 
+          });
+
+          this.reset();
+          hideForm('announcementFormPanel');
+          toast("تم نشر الإعلان وتحديث الشريط بنجاح!");
+      } catch (err) {
+          alert("حدث خطأ أثناء النشر: " + err.message);
+      } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = `<i class="fa-solid fa-bullhorn"></i> نشر الإعلان سحابياً`;
+      }
+  });
+
+  window.deleteAnnouncement = async function(docId) {
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");
+      if (confirm("هل تريد حذف هذا الإعلان؟")) {
+          try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }
+      }
+  };
+
+  const competitionsData = [
+      { id: 1, title: "أولمبياد العلوم الوطني (إبداع)", cat: "موهبة", status: "مفتوح", desc: "مسابقة علمية سنوية تقوم على تقديم مشروع علمي أو بحثي في مجالات مختلفة.", date: "1447-03-15", target: "جميع الطلاب" },
+      { id: 2, title: "مسابقة نافس الوطنية", cat: "عام", status: "مفتوح", desc: "اختبارات مقننة لرفع جودة التعليم ومخرجات التعلم بالمدرسة.", date: "1447-04-01", target: "طلاب المرحلة الابتدائية" },
+      { id: 3, title: "تحدي القراءة العربي", cat: "تخصصي", status: "قريباً", desc: "مشروع إلقاء وقراءة 50 كتاباً وتلخيصها وتذوقها أدبياً.", date: "1447-05-10", target: "المهتمين بالقراءة" },
+      { id: 4, title: "مسابقة مهارات الإلقاء والارتجال", cat: "تخصصي", status: "مفتوح", desc: "تعزيز الخطابة والإلقاء الفردي وتنمية مهارات التحدث الفصيح.", date: "1447-02-20", target: "جميع الصفوف" },
+      { id: 5, title: "دوري المدرسة الرياضي", cat: "عام", status: "منتهي", desc: "منافسات كرة القدم والكرة الطائرة بين الفصول الدراسية.", date: "1447-01-10", target: "فرق الفصول" }
+  ];
+
+  function renderCompetitions(items = competitionsData) {
+      const grid = document.getElementById('competitionsGrid');
+      const homeGrid = document.getElementById('homeFeaturedGrid');
+      
+      let html = items.length ? items.map(c => `
+          <article class="card">
+              <div class="card-top">
+                  <span class="category">${esc(c.cat)}</span>
+                  <span class="status ${c.status==='مفتوح'?'open':c.status==='قريباً'?'soon':'closed'}">${esc(c.status)}</span>
+              </div>
+              <h3>${esc(c.title)}</h3>
+              <div class="muted">${esc(c.desc)}</div>
+              <div class="meta">
+                  <div><b>الفئة المستهدفة</b>${esc(c.target)}</div>
+                  <div><b>تاريخ التفعيل</b>${esc(c.date)}</div>
+              </div>
+              <div class="actions no-print">
+                  <button class="btn small" onclick="alert('تفاصيل التسجيل متاحة عبر رائد النشاط بالمدرسة')">التفاصيل المعتمده</button>
+              </div>
+          </article>
+      `).join('') : '<div class="empty full">لا توجد مسابقات مطابقة للبحث.</div>';
+
+      grid.innerHTML = html;
+
+      if (homeGrid) {
+          let homeItems = competitionsData.slice(0, 3);
+          homeGrid.innerHTML = homeItems.map(c => `
+              <article class="card">
+                  <div class="card-top">
+                      <span class="category">${esc(c.cat)}</span>
+                      <span class="status ${c.status==='مفتوح'?'open':c.status==='قريباً'?'soon':'closed'}">${esc(c.status)}</span>
+                  </div>
+                  <h3>${esc(c.title)}</h3>
+                  <div class="muted">${esc(c.desc)}</div>
+                  <div class="meta">
+                      <div class="full"><b>الفئة المستهدفة</b>${esc(c.target)}</div>
+                  </div>
+              </article>
+          `).join('');
+      }
+  }
+
+  window.filterCompetitions = function() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const stage = document.getElementById('stageFilter').value;
+      const status = document.getElementById('statusFilter').value;
+
+      const filtered = competitionsData.filter(item => {
+          const matchesSearch = item.title.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search);
+          const matchesStage = stage === '' || item.cat === stage;
+          const matchesStatus = status === '' || item.status === status;
+          return matchesSearch && matchesStage && matchesStatus;
+      });
+
+      renderCompetitions(filtered);
+  };
+
+  function renderPlan() {
+      const container = document.getElementById('planTableContainer');
+      if (!state.plan || !state.plan.length) {
+          container.innerHTML = '<div class="empty">لا توجد بنود مسجلة في خطة التنفيذ بعد.</div>';
+          return;
+      }
+
+      container.innerHTML = `
+          <div class="tablewrap">
+              <table>
+                  <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>البرنامج / النشاط</th>
+                          <th>التاريخ</th>
+                          <th>المسؤول</th>
+                          <th>الحالة</th>
+                          ${currentUser ? '<th class="no-print">إجراء</th>' : ''}
+                      </tr>
+                  </thead>
+                  <tbody>
+                      ${state.plan.map((item, index) => `
+                          <tr>
+                              <td>${index + 1}</td>
+                              <td><strong>${esc(item.title)}</strong></td>
+                              <td>${esc(item.date)}</td>
+                              <td>${esc(item.responsible)}</td>
+                              <td><span class="status ${item.status==='مكتمل'?'open':'soon'}">${esc(item.status)}</span></td>${currentUser ? `<td class="no-print"><button class="btn danger small" onclick="deletePlan('${item.id}')">حذف</button></td>` : ''}
+                          </tr>
+                      `).join('')}
+                  </tbody>
+              </table>
+          </div>
+      `;
+  }
+
+  function renderItemContent(fileData, fileType, videoUrl) {
+      let html = '';
+      if (fileData) {
+          if (fileType === 'image') {
+              html += `
+                  <img src="${fileData}" class="card-media" alt="صورة المرفق">
+                  <div class="media-actions no-print">
+                      <button class="btn small primary" onclick="printMedia('${fileData}', 'image')"><i class="fa-solid fa-print"></i> طباعة الصورة</button>
+                  </div>`;
+          } else if (fileType === 'pdf') {
+              html += `
+                  <iframe src="${fileData}" class="pdf-viewer"></iframe>
+                  <div class="media-actions no-print">
+                      <button class="btn small primary" onclick="printMedia('${fileData}', 'pdf')"><i class="fa-solid fa-print"></i> طباعة مستند PDF</button>
+                  </div>`;
+          }
+      }
+      if (videoUrl) {
+          const embedUrl = getEmbedVideoUrl(videoUrl);
+          html += `
+              <div class="card-video-container">
+                  <iframe src="${embedUrl}" allowfullscreen></iframe>
+              </div>`;
+      }
+      return html;
+  }
+
+  function renderCards() {
+      const container = document.getElementById('cardsGrid');
+      if (!state.cards || !state.cards.length) {
+          container.innerHTML = '<div class="empty full">لا توجد بطاقات تنفيذ مسجلة.</div>';
+          return;
+      }
+
+      container.innerHTML = state.cards.map((c) => `
+          <article class="card">
+              <div class="card-top">
+                  <span class="category">${esc(c.category)}</span>
+                  <span class="muted">مستفيدين: ${esc(c.beneficiaries || 0)}</span>
+              </div>
+              <h3>${esc(c.title)}</h3>
+              <div class="muted">${esc(c.desc)}</div>
+              ${renderItemContent(c.fileData, c.fileType, c.videoUrl)}
+              ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteCard('${c.id}')">حذف البطاقة</button></div>` : ''}
+          </article>
+      `).join('');
+  }
+
+  function renderAnnouncements() {
+      const container = document.getElementById('announcementsGrid');
+      const tickerContainer = document.getElementById('tickerContent');
+
+      if (!state.announcements || !state.announcements.length) {
+          container.innerHTML = '<div class="empty full">لا توجد إعلانات منشورة بعد.</div>';
+          tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> أهلاً بكم في بوابة النشاط الطلابي بابتدائية مكة المكرمة.</span>`;
+          return;
+      }
+
+      container.innerHTML = state.announcements.map((a) => `
+          <article class="card">
+              <div class="card-top">
+                  <span class="category">${esc(a.category)}</span>
+                  <span class="muted">${esc(a.date || '')}</span>
+              </div>
+              <h3>${esc(a.title)}</h3>
+              <div class="muted">${esc(a.desc)}</div>
+              ${renderItemContent(a.fileData, a.fileType, a.videoUrl)}
+              ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteAnnouncement('${a.id}')">حذف الإعلان</button></div>` : ''}
+          </article>
+      `).join('');
+
+      // تصفية الإعلانات التي تم اختيار ظهورها في الشريط المتحرك فقط
+      const tickerItems = state.announcements.filter(a => a.showInTicker === 'yes');
+      if (tickerItems.length > 0) {
+          tickerContainer.innerHTML = tickerItems.map(a => `
+              <span><i class="fa-solid fa-bullhorn"></i> ${esc(a.title)}: ${esc(a.desc)}</span>
+          `).join('');
+      } else {
+          tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;
+      }
+  }
+
+  function renderStats() {
+      document.getElementById("statCompetitions").textContent = competitionsData.length;
+      document.getElementById("statPlan").textContent = (state.plan || []).length;
+      document.getElementById("statCards").textContent = (state.cards || []).length;
+      document.getElementById("statAnnouncements").textContent = (state.announcements || []).length;
+  }
+
+  function renderAll() {
+      renderCompetitions();
+      renderPlan();
+      renderCards();
+      renderAnnouncements();
+      renderStats();
+  }
+
+  window.switchTab = function(tabId) {
+      document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));
+      document.querySelectorAll(".page").forEach(page => page.classList.toggle("hidden", page.id !== "page-" + tabId));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
+
+</script>
+
+</body>
+</html>
