@@ -45,9 +45,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .btn.gold{background:#C9A04A;color:#fff;border-color:#C9A04A}
 .btn.small{padding:4px 10px;font-size:12.5px}
 
-/* ==========================================================================
-   لوحة التحكم الخاصة ببطاقة التنفيذ (تتطابق مع الصورة الأولى)
-   ========================================================================== */
+/* لوحة التحكم ببطاقة التنفيذ */
 .card-control-box {
   background: var(--surface2);
   border: 1px solid var(--line);
@@ -78,9 +76,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   background: var(--surface);
 }
 
-/* ==========================================================================
-   بطاقة التنفيذ المسابقة (A4 مطابقة للوزارة 100%)
-   ========================================================================== */
+/* بطاقة التنفيذ (A4 مطابقة للوزارة) */
 .card-print-wrap { overflow-x: auto; padding: 10px 0; }
 .card-exec {
   width: 210mm;
@@ -116,6 +112,17 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .cd-note { margin: 6mm 0 0; padding-inline-start: 4mm; font-size: 10pt; line-height: 1.5; position: relative; }
 .cd-note::before { content: "•"; position: absolute; inset-inline-start: 0; }
 
+/* الشريط الملون في ذيل البطاقة الرسمي */
+.card-exec::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5mm;
+  background: linear-gradient(90deg, #0C6A64 0%, #17804A 100%);
+}
+
 /* قواعد الطباعة الصارمة لعزل البطاقة في صفحة A4 واحدة ونظيفة */
 @media print {
   body * { visibility: hidden !important; }
@@ -131,6 +138,10 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
     box-shadow: none !important;
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 0;
   }
 }
 </style>
@@ -154,10 +165,10 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
 </nav>
 
 <main>
- <!-- PAGE: CARDS (بطاقات التنفيذ والتحكم العلوي المطابق للصورة الأولى) --> 
+ <!-- PAGE: CARDS --> 
  <section id="page-cards" class="page">  
   
-   <!-- لوحة التحكم العلوية المطابقة للصورة الأولى -->
+   <!-- لوحة التحكم العلوية -->
    <div class="card-control-box no-print">
      <div class="card-control-head">
        <h3>بطاقة تنفيذ برنامج / مسابقة نشاط طلابي</h3>
