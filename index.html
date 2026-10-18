@@ -37,6 +37,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 14px;border-bottom:1px solid var(--line);overflow-x:visible}
 .tab{background:none;border:0;padding:8px 12px;cursor:pointer;color:var(--muted);font-weight:600;font-size:13.5px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.2s ease}
 .tab.active,.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
+.tab .n{display:inline-block;min-width:22px;padding:0 6px;margin-inline-start:6px;border-radius:11px;background:var(--brand);color:var(--brand-ink);font-size:12px;text-align:center}
 
 /* buttons & forms */
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600}
@@ -44,6 +45,40 @@ button,input,select,textarea{font:inherit;color:inherit}
 .btn.danger{background:#a83232;color:#fff;border-color:#a83232}
 .btn.gold{background:#C9A04A;color:#fff;border-color:#C9A04A}
 .btn.small{padding:4px 10px;font-size:12.5px}
+.empty{padding:40px 16px;text-align:center;color:var(--muted)}
+
+/* plan & forms */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+.panel h2{margin:0 0 10px;font-size:17px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+
+/* toast & modal */
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.show{opacity:1}
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:100; display:flex; align-items:center; justify-content:center; padding:16px; }
+.modal-card { background:var(--surface); border-radius:14px; padding:20px; width:100%; max-width:400px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+
+/* Extra UI Components */
+.hero-bottom { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; width:100%; margin-top:12px; }
+.pill-group { display:flex; flex-wrap:wrap; gap:8px; }
+.pill { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); padding:4px 12px; border-radius:999px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-top:14px; }
+.card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px; }
+.card-top { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
+.category { background:var(--surface2); border:1px solid var(--line); padding:2px 8px; border-radius:6px; font-weight:600; color:var(--brand); }
+.muted { color:var(--muted); font-size:13.5px; }
+.hidden { display:none !important; }
+.no-print { }
+.tablewrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; }
+th, td { border:1px solid var(--line); padding:10px; text-align:start; font-size:14px; }
+th { background:var(--surface2); font-weight:600; color:var(--muted); }
+.formgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.formgrid .full { grid-column:1/-1; }
+.field { display:flex; flex-direction:column; gap:4px; }
+.field label { font-size:13px; font-weight:600; color:var(--muted); }
+.field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
+.field textarea { min-height:80px; resize:vertical; }
 
 /* لوحة التحكم ببطاقة التنفيذ */
 .card-control-box {
@@ -76,7 +111,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   background: var(--surface);
 }
 
-/* بطاقة التنفيذ (A4 مطابقة للوزارة) */
+/* بطاقة التنفيذ الرسمية (مطابقة تماماً للنموذج المطلوب) */
 .card-print-wrap { overflow-x: auto; padding: 10px 0; }
 .card-exec {
   width: 210mm;
@@ -123,6 +158,14 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
   background: linear-gradient(90deg, #0C6A64 0%, #17804A 100%);
 }
 
+/* شريط الإعلانات المتحرك التفاعلي */
+.ticker-wrap { display:flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:16px; box-shadow:var(--shadow); }
+.ticker-badge { background:var(--brand); color:var(--brand-ink); padding:10px 14px; font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.ticker-container { overflow:hidden; white-space:nowrap; position:relative; width:100%; padding:10px; }
+.ticker-text { display:inline-block; animation: ticker 25s linear infinite; }
+.ticker-text span { margin-inline-start:40px; font-weight:600; color:var(--ink); }
+@keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+
 /* قواعد الطباعة الصارمة لعزل البطاقة في صفحة A4 واحدة ونظيفة */
 @media print {
   body * { visibility: hidden !important; }
@@ -147,28 +190,86 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
 </style>
 </head>
 <body>
+<div class="topline"></div>
 <div class="wrap">
-<header class="top hero no-print" style="background:radial-gradient(120% 140% at 100% 0%,#14807A 0%,#0C5B57 45%,#083B3A 100%); color:#EAF6F3; border-radius:20px; padding:26px 26px 22px;">
+<header class="top hero" style="background:radial-gradient(120% 140% at 100% 0%,#14807A 0%,#0C5B57 45%,#083B3A 100%); color:#EAF6F3; border-radius:20px; padding:26px 26px 22px;">
  <div class="hero-content" style="width:100%;">
   <div class="eyebrow"><i class="fa-solid fa-graduation-cap"></i> الإدارة العامة للتعليم بمنطقة المدينة المنورة - قسم النشاط الطلابي</div>
   <h1>ابتدائية مكة المكرمة</h1>
   <p>بوابة النشاط الطلابي والفعاليات والبرامج الإثرائية</p>
+  <div class="hero-bottom">
+    <div class="pill-group">
+      <span class="pill"><i class="fa-solid fa-calendar-days"></i> العام الدراسي 1447 - 1448 هـ</span>
+      <span class="pill"><i class="fa-solid fa-user-tie"></i> رائد النشاط: عواد محمد العوفي</span>
+    </div>
+    <div id="authStatusArea" class="no-print">
+      <button id="loginBtn" class="btn gold small"><i class="fa-solid fa-right-to-bracket"></i> دخول المسؤول</button>
+      <span id="userInfo" class="hidden" style="color:#dcefe9; font-size:13px; font-weight:bold;">
+        <i class="fa-solid fa-user-check"></i> <span id="userEmailSpan"></span>
+        <button id="logoutBtn" class="btn danger small" style="margin-right:8px;"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+      </span>
+    </div>
  </div>
+</div>
 </header>
 
-<!-- شريط التبويبات -->
-<nav class="tabs no-print"> 
-  <button class="tab" data-tab="home"><i class="fa-solid fa-house"></i> الرئيسية</button> 
+<!-- شريط التبويبات الرئيسي (جميع التبويبات مفعلة وتعمل سحابياً) -->
+<nav class="tabs no-print" aria-label="التبويبات الرئيسية"> 
+  <button class="tab active" data-tab="home"><i class="fa-solid fa-house"></i> الرئيسية</button> 
   <button class="tab" data-tab="plan"><i class="fa-solid fa-calendar-check"></i> خطة التنفيذ</button> 
-  <button class="tab active" data-tab="cards"><i class="fa-solid fa-file-signature"></i> بطاقات التنفيذ</button> 
+  <button class="tab" data-tab="cards"><i class="fa-solid fa-file-signature"></i> بطاقات التنفيذ</button> 
+  <button class="tab" data-tab="announcements"><i class="fa-solid fa-bullhorn"></i> الإعلانات</button>
   <button class="tab" data-tab="competitions"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
 </nav>
 
 <main>
- <!-- PAGE: CARDS --> 
- <section id="page-cards" class="page">  
-  
-   <!-- لوحة التحكم العلوية -->
+ <!-- PAGE: HOME --> 
+ <section id="page-home" class="page">  
+  <div class="panel">   
+   <div class="section-head">    
+    <div>     
+     <h2>مرحباً بكم في البوابة الرقمية للنشاط الطلابي</h2>     
+     <p>منصة متكاملة لإدارة ومتابعة خطط العمل، والمبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بابتدائية مكة المكرمة.</p>    
+    </div>   
+   </div>    
+  </div>
+ </section>
+
+ <!-- PAGE: PLAN --> 
+ <section id="page-plan" class="page hidden">  
+  <div class="panel">   
+   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
+    <div><h2>خطة تنفيذ النشاط الطلابي</h2><p>إدارة وتسجيل الأنشطة والبرامج المدرسية وتتبع حالتها مباشرة بالسحابة.</p></div>    
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('planFormPanel')">+ إضافة بند للخطة</button>   
+   </div>
+   <div id="planFormPanel" class="panel hidden" style="background:#fcfdfe;">    
+    <form id="planEntryForm" class="formgrid">     
+     <div class="field"><label>اسم البرنامج / الفعالية</label><input type="text" id="planTitle" required placeholder="مثال: حفل اليوم الوطني"></div>     
+     <div class="field"><label>تاريخ التنفيذ</label><input type="date" id="planDate" required></div>     
+     <div class="field"><label>المسؤول عن التنفيذ</label><input type="text" id="planResponsible" placeholder="اسم رائد النشاط / المعلم"></div>     
+     <div class="field">      
+      <label>حالة التنفيذ</label>      
+      <select id="planStatus">       
+       <option value="مخطط">مخطط له</option>       
+       <option value="جاري">جاري التنفيذ</option>       
+       <option value="مكتمل">مكتمل</option>      
+      </select>     
+     </div>     
+     <div class="actions full">      
+      <button type="submit" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ المزامنة مع السحابة</button>      
+      <button type="button" class="btn" onclick="hideForm('planFormPanel')">إلغاء</button>     
+     </div>    
+    </form>   
+   </div>
+   <div id="planTableContainer"></div>  
+  </div> 
+ </section>
+
+ <!-- PAGE: CARDS (بطاقات التنفيذ والتحكم العلوي المتكامل) --> 
+ <section id="page-cards" class="page hidden">  
+  <div class="panel">   
+   
+   <!-- لوحة التحكم العلوية للبطاقة -->
    <div class="card-control-box no-print">
      <div class="card-control-head">
        <h3>بطاقة تنفيذ برنامج / مسابقة نشاط طلابي</h3>
@@ -294,15 +395,303 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
      </div>
    </div>
 
+  </div> 
+ </section>
+
+ <!-- PAGE: ANNOUNCEMENTS --> 
+ <section id="page-announcements" class="page hidden">
+  <div class="ticker-wrap no-print">    
+    <div class="ticker-badge"><i class="fa-solid fa-bullhorn"></i> شريط الأخبار:</div>    
+    <div class="ticker-container">      
+      <div id="tickerContent" class="ticker-text">        
+        <span><i class="fa-solid fa-star"></i> أهلاً بكم في بوابة النشاط الطلابي...</span>      
+      </div>    
+  </div>  </div>
+  <div class="panel">   
+   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
+    <div><h2>سجل الإعلانات المدرسية والوسائط</h2><p>عرض الإعلانات الرسمية، والتعاميم، والفيديوهات والملفات.</p></div>    
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('announcementFormPanel')">+ إضافة إعلان جديد</button>   
+   </div>
+   <div id="announcementFormPanel" class="panel hidden" style="background:#fcfdfe;">    
+    <form id="announcementEntryForm" class="formgrid">     
+     <div class="field"><label>عنوان الإعلان</label><input type="text" id="ancTitle" required placeholder="مثال: الإذاعة المدرسية للأسبوع الثاني"></div>     
+     <div class="field">      
+      <label>المجال / الفئة</label>      
+      <select id="ancCategory">       
+       <option value="عام">إعلان عام</option>       
+       <option value="إذاعة">إذاعة مدرسية</option>       
+       <option value="تكريم">تكريم وتميز</option>      
+      </select>     
+     </div>     
+     <div class="field">      
+      <label>عرض في شريط الإعلانات المتحرك؟</label>      
+      <select id="ancShowInTicker">       
+       <option value="no">لا (إعلان عادي فقط)</option>       
+       <option value="yes">نعم (عرض في الشريط المتحرك)</option>      
+      </select>     
+     </div>     
+     <div class="field"><label>إرفاق ملف (صورة أو مستند PDF للطباعة)</label><input type="file" id="ancFile" accept="image/*,.pdf"></div>     
+     <div class="field full"><label>رابط فيديو Google Drive أو يوتيوب (اختياري)</label><input type="url" id="ancVideoUrl" placeholder="https://drive.google.com/file/d/... أو رابط يوتيوب"></div>     
+     <div class="field full"><label>تفاصيل الإعلان</label><textarea id="ancDesc" placeholder="أدخل نص وتفاصيل الإعلان..."></textarea></div>     
+     <div class="actions full">      
+      <button type="submit" id="saveAncBtn" class="btn primary"><i class="fa-solid fa-bullhorn"></i> نشر الإعلان سحابياً</button>      
+      <button type="button" class="btn" onclick="hideForm('announcementFormPanel')">إلغاء</button>     
+     </div>    
+    </form>   
+   </div>
+   <div id="announcementsGrid" class="grid"></div>  
+  </div> 
+ </section>
+
+ <!-- PAGE: COMPETITIONS --> 
+ <section id="page-competitions" class="page hidden">  
+  <div class="panel" style="padding: 0; overflow: hidden; border: none; background: transparent;">
+   <iframe src="https://makkahschool.github.io/test/" style="width: 100%; height: 850px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);" title="المسابقات الوزارية"></iframe>  
+  </div> 
  </section>
 </main>
 
-<script>
+<div id="loginModal" class="modal-overlay hidden">  
+  <div class="modal-card">    
+    <h3 style="margin-top:0; color:var(--primary);"><i class="fa-solid fa-lock"></i> تسجيل دخول المسؤول</h3>    
+    <p class="muted" style="margin-bottom:15px; font-size:12px;">أدخل البريد الإلكتروني وكلمة المرور لإتاحة خيارات إضافة وتعديل البيانات.</p>    
+    <form id="loginForm">      
+      <div class="field" style="margin-bottom:10px;">        
+        <label>البريد الإلكتروني</label>        
+        <input type="email" id="loginEmail" required placeholder="example@domain.com">      
+      </div>      
+      <div class="field" style="margin-bottom:15px;">        
+        <label>كلمة المرور</label>        
+        <input type="password" id="loginPassword" required placeholder="••••••••">      
+      </div>      
+      <div class="actions" style="display:flex; flex-direction:column; gap:8px;">        
+        <button type="submit" class="btn primary" style="width:100%; justify-content:center;">تسجيل الدخول</button>        
+        <button type="button" class="btn" style="width:100%; justify-content:center;" onclick="hideForm('loginModal')">إلغاء</button>      
+      </div>    
+    </form>  
+  </div>
+</div>
+
+<footer class="footer no-print" style="text-align:center; padding:20px 0; color:var(--muted); font-size:13.5px; border-top:1px solid var(--line); margin-top:30px;"> 
+  <p><strong>ابتدائية مكة المكرمة</strong> · الإدارة العامة للتعليم بمنطقة المدينة المنورة</p> 
+  <p>إعداد وتنظيم رائد النشاط الطلابي: عواد محمد العوفي · 1447 / 1448 هـ</p>
+</footer>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">  
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";  
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";  
+  import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  
+  const firebaseConfig = {    
+    apiKey: "AIzaSyDWSwOLWEhS5MR0R98r6cwiQljEd8WH_kY",    
+    authDomain: "makkahschool-32961.firebaseapp.com",    
+    projectId: "makkahschool-32961",    
+    storageBucket: "makkahschool-32961.firebasestorage.app",    
+    messagingSenderId: "502489720942",    
+    appId: "1:502489720942:web:9738bda6457aec5904de7f",    
+    measurementId: "G-HMQSMFF391"  
+  };
+  
+  const app = initializeApp(firebaseConfig);  
+  const auth = getAuth(app);  
+  const db = getFirestore(app);
+  
+  let currentUser = null;  
+  let state = { plan: [], announcements: [] };
+  
+  window.toast = function(msg) {      
+      let el = document.getElementById("toast");      
+      el.textContent = msg;      
+      el.classList.add("show");      
+      clearTimeout(window._toastTimer);      
+      window._toastTimer = setTimeout(() => el.classList.remove("show"), 2500);  
+  };
+  
+  window.showForm = function(id) { document.getElementById(id).classList.remove("hidden"); };  
+  window.hideForm = function(id) { document.getElementById(id).classList.add("hidden"); };
+  
+  function esc(s) {      
+      return String(s??"").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));  
+  }
+  
+  document.getElementById('loginBtn').addEventListener('click', () => showForm('loginModal'));    
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {      
+      e.preventDefault();      
+      const email = document.getElementById('loginEmail').value;      
+      const pass = document.getElementById('loginPassword').value;      
+      try {          
+          await signInWithEmailAndPassword(auth, email, pass);          
+          hideForm('loginModal');          
+          toast("تم تسجيل الدخول بنجاح كمسؤول!");      } catch (error) {          
+          alert("خطأ في بيانات الدخول: " + error.message);      }  
+  });
+  
+  document.getElementById('logoutBtn').addEventListener('click', () => {      
+      signOut(auth).then(() => toast("تم تسجيل الخروج."));  
+  });
+  
+  onAuthStateChanged(auth, (user) => {      
+      currentUser = user;      
+      const adminElems = document.querySelectorAll('.admin-only');      
+      if (user) {          
+          document.getElementById('loginBtn').classList.add('hidden');          
+          document.getElementById('userInfo').classList.remove('hidden');          
+          document.getElementById('userEmailSpan').textContent = user.email;          
+          adminElems.forEach(el => el.classList.remove('hidden'));      } else {          
+          document.getElementById('loginBtn').classList.remove('hidden');          
+          document.getElementById('userInfo').classList.add('hidden');          
+          adminElems.forEach(el => el.classList.add('hidden'));      }      
+      renderAll();  
+  });
+  
+  onSnapshot(collection(db, "plan"), (snapshot) => {      
+      state.plan = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
+      renderAll();  
+  });
+  
+  onSnapshot(collection(db, "announcements"), (snapshot) => {      
+      state.announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
+      renderAll();  
+  });
+  
+  document.getElementById('planEntryForm').addEventListener('submit', async function(e) {      
+      e.preventDefault();      
+      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً كمسؤول.");            
+      const title = document.getElementById('planTitle').value;      
+      const date = document.getElementById('planDate').value;      
+      const responsible = document.getElementById('planResponsible').value || 'غير محدد';      
+      const status = document.getElementById('planStatus').value;
+
+      try {          
+          await addDoc(collection(db, "plan"), { title, date, responsible, status, createdAt: Date.now() });          
+          this.reset();          
+          hideForm('planFormPanel');          
+          toast("تم حفظ البند في الخطة سحابياً!");      } catch (err) { alert("حدث خطأ: " + err.message); }  
+  });
+  
+  window.deletePlan = async function(docId) {      
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
+      if (confirm("هل تريد حذف هذا البند؟")) {          
+          try { await deleteDoc(doc(db, "plan", docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }      }  
+  };
+  
+  document.getElementById('announcementEntryForm').addEventListener('submit', async function(e) {      
+      e.preventDefault();      
+      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً.");
+
+      const title = document.getElementById('ancTitle').value;      
+      const category = document.getElementById('ancCategory').value;      
+      const showInTicker = document.getElementById('ancShowInTicker').value;      
+      const desc = document.getElementById('ancDesc').value;      
+      const videoUrl = document.getElementById('ancVideoUrl').value.trim();      
+      const fileInput = document.getElementById('ancFile');      
+      const file = fileInput.files[0];
+
+      let fileData = "";      
+      let fileType = "";
+      const saveBtn = document.getElementById('saveAncBtn');      
+      saveBtn.disabled = true;      
+      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري النشر...`;
+      try {          
+          if (file) {              
+              if (file.size > 5 * 1024 * 1024) {                  
+                  throw new Error("حجم الملف كبير، يرجى اختيار ملف أقل من 5 ميجابايت.");              }
+              const reader = new FileReader();
+              fileData = await new Promise((res, rej) => { reader.onload = () => res(reader.result); reader.onerror = rej; reader.readAsDataURL(file); });
+              fileType = file.type.startsWith('image/') ? 'image' : (file.type.includes('pdf') ? 'pdf' : 'other');          }
+
+          await addDoc(collection(db, "announcements"), {               
+              title, category, showInTicker, desc, fileData, fileType, videoUrl, date: new Date().toLocaleDateString('ar-SA'), createdAt: Date.now()           
+          });
+
+          this.reset();          
+          hideForm('announcementFormPanel');          
+          toast("تم نشر الإعلان وتحديث الشريط بنجاح!");      } catch (err) {          
+          alert("حدث خطأ أثناء النشر: " + err.message);      } finally {          
+          saveBtn.disabled = false;          
+          saveBtn.innerHTML = `<i class="fa-solid fa-bullhorn"></i> نشر الإعلان سحابياً`;      }  
+  });
+  
+  window.deleteAnnouncement = async function(docId) {      
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
+      if (confirm("هل تريد حذف هذا الإعلان؟")) {          
+          try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }      }  
+  };
+
+  function renderPlan() {      
+      const container = document.getElementById('planTableContainer');      
+      if (!state.plan || !state.plan.length) {          
+          container.innerHTML = '<div class="empty">لا توجد بنود مسجلة في خطة التنفيذ بعد.</div>';          
+          return;      }
+
+      container.innerHTML = `          
+          <div class="tablewrap">              
+              <table>                  
+                  <thead>                      
+                      <tr>                          
+                          <th>#</th>                          
+                          <th>البرنامج / الفعالية</th>                          
+                          <th>التاريخ</th>                          
+                          <th>المسؤول</th>                          
+                          <th>الحالة</th>                          
+                          ${currentUser ? '<th class="no-print">إجراء</th>' : ''}                      
+                      </tr>                  </thead>                  <tbody>                      
+                      ${state.plan.map((item, index) => `                          
+                          <tr>                              
+                              <td>${index + 1}</td>                              
+                              <td><strong>${esc(item.title)}</strong></td>                              
+                              <td>${esc(item.date)}</td>                              
+                              <td>${esc(item.responsible)}</td>                              
+                              <td><span class="category">${esc(item.status)}</span></td>${currentUser ? `<td class="no-print"><button class="btn danger small" onclick="deletePlan('${item.id}')">حذف</button></td>` : ''}                          
+                          </tr>                      `).join('')}                  </tbody>              </table>          </div>      `;  
+  }
+  
+  function renderAnnouncements() {      
+      const container = document.getElementById('announcementsGrid');      
+      const tickerContainer = document.getElementById('tickerContent');
+
+      if (!state.announcements || !state.announcements.length) {          
+          container.innerHTML = '<div class="empty full">لا توجد إعلانات منشورة بعد.</div>';          
+          tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> أهلاً بكم في بوابة النشاط الطلابي بابتدائية مكة المكرمة.</span>`;          
+          return;      }
+
+      container.innerHTML = state.announcements.map((a) => `          
+          <article class="card">              
+              <div class="card-top">                  
+                  <span class="category">${esc(a.category)}</span>                  
+                  <span class="muted">${esc(a.date || '')}</span>              
+              </div>              
+              <h3>${esc(a.title)}</h3>              
+              <div class="muted">${esc(a.desc)}</div>              
+              ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteAnnouncement('${a.id}')">حذف الإعلان</button></div>` : ''}          
+          </article>      `).join('');
+
+      const tickerItems = state.announcements.filter(a => a.showInTicker === 'yes');      
+      if (tickerItems.length > 0) {          
+          tickerContainer.innerHTML = tickerItems.map(a => `              
+              <span><i class="fa-solid fa-bullhorn"></i> ${esc(a.title)}: ${esc(a.desc)}</span>          `).join('');      } else {          
+          tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;      }  
+  }
+  
+  function renderAll() {      
+      renderPlan();      
+      renderAnnouncements();  }
+  
+  window.switchTab = function(tabId) {      
+      document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));      
+      document.querySelectorAll(".page").forEach(page => page.classList.toggle("hidden", page.id !== "page-" + tabId));      
+      window.scrollTo({ top: 0, behavior: 'smooth' });  };
+  
+  document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
+
   document.getElementById('programSelect').addEventListener('change', function() {
     document.getElementById('cardProgName').textContent = this.value;
   });
 
-  function resetCardForm() {
+  window.resetCardForm = function() {
     document.querySelectorAll('.ce').forEach(el => el.textContent = '');
   }
 </script>
