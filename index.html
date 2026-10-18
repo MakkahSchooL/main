@@ -37,6 +37,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 14px;border-bottom:1px solid var(--line);overflow-x:visible}
 .tab{background:none;border:0;padding:8px 12px;cursor:pointer;color:var(--muted);font-weight:600;font-size:13.5px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all 0.2s ease}
 .tab.active,.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
+.tab .n{display:inline-block;min-width:22px;padding:0 6px;margin-inline-start:6px;border-radius:11px;background:var(--brand);color:var(--brand-ink);font-size:12px;text-align:center}
 
 /* buttons & forms */
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600}
@@ -61,6 +62,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-bottom { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; width:100%; margin-top:12px; }
 .pill-group { display:flex; flex-wrap:wrap; gap:8px; }
 .pill { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); padding:4px 12px; border-radius:999px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:16px 0; }
+.stat { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; box-shadow:var(--shadow); }
+.stat .label { font-size:12px; color:var(--muted); display:block; margin-bottom:4px; }
+.stat strong { font-size:22px; color:var(--brand); }
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-top:14px; }
 .card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px; }
 .card-top { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
@@ -78,88 +83,13 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
 .field label { font-size:13px; font-weight:600; color:var(--muted); }
 .field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
 .field textarea { min-height:80px; resize:vertical; }
+.card-media { width:100%; max-height:220px; object-fit:cover; border-radius:8px; margin-top:8px; }
+.pdf-viewer { width:100%; height:200px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+.card-video-container { position:relative; width:100%; padding-bottom:56.25%; height:0; border-radius:8px; overflow:hidden; background:#000; margin-top:8px; }
+.card-video-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+.notice { background:color-mix(in srgb, var(--brand) 10%, var(--surface)); border-inline-start:4px solid var(--brand); padding:12px; border-radius:0 8px 8px 0; font-size:14px; margin-bottom:14px; }
 
-/* لوحة التحكم ببطاقة التنفيذ */
-.card-control-box {
-  background: var(--surface2);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-bottom: 20px;
-}
-.card-control-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.card-control-head h3 { margin: 0; font-size: 17px; font-weight: 700; }
-.card-control-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 10px;
-}
-.card-select-input {
-  width: 100%;
-  max-width: 320px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-}
-
-/* ==========================================================================
-   بطاقة التنفيذ (تتطابق مع الصورة الأخيرة 100% وفي صفحة A4 واحدة)
-   ========================================================================== */
-.card-print-wrap { overflow-x: auto; padding: 10px 0; }
-.card-exec {
-  width: 210mm;
-  height: 297mm;
-  background: #fff;
-  color: #003845;
-  margin: 0 auto;
-  position: relative;
-  padding: 6.5mm 9.5mm 0 8.5mm;
-  font-family: "IBM Plex Sans Arabic", Tahoma, sans-serif;
-  box-shadow: 0 2px 14px rgba(0,40,50,.16);
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.cd-logo { position: absolute; top: 6.5mm; left: 8.5mm; width: 30mm; text-align: center; line-height: 1.25; color: #003845; }
-.cd-logo b { display: block; font-size: 11pt; }
-.cd-logo span { font-size: 6.5pt; letter-spacing: .2px; }
-.cd-title { margin: 10mm 0 2.5mm; text-align: center; font-size: 16pt; font-weight: 700; color: #003744; }
-
-table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.ct td { border: 1px solid #003845; padding: .35mm 1.2mm; text-align: center; vertical-align: middle; font-size: 10pt; line-height: 1.28; }
-.ct tr:nth-child(even) td { background: #D2E2E8; }
-.ct td.lb { font-weight: 700; font-size: 10.5pt; }
-.ct td.sm { font-size: 9.5pt; text-align: right; }
-
-.ce { display: block; min-height: 1.2em; outline: 0; border-radius: 2px; }
-.ce.inl { display: inline-block; min-width: 6mm; }
-.ce:focus { background: #FFF6CC; }
-
-.cd-sign { display: flex; justify-content: space-between; margin: 5mm 3mm 0; font-size: 10.5pt; line-height: 1.6; }
-.cd-sign div { min-width: 58mm; }
-.cd-sign b { display: block; font-weight: 700; }
-.cd-note { margin: 4mm 0 0; padding-inline-start: 4mm; font-size: 9pt; line-height: 1.4; position: relative; }
-.cd-note::before { content: "•"; position: absolute; inset-inline-start: 0; }
-
-/* الشريط الملون الرسمي في أسفل البطاقة */
-.card-exec::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 4mm;
-  background: linear-gradient(90deg, #0C6A64 0%, #17804A 100%);
-}
-
-/* شريط الإعلانات */
+/* شريط الإعلانات المتحرك التفاعلي */
 .ticker-wrap { display:flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:16px; box-shadow:var(--shadow); }
 .ticker-badge { background:var(--brand); color:var(--brand-ink); padding:10px 14px; font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:6px; flex-shrink:0; }
 .ticker-container { overflow:hidden; white-space:nowrap; position:relative; width:100%; padding:10px; }
@@ -167,33 +97,17 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .ticker-text span { margin-inline-start:40px; font-weight:600; color:var(--ink); }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-/* قواعد الطباعة الصارمة لعزل البطاقة في صفحة A4 واحدة ونظيفة */
 @media print {
-  body * { visibility: hidden !important; }
-  .card-exec, .card-exec * { visibility: visible !important; }
-  .card-exec {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 210mm !important;
-    height: 297mm !important;
-    margin: 0 !important;
-    padding: 6.5mm 9.5mm 0 8.5mm !important;
-    box-shadow: none !important;
-    page-break-after: avoid !important;
-    page-break-inside: avoid !important;
-  }
-  @page {
-    size: A4 portrait;
-    margin: 0;
-  }
+  .no-print { display:none !important; }
+  body { background:#fff; }
+  .wrap { max-width:none; padding:0; }
 }
 </style>
 </head>
 <body>
 <div class="topline"></div>
 <div class="wrap">
-<header class="top hero no-print" style="background:radial-gradient(120% 140% at 100% 0%,#14807A 0%,#0C5B57 45%,#083B3A 100%); color:#EAF6F3; border-radius:20px; padding:26px 26px 22px;">
+<header class="top hero" style="background:radial-gradient(120% 140% at 100% 0%,#14807A 0%,#0C5B57 45%,#083B3A 100%); color:#EAF6F3; border-radius:20px; padding:26px 26px 22px;">
  <div class="hero-content" style="width:100%;">
   <div class="eyebrow"><i class="fa-solid fa-graduation-cap"></i> الإدارة العامة للتعليم بمنطقة المدينة المنورة - قسم النشاط الطلابي</div>
   <h1>ابتدائية مكة المكرمة</h1>
@@ -213,6 +127,8 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
  </div>
 </div>
 </header>
+
+
 
 <!-- شريط التبويبات الرئيسي -->
 <nav class="tabs no-print" aria-label="التبويبات الرئيسية"> 
@@ -266,137 +182,36 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
   </div> 
  </section>
 
- <!-- PAGE: CARDS (تتطابق 100% مع الصورة الأخيرة) --> 
+ <!-- PAGE: CARDS --> 
  <section id="page-cards" class="page hidden">  
   <div class="panel">   
-   
-   <!-- لوحة التحكم العلوية للبطاقة -->
-   <div class="card-control-box no-print">
-     <div class="card-control-head">
-       <h3>بطاقة تنفيذ برنامج نشاط طلابي</h3>
-     </div>
-     <div style="display: flex; flex-direction: column; gap: 8px;">
-       <label style="font-size: 13px; color: var(--muted);">اختر البرنامج لتعبئة البيانات تلقائياً:</label>
-       <select class="card-select-input" id="programSelect">
-         <option value="">-- اختر من القائمة --</option>
-         <option value="برنامج الإذاعة المدرسية">برنامج الإذاعة المدرسية</option>
-         <option value="الاحتفاء باليوم الوطني">الاحتفاء باليوم الوطني</option>
-         <option value="برنامج التاجر الصغير">برنامج التاجر الصغير</option>
-       </select>
-     </div>
-     <div class="card-control-actions">
-       <button class="btn primary" onclick="window.print()"><i class="fa-solid fa-print"></i> طباعة البطاقة A4</button>
-       <button class="btn" onclick="resetCardForm()"><i class="fa-solid fa-rotate-right"></i> إعادة تعبئة البيانات</button>
-     </div>
-     <p style="font-size: 12px; color: var(--muted); margin: 8px 0 0;">يمكنك التعديل المباشر على أي خانة داخل البطاقة قبل الطباعة.</p>
+   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
+    <div><h2>بطاقات توثيق وتنفيذ البرامج</h2><p>إنشاء وتوثيق بطاقات الأنشطة مع إمكانية إرفاق الصور، ملفات PDF، أو رابط Google Drive / يوتيوب للفيديو.</p></div>    
+    <button class="btn primary no-print admin-only hidden" onclick="showForm('cardFormPanel')">+ إنشاء بطاقة تنفيذ</button>   
    </div>
-
-   <!-- الورقة المطابقة للنموذج الأخير بصفحة واحدة A4 -->
-   <div class="card-print-wrap">
-     <div class="card-exec">
-       <div class="cd-logo">
-         <b>وزارة التعليم</b>
-         <span>Ministry of Education</span>
-       </div>
-
-       <div class="cd-title">بطاقة تنفيذ برنامج نشاط طلابي*</div>
-
-       <table class="ct">
-         <tr>
-           <td class="lb" style="width: 30%;">اسم البرنامج</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true" id="cardProgName"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">المجال</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">عدد حصص البرنامج</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">الفصل الدراسي</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">بداية التنفيذ</td>
-           <td colspan="3" class="sm">
-             اليوم: <span class="ce inl" contenteditable="true" style="min-width:14mm"></span>
-             الأسبوع: <span class="ce inl" contenteditable="true" style="min-width:10mm"></span>
-             التاريخ: <span class="ce inl" contenteditable="true" style="min-width:6mm"></span> / <span class="ce inl" contenteditable="true" style="min-width:6mm"></span> / 1448هـ
-           </td>
-         </tr>
-         <tr>
-           <td class="lb">نهاية التنفيذ</td>
-           <td colspan="3" class="sm">
-             اليوم: <span class="ce inl" contenteditable="true" style="min-width:14mm"></span>
-             الأسبوع: <span class="ce inl" contenteditable="true" style="min-width:10mm"></span>
-             التاريخ: <span class="ce inl" contenteditable="true" style="min-width:6mm"></span> / <span class="ce inl" contenteditable="true" style="min-width:6mm"></span> / 1448هـ
-           </td>
-         </tr>
-         <tr>
-           <td class="lb">الصف</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">المعلم/ة المنفذ/ة</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">عدد الطلبة المشاركين</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">عدد الطلبة المشاركين من ذوي الإعاقة</td>
-           <td colspan="3" class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">عدد أولياء الأمور المشاركين في البرنامج</td>
-           <td class="sm" style="width: 20%;"><span class="ce" contenteditable="true"></span></td>
-           <td colspan="2" class="sm" style="font-size: 8.5pt; text-align: center;">
-             عند تنفيذ المشاركة عبر منصة مدرستي ماهي أيقونة التنفيذ:<br>
-             <div style="display:inline-block; text-align:right; margin-top:2px;">
-               <label><input type="radio" name="madrasti_icon"> بنك الإثراءات</label><br>
-               <label><input type="radio" name="madrasti_icon"> التطوير الذاتي</label><br>
-               <label><input type="radio" name="madrasti_icon"> قيمنا الغالية</label><br>
-               <label><input type="radio" name="madrasti_icon"> نادي القراءة</label>
-             </div>
-           </td>
-         </tr>
-         <tr>
-           <td class="lb">عدد الشراكات المجتمعية</td>
-           <td class="sm"><span class="ce" contenteditable="true"></span></td>
-           <td class="lb" style="width: 25%;">أسماء الشراكات المجتمعية</td>
-           <td class="sm"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-         <tr>
-           <td class="lb">ملاحظات</td>
-           <td colspan="3" class="sm" style="height: 10mm;"><span class="ce" contenteditable="true"></span></td>
-         </tr>
-       </table>
-
-       <div class="cd-sign">
-         <div>
-           <b>المعلم/ة المنفذ/ة</b>
-           <span>الاسم: <span class="ce inl" contenteditable="true" style="min-width: 30mm;"></span></span><br>
-           <span>التاريخ: <span class="ce inl" contenteditable="true" style="min-width: 30mm;"></span></span><br>
-           <span>التوقيع: <span class="ce inl" contenteditable="true" style="min-width: 30mm;"></span></span>
-         </div>
-         <div>
-           <b>رائد/ة النشاط</b>
-           <span>الاسم: <span class="ce inl" contenteditable="true" style="min-width: 30mm;"></span></span><br>
-           <span>التاريخ: <span class="ce inl" contenteditable="true" style="min-width: 30mm;"></span></span><br>
-           <span>التوقيع: <span class="ce inl" contenteditable="true" style="min-width: 30mm;"></span></span>
-         </div>
-       </div>
-
-       <div class="cd-note">
-         يتم تعبئة هذه البطاقة عند استكمال الحصص المخصصة للبرنامج وفق ما ورد للبرنامج من حصص في دليل الخطط الدراسية/الإصدار السادس.
-       </div>
-
-     </div>
+   <div id="cardFormPanel" class="panel hidden" style="background:#fcfdfe;">    
+    <form id="cardEntryForm" class="formgrid">     
+     <div class="field"><label>اسم البرنامج المنفذ</label><input type="text" id="cardName" required placeholder="أدخل اسم البرنامج"></div>     
+     <div class="field">      
+      <label>المجال</label>      
+      <select id="cardCategory">       
+       <option value="ثقافي">ثقافي</option>       
+       <option value="علمي">علمي</option>       
+       <option value="رياضي">رياضي</option>       
+       <option value="اجتماعي">اجتماعي / تطوعي</option>      
+      </select>     
+     </div>     
+     <div class="field"><label>عدد المستفيدين</label><input type="number" id="cardBeneficiaries" min="0" placeholder="0"></div>     
+     <div class="field"><label>إرفاق صورة أو مستند PDF (اختياري)</label><input type="file" id="cardFile" accept="image/*,.pdf"></div>     
+     <div class="field full"><label>رابط فيديو Google Drive أو يوتيوب (اختياري)</label><input type="url" id="cardVideoUrl" placeholder="https://drive.google.com/file/d/... أو رابط يوتيوب"></div>     
+     <div class="field full"><label>وصف مختصر للنتائج والمخرجات</label><textarea id="cardDesc" placeholder="أهم النتائج والإنجازات التي تحققت..."></textarea></div>     
+     <div class="actions full">      
+      <button type="submit" id="saveCardBtn" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ البطاقة سحابياً</button>      
+      <button type="button" class="btn" onclick="hideForm('cardFormPanel')">إلغاء</button>     
+     </div>    
+    </form>   
    </div>
-
+   <div id="cardsGrid" class="grid"></div>  
   </div> 
  </section>
 
@@ -445,11 +260,10 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
   </div> 
  </section>
 
- <!-- PAGE: COMPETITIONS --> 
+ <!-- PAGE: COMPETITIONS (قسم المسابقات المربوط داخلياً بالمجلد الفرعي musabaqat) --> 
  <section id="page-competitions" class="page hidden">  
   <div class="panel" style="padding: 0; overflow: hidden; border: none; background: transparent;">
-   <iframe src="https://makkahschool.github.io/test/" style="width: 100%; height: 850px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);" title="المسابقات الوزارية"></iframe>  
-  </div> 
+<iframe src="https://makkahschool.github.io/test/" style="width: 100%; height: 850px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);" title="المسابقات الوزارية"></iframe>  </div> 
  </section>
 </main>
 
@@ -502,7 +316,7 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
   const db = getFirestore(app);
   
   let currentUser = null;  
-  let state = { plan: [], announcements: [] };
+  let state = { plan: [], cards: [], announcements: [] };
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -518,6 +332,39 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
   function esc(s) {      
       return String(s??"").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));  
   }
+  
+  window.printMedia = function(mediaUrl, type) {      
+      if (type === 'image') {          
+          const win = window.open('');          
+          win.document.write(`<img src="${mediaUrl}" onload="window.print();window.close();" style="max-width:100%;">`);      
+      } else if (type === 'pdf') {          
+          const win = window.open(mediaUrl, '_blank');          
+          win.focus();          
+          setTimeout(() => { win.print(); }, 1000);      }  
+  };
+  
+  function fileToDataUrl(file) {      
+      return new Promise((resolve, reject) => {          
+          const reader = new FileReader();          
+          reader.readAsDataURL(file);          
+          reader.onload = () => resolve(reader.result);          
+          reader.onerror = error => reject(error);      });  
+  }
+  
+  function getEmbedVideoUrl(url) {      
+      if (!url) return '';      
+      if (url.includes('youtube.com/watch?v=')) {          
+          let videoId = url.split('watch?v=')[1].split('&')[0];          
+          return `https://www.youtube.com/embed/${videoId}`;      } else if (url.includes('youtu.be/')) {          
+          let videoId = url.split('youtu.be/')[1].split('?')[0];          
+          return `https://www.youtube.com/embed/${videoId}`;      }
+      else if (url.includes('drive.google.com')) {          
+          if (url.includes('/file/d/')) {              
+              let fileId = url.split('/file/d/')[1].split('/')[0];              
+              return `https://drive.google.com/file/d/${fileId}/preview`;          } else if (url.includes('id=')) {              
+              let fileId = url.split('id=')[1].split('&')[0];              
+              return `https://drive.google.com/file/d/${fileId}/preview`;          }      }
+      return url;  }
   
   document.getElementById('loginBtn').addEventListener('click', () => showForm('loginModal'));    
   document.getElementById('loginForm').addEventListener('submit', async (e) => {      
@@ -554,6 +401,11 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
       renderAll();  
   });
   
+  onSnapshot(collection(db, "cards"), (snapshot) => {      
+      state.cards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
+      renderAll();  
+  });
+  
   onSnapshot(collection(db, "announcements"), (snapshot) => {      
       state.announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderAll();  
@@ -580,6 +432,48 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
           try { await deleteDoc(doc(db, "plan", docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }      }  
   };
   
+  document.getElementById('cardEntryForm').addEventListener('submit', async function(e) {      
+      e.preventDefault();      
+      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً.");
+
+      const title = document.getElementById('cardName').value;      
+      const category = document.getElementById('cardCategory').value;      
+      const beneficiaries = document.getElementById('cardBeneficiaries').value;      
+      const desc = document.getElementById('cardDesc').value;      
+      const videoUrl = document.getElementById('cardVideoUrl').value.trim();      
+      const fileInput = document.getElementById('cardFile');      
+      const file = fileInput.files[0];
+
+      let fileData = "";      
+      let fileType = "";
+      const saveBtn = document.getElementById('saveCardBtn');      
+      saveBtn.disabled = true;      
+      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...`;
+      try {          
+          if (file) {              
+              if (file.size > 5 * 1024 * 1024) {                  
+                  throw new Error("حجم الملف كبير، يرجى اختيار ملف أقل من 5 ميجابايت.");              }
+              fileData = await fileToDataUrl(file);              
+              fileType = file.type.startsWith('image/') ? 'image' : (file.type.includes('pdf') ? 'pdf' : 'other');          }
+
+          await addDoc(collection(db, "cards"), {               
+              title, category, beneficiaries, desc, fileData, fileType, videoUrl, createdAt: Date.now()           
+          });
+
+          this.reset();          
+          hideForm('cardFormPanel');          
+          toast("تم حفظ البطاقة بنجاح!");      } catch (err) {          
+          alert("حدث خطأ أثناء الحفظ: " + err.message);      } finally {          
+          saveBtn.disabled = false;          
+          saveBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> حفظ البطاقة سحابياً`;      }  
+  });
+  
+  window.deleteCard = async function(docId) {      
+      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
+      if (confirm("هل تريد حذف هذه البطاقة؟")) {          
+          try { await deleteDoc(doc(db, "cards", docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }      }  
+  };
+  
   document.getElementById('announcementEntryForm').addEventListener('submit', async function(e) {      
       e.preventDefault();      
       if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً.");
@@ -601,8 +495,7 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
           if (file) {              
               if (file.size > 5 * 1024 * 1024) {                  
                   throw new Error("حجم الملف كبير، يرجى اختيار ملف أقل من 5 ميجابايت.");              }
-              const reader = new FileReader();
-              fileData = await new Promise((res, rej) => { reader.onload = () => res(reader.result); reader.onerror = rej; reader.readAsDataURL(file); });
+              fileData = await fileToDataUrl(file);              
               fileType = file.type.startsWith('image/') ? 'image' : (file.type.includes('pdf') ? 'pdf' : 'other');          }
 
           await addDoc(collection(db, "announcements"), {               
@@ -650,6 +543,23 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
                               <td><span class="category">${esc(item.status)}</span></td>${currentUser ? `<td class="no-print"><button class="btn danger small" onclick="deletePlan('${item.id}')">حذف</button></td>` : ''}                          
                           </tr>                      `).join('')}                  </tbody>              </table>          </div>      `;  
   }
+
+  function renderCards() {      
+      const container = document.getElementById('cardsGrid');      
+      if (!state.cards || !state.cards.length) {          
+          container.innerHTML = '<div class="empty full">لا توجد بطاقات تنفيذ مسجلة.</div>';          
+          return;      }
+
+      container.innerHTML = state.cards.map((c) => `          
+          <article class="card">              
+              <div class="card-top">                  
+                  <span class="category">${esc(c.category)}</span>                  
+                  <span class="muted">مستفيدين: ${esc(c.beneficiaries || 0)}</span>              
+              </div>              
+              <h3>${esc(c.title)}</h3>              
+              <div class="muted">${esc(c.desc)}</div>              
+              ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteCard('${c.id}')">حذف البطاقة</button></div>` : ''}          
+          </article>      `).join('');  }
   
   function renderAnnouncements() {      
       const container = document.getElementById('announcementsGrid');      
@@ -678,9 +588,17 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
           tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;      }  
   }
   
+  function renderStats() {      
+      document.getElementById("statPlan").textContent = (state.plan || []).length;      
+      document.getElementById("statCards").textContent = (state.cards || []).length;      
+      document.getElementById("statAnnouncements").textContent = (state.announcements || []).length;  
+  }
+  
   function renderAll() {      
       renderPlan();      
-      renderAnnouncements();  }
+      renderCards();
+      renderAnnouncements();      
+      renderStats();  }
   
   window.switchTab = function(tabId) {      
       document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));      
@@ -688,17 +606,6 @@ table.ct { width: 100%; border-collapse: collapse; table-layout: fixed; }
       window.scrollTo({ top: 0, behavior: 'smooth' });  };
   
   document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
-
-  const progSelect = document.getElementById('programSelect');
-  if (progSelect) {
-    progSelect.addEventListener('change', function() {
-      document.getElementById('cardProgName').textContent = this.value;
-    });
-  }
-
-  window.resetCardForm = function() {
-    document.querySelectorAll('.ce').forEach(el => el.textContent = '');
-  }
 </script>
 </body>
 </html>
