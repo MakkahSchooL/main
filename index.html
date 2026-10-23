@@ -62,32 +62,18 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-bottom { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; width:100%; margin-top:12px; }
 .pill-group { display:flex; flex-wrap:wrap; gap:8px; }
 .pill { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); padding:4px 12px; border-radius:999px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
-.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:16px 0; }
-.stat { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; box-shadow:var(--shadow); }
-.stat .label { font-size:12px; color:var(--muted); display:block; margin-bottom:4px; }
-.stat strong { font-size:22px; color:var(--brand); }
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-top:14px; }
 .card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px; }
 .card-top { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
 .category { background:var(--surface2); border:1px solid var(--line); padding:2px 8px; border-radius:6px; font-weight:600; color:var(--brand); }
 .muted { color:var(--muted); font-size:13.5px; }
 .hidden { display:none !important; }
-.no-print { }
-.tablewrap { overflow-x:auto; }
-table { width:100%; border-collapse:collapse; }
-th, td { border:1px solid var(--line); padding:10px; text-align:start; font-size:14px; }
-th { background:var(--surface2); font-weight:600; color:var(--muted); }
 .formgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .formgrid .full { grid-column:1/-1; }
 .field { display:flex; flex-direction:column; gap:4px; }
 .field label { font-size:13px; font-weight:600; color:var(--muted); }
 .field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
 .field textarea { min-height:80px; resize:vertical; }
-.card-media { width:100%; max-height:220px; object-fit:cover; border-radius:8px; margin-top:8px; }
-.pdf-viewer { width:100%; height:200px; border:1px solid var(--line); border-radius:8px; background:#fff; }
-.card-video-container { position:relative; width:100%; padding-bottom:56.25%; height:0; border-radius:8px; overflow:hidden; background:#000; margin-top:8px; }
-.card-video-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
-.notice { background:color-mix(in srgb, var(--brand) 10%, var(--surface)); border-inline-start:4px solid var(--brand); padding:12px; border-radius:0 8px 8px 0; font-size:14px; margin-bottom:14px; }
 
 /* شريط الإعلانات المتحرك التفاعلي */
 .ticker-wrap { display:flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:16px; box-shadow:var(--shadow); }
@@ -128,12 +114,10 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
 </div>
 </header>
 
-
-
 <!-- شريط التبويبات الرئيسي -->
 <nav class="tabs no-print" aria-label="التبويبات الرئيسية"> 
   <button class="tab active" data-tab="home"><i class="fa-solid fa-house"></i> الرئيسية</button> 
-  <button class="tab" data-tab="plan"><i class="fa-solid fa-calendar-check"></i> خطة التنفيذ</button> 
+  <button class="tab" data-tab="plan"><i class="fa-solid fa-calendar-check"></i> خطة النشاط</button> 
   <button class="tab" data-tab="cards"><i class="fa-solid fa-file-signature"></i> بطاقات التنفيذ</button> 
   <button class="tab" data-tab="announcements"><i class="fa-solid fa-bullhorn"></i> الإعلانات</button>
   <button class="tab" data-tab="competitions"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
@@ -152,33 +136,10 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   </div>
  </section>
 
- <!-- PAGE: PLAN --> 
+ <!-- PAGE: PLAN (موقع خطة النشاط المربوط عبر GitHub Pages) --> 
  <section id="page-plan" class="page hidden">  
-  <div class="panel">   
-   <div class="section-head" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">    
-    <div><h2>خطة تنفيذ النشاط الطلابي</h2><p>إدارة وتسجيل الأنشطة والبرامج المدرسية وتتبع حالتها مباشرة بالسحابة.</p></div>    
-    <button class="btn primary no-print admin-only hidden" onclick="showForm('planFormPanel')">+ إضافة بند للخطة</button>   
-   </div>
-   <div id="planFormPanel" class="panel hidden" style="background:#fcfdfe;">    
-    <form id="planEntryForm" class="formgrid">     
-     <div class="field"><label>اسم البرنامج / الفعالية</label><input type="text" id="planTitle" required placeholder="مثال: حفل اليوم الوطني"></div>     
-     <div class="field"><label>تاريخ التنفيذ</label><input type="date" id="planDate" required></div>     
-     <div class="field"><label>المسؤول عن التنفيذ</label><input type="text" id="planResponsible" placeholder="اسم رائد النشاط / المعلم"></div>     
-     <div class="field">      
-      <label>حالة التنفيذ</label>      
-      <select id="planStatus">       
-       <option value="مخطط">مخطط له</option>       
-       <option value="جاري">جاري التنفيذ</option>       
-       <option value="مكتمل">مكتمل</option>      
-      </select>     
-     </div>     
-     <div class="actions full">      
-      <button type="submit" class="btn primary"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ المزامنة مع السحابة</button>      
-      <button type="button" class="btn" onclick="hideForm('planFormPanel')">إلغاء</button>     
-     </div>    
-    </form>   
-   </div>
-   <div id="planTableContainer"></div>  
+  <div class="panel" style="padding: 0; overflow: hidden; border: none; background: transparent;">
+   <iframe src="https://makkahschool.github.io/plan.html" style="width: 100%; height: 850px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);" title="خطة النشاط"></iframe>  
   </div> 
  </section>
 
@@ -260,10 +221,11 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   </div> 
  </section>
 
- <!-- PAGE: COMPETITIONS (قسم المسابقات المربوط داخلياً بالمجلد الفرعي musabaqat) --> 
+ <!-- PAGE: COMPETITIONS --> 
  <section id="page-competitions" class="page hidden">  
   <div class="panel" style="padding: 0; overflow: hidden; border: none; background: transparent;">
-<iframe src="https://makkahschool.github.io/test/" style="width: 100%; height: 850px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);" title="المسابقات الوزارية"></iframe>  </div> 
+   <iframe src="https://makkahschool.github.io/test/" style="width: 100%; height: 850px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);" title="المسابقات الوزارية"></iframe>  
+  </div> 
  </section>
 </main>
 
@@ -316,7 +278,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   const db = getFirestore(app);
   
   let currentUser = null;  
-  let state = { plan: [], cards: [], announcements: [] };
+  let state = { cards: [], announcements: [] };
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -333,16 +295,6 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
       return String(s??"").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));  
   }
   
-  window.printMedia = function(mediaUrl, type) {      
-      if (type === 'image') {          
-          const win = window.open('');          
-          win.document.write(`<img src="${mediaUrl}" onload="window.print();window.close();" style="max-width:100%;">`);      
-      } else if (type === 'pdf') {          
-          const win = window.open(mediaUrl, '_blank');          
-          win.focus();          
-          setTimeout(() => { win.print(); }, 1000);      }  
-  };
-  
   function fileToDataUrl(file) {      
       return new Promise((resolve, reject) => {          
           const reader = new FileReader();          
@@ -350,21 +302,6 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
           reader.onload = () => resolve(reader.result);          
           reader.onerror = error => reject(error);      });  
   }
-  
-  function getEmbedVideoUrl(url) {      
-      if (!url) return '';      
-      if (url.includes('youtube.com/watch?v=')) {          
-          let videoId = url.split('watch?v=')[1].split('&')[0];          
-          return `https://www.youtube.com/embed/${videoId}`;      } else if (url.includes('youtu.be/')) {          
-          let videoId = url.split('youtu.be/')[1].split('?')[0];          
-          return `https://www.youtube.com/embed/${videoId}`;      }
-      else if (url.includes('drive.google.com')) {          
-          if (url.includes('/file/d/')) {              
-              let fileId = url.split('/file/d/')[1].split('/')[0];              
-              return `https://drive.google.com/file/d/${fileId}/preview`;          } else if (url.includes('id=')) {              
-              let fileId = url.split('id=')[1].split('&')[0];              
-              return `https://drive.google.com/file/d/${fileId}/preview`;          }      }
-      return url;  }
   
   document.getElementById('loginBtn').addEventListener('click', () => showForm('loginModal'));    
   document.getElementById('loginForm').addEventListener('submit', async (e) => {      
@@ -396,11 +333,6 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
       renderAll();  
   });
   
-  onSnapshot(collection(db, "plan"), (snapshot) => {      
-      state.plan = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
-      renderAll();  
-  });
-  
   onSnapshot(collection(db, "cards"), (snapshot) => {      
       state.cards = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderAll();  
@@ -410,27 +342,6 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
       state.announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderAll();  
   });
-  
-  document.getElementById('planEntryForm').addEventListener('submit', async function(e) {      
-      e.preventDefault();      
-      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً كمسؤول.");            
-      const title = document.getElementById('planTitle').value;      
-      const date = document.getElementById('planDate').value;      
-      const responsible = document.getElementById('planResponsible').value || 'غير محدد';      
-      const status = document.getElementById('planStatus').value;
-
-      try {          
-          await addDoc(collection(db, "plan"), { title, date, responsible, status, createdAt: Date.now() });          
-          this.reset();          
-          hideForm('planFormPanel');          
-          toast("تم حفظ البند في الخطة سحابياً!");      } catch (err) { alert("حدث خطأ: " + err.message); }  
-  });
-  
-  window.deletePlan = async function(docId) {      
-      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
-      if (confirm("هل تريد حذف هذا البند؟")) {          
-          try { await deleteDoc(doc(db, "plan", docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }      }  
-  };
   
   document.getElementById('cardEntryForm').addEventListener('submit', async function(e) {      
       e.preventDefault();      
@@ -513,36 +424,8 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
   window.deleteAnnouncement = async function(docId) {      
       if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
       if (confirm("هل تريد حذف هذا الإعلان؟")) {          
-          try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }      }  
+        try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }      }  
   };
-
-  function renderPlan() {      
-      const container = document.getElementById('planTableContainer');      
-      if (!state.plan || !state.plan.length) {          
-          container.innerHTML = '<div class="empty">لا توجد بنود مسجلة في خطة التنفيذ بعد.</div>';          
-          return;      }
-
-      container.innerHTML = `          
-          <div class="tablewrap">              
-              <table>                  
-                  <thead>                      
-                      <tr>                          
-                          <th>#</th>                          
-                          <th>البرنامج / الفعالية</th>                          
-                          <th>التاريخ</th>                          
-                          <th>المسؤول</th>                          
-                          <th>الحالة</th>                          
-                          ${currentUser ? '<th class="no-print">إجراء</th>' : ''}                      
-                      </tr>                  </thead>                  <tbody>                      
-                      ${state.plan.map((item, index) => `                          
-                          <tr>                              
-                              <td>${index + 1}</td>                              
-                              <td><strong>${esc(item.title)}</strong></td>                              
-                              <td>${esc(item.date)}</td>                              
-                              <td>${esc(item.responsible)}</td>                              
-                              <td><span class="category">${esc(item.status)}</span></td>${currentUser ? `<td class="no-print"><button class="btn danger small" onclick="deletePlan('${item.id}')">حذف</button></td>` : ''}                          
-                          </tr>                      `).join('')}                  </tbody>              </table>          </div>      `;  
-  }
 
   function renderCards() {      
       const container = document.getElementById('cardsGrid');      
@@ -575,7 +458,7 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
               <div class="card-top">                  
                   <span class="category">${esc(a.category)}</span>                  
                   <span class="muted">${esc(a.date || '')}</span>              
-              </div>              
+          </div>              
               <h3>${esc(a.title)}</h3>              
               <div class="muted">${esc(a.desc)}</div>              
               ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteAnnouncement('${a.id}')">حذف الإعلان</button></div>` : ''}          
@@ -583,22 +466,14 @@ th { background:var(--surface2); font-weight:600; color:var(--muted); }
 
       const tickerItems = state.announcements.filter(a => a.showInTicker === 'yes');      
       if (tickerItems.length > 0) {          
-          tickerContainer.innerHTML = tickerItems.map(a => `              
+          tickerContainer.innerHTML = tickerItems.link ? '' : tickerItems.map(a => `              
               <span><i class="fa-solid fa-bullhorn"></i> ${esc(a.title)}: ${esc(a.desc)}</span>          `).join('');      } else {          
           tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;      }  
   }
   
-  function renderStats() {      
-      document.getElementById("statPlan").textContent = (state.plan || []).length;      
-      document.getElementById("statCards").textContent = (state.cards || []).length;      
-      document.getElementById("statAnnouncements").textContent = (state.announcements || []).length;  
-  }
-  
   function renderAll() {      
-      renderPlan();      
       renderCards();
-      renderAnnouncements();      
-      renderStats();  }
+      renderAnnouncements();  }
   
   window.switchTab = function(tabId) {      
       document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));      
