@@ -128,6 +128,22 @@
         }
         .nav-arrow-btn:hover { background: var(--brand); }
 
+        .activity-type-selector {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            border-radius: 10px;
+            padding: 6px 12px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            outline: none;
+            cursor: pointer;
+        }
+        .activity-type-selector option {
+            background: #111827;
+            color: #fff;
+        }
+
         .modal-cal {
             position: fixed;
             inset: 0;
@@ -543,6 +559,35 @@
             line-height: 1.2;
         }
 
+        /* تنسيقات الأنشطة اللاصفية المحدثة باللون الداكن المتناسق */
+        .non-class-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .non-class-table th {
+            background: #111827;
+            color: #fff;
+            text-align: center;
+            padding: 12px 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 1px solid #1f2937;
+        }
+        .non-class-table td {
+            text-align: center;
+            padding: 10px 8px;
+            font-size: 0.88rem;
+            border: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+        .non-class-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
         #activityReportPrintArea {
             display: none;
             background: #fff;
@@ -551,16 +596,17 @@
             direction: rtl;
         }
 
+        /* ترويسة التقارير المحدثة بدون خط فاصل */
         .act-report-header {
             text-align: right;
-            border-bottom: 2px solid #000;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
+            border-bottom: none !important;
+            padding-bottom: 4px;
+            margin-bottom: 12px;
         }
         .act-report-title {
             font-size: 1.4rem;
             font-weight: 800;
-            margin-top: 10px;
+            margin-top: 6px;
             color: #0f172a;
             text-align: center;
         }
@@ -610,8 +656,8 @@
         }
 
         .qr-code-img {
-            max-width: 60px;
-            max-height: 60px;
+            max-width: 50px;
+            max-height: 50px;
             display: block;
             margin: 0 auto;
         }
@@ -753,6 +799,13 @@
                 <button class="nav-arrow-btn" onclick="navigateDay(1)" title="اليوم التالي"><i class="fas fa-chevron-left"></i></button>
             </div>
         </div>
+
+        <div>
+            <select id="mainActivityTypeSelect" class="activity-type-selector" onchange="toggleActivityTypeView(this.value)">
+                <option value="class">برامج النشاط الصفية</option>
+                <option value="nonclass">برامج النشاط اللاصفية</option>
+            </select>
+        </div>
     </div>
 
     <!-- نافذة التقويم الشامل -->
@@ -841,7 +894,7 @@
                     <label class="small font-weight-bold text-light">نوع الحصة / المادة:</label>
                     <select id="cellTypeSelect" class="form-control form-control-sm bg-dark text-white border-secondary" onchange="handleCellTypeChange(this.value)">
                         <option value="course">حصة دراسية معتادة</option>
-                        <option value="activity">حصة نشاط مدرسي 🌟</option>
+                        <option value="activity">حصة نشاط مدرسي</option>
                         <option value="empty">— خالي (تفريغ الحصة) —</option>
                     </select>
                 </div>
@@ -894,13 +947,11 @@
                         </div>
                     </div>
 
-                    <!-- إرفاق صورة باركود -->
                     <div class="form-group text-right mb-2">
                         <label class="small font-weight-bold text-success"><i class="fas fa-image ml-1"></i> إرفاق صورة باركود (اختياري):</label>
                         <input type="file" id="cellBarcodeFileInput" accept="image/*" class="form-control-file text-white small mt-1">
                     </div>
 
-                    <!-- إدخال رابط لتحويله تلقائياً لباركود -->
                     <div class="form-group text-right mb-0">
                         <label class="small font-weight-bold text-info"><i class="fas fa-link ml-1"></i> أو أدخل رابط إلكتروني (URL) لتحويله لباركود تلقائياً:</label>
                         <input type="text" id="cellLinkInput" class="form-control form-control-sm bg-dark text-white border-secondary mt-1" placeholder="https://example.com">
@@ -917,6 +968,51 @@
             <div class="mfoot-cal">
                 <button type="button" class="btn btn-sm btn-success px-4 font-weight-bold" onclick="saveCellAssignment()">حفظ الحصة ☁️</button>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="closeCellClickModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل إضافة خيارات النشاط اللاصفي للأسبوع كاملاً -->
+    <div class="modal-cal" id="nonClassModal">
+        <div class="mbox-cal" style="width: min(450px, 95%);">
+            <div class="mhead-cal">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3>إسناد برنامج نشاط لاصفي (للأسبوع)</h3>
+                    <button type="button" class="close text-white" onclick="closeNonClassModal()">&times;</button>
+                </div>
+                <p id="nonClassModalSubtitle" class="text-info font-weight-bold mb-0"></p>
+            </div>
+            <div class="mbody-cal">
+                <div class="form-group text-right">
+                    <label class="small font-weight-bold text-light">وقت التنفيذ:</label>
+                    <input type="text" id="ncTimeInput" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="مثال: الحضور والاصطفاف الصباحي">
+                </div>
+                <div class="form-group text-right">
+                    <label class="small font-weight-bold text-light">اسم البرنامج:</label>
+                    <input type="text" id="ncNameInput" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="مثال: رحلة نجاح">
+                </div>
+                <div class="form-group text-right">
+                    <label class="small font-weight-bold text-light">مدة التنفيذ:</label>
+                    <input type="text" id="ncDurationInput" class="form-control form-control-sm bg-dark text-white border-secondary" value="أسبوع">
+                </div>
+                <div class="form-group text-right">
+                    <label class="small font-weight-bold text-light">المعلم المسؤول:</label>
+                    <select id="ncTeacherSelect" class="form-control form-control-sm bg-dark text-white border-secondary"></select>
+                </div>
+
+                <div class="form-group text-right mb-2 mt-2">
+                    <label class="small font-weight-bold text-success"><i class="fas fa-image ml-1"></i> إرفاق صورة باركود (اختياري):</label>
+                    <input type="file" id="ncBarcodeFileInput" accept="image/*" class="form-control-file text-white small mt-1">
+                </div>
+                <div class="form-group text-right mb-0">
+                    <label class="small font-weight-bold text-info"><i class="fas fa-link ml-1"></i> أو أدخل رابط إلكتروني (URL) لتحويله لباركود تلقائياً:</label>
+                    <input type="text" id="ncLinkInput" class="form-control form-control-sm bg-dark text-white border-secondary mt-1" placeholder="https://example.com">
+                </div>
+            </div>
+            <div class="mfoot-cal">
+                <button type="button" class="btn btn-sm btn-success px-4 font-weight-bold" onclick="saveNonClassItem()">حفظ الأسبوع ☁️</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="deleteNonClassItem()">حذف</button>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="closeNonClassModal()">إلغاء</button>
             </div>
         </div>
     </div>
@@ -962,8 +1058,8 @@
         </div>
     </div>
 
-    <!-- الجدول الرئيسي -->
-    <div class="table-responsive">
+    <!-- الجدول الرئيسي (برامج النشاط الصفية) -->
+    <div class="table-responsive" id="classActivitiesView">
         <table class="table wc-main-table table-bordered text-center" id="mainScheduleTable">
             <thead>
                 <tr>
@@ -986,6 +1082,22 @@
         </table>
     </div>
 
+    <!-- جدول برامج الأنشطة اللاصفية -->
+    <div class="table-responsive" id="nonClassActivitiesView" style="display: none;">
+        <table class="non-class-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">الأسبوع</th>
+                    <th style="width: 25%;">وقت التنفيذ</th>
+                    <th style="width: 25%;">اسم البرنامج</th>
+                    <th style="width: 15%;">مدة التنفيذ</th>
+                    <th style="width: 20%;">اسم المعلم</th>
+                </tr>
+            </thead>
+            <tbody id="nonClassTableBody"></tbody>
+        </table>
+    </div>
+
     <!-- تقرير طباعة الخطة العام -->
     <div id="activityReportPrintArea">
         <div class="act-report-header">
@@ -998,6 +1110,7 @@
             <div style="font-size: 0.9rem; font-weight: 600; margin-top: 4px; text-align: center;" id="actReportSubTitle">العام الدراسي 1448هـ</div>
         </div>
 
+        <div style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-bottom: 8px; border-bottom: 2px solid #0f172a; padding-bottom: 4px;">أولاً: برامج النشاط الصفية</div>
         <table class="act-report-table">
             <thead>
                 <tr>
@@ -1013,6 +1126,21 @@
                 </tr>
             </thead>
             <tbody id="actReportTableBody"></tbody>
+        </table>
+
+        <div style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-top: 30px; margin-bottom: 8px; border-bottom: 2px solid #0f172a; padding-bottom: 4px;">ثانياً: برامج الأنشطة الطلابية اللاصفية</div>
+        <table class="act-report-table">
+            <thead>
+                <tr>
+                    <th style="width: 35px;">م</th>
+                    <th>وقت التنفيذ</th>
+                    <th>اسم البرنامج</th>
+                    <th>مدة التنفيذ</th>
+                    <th>آلية التنفيذ</th>
+                    <th>المعلم المنفذ</th>
+                </tr>
+            </thead>
+            <tbody id="actReportNonClassTableBody"></tbody>
         </table>
 
         <div class="act-names-footer">
@@ -1071,7 +1199,7 @@
         const db = firebase.firestore();
 
         let targetClasses = ["1/أ", "1/ب", "1/ج", "1/د", "2/أ", "2/ب", "2/ج", "2/د", "3/أ", "3/ب", "3/ج", "3/د", "4/أ", "4/ب", "4/ج", "5/أ", "5/ب", "5/ج", "6/أ", "6/ب", "6/ج"];
-        let teachersPool = ["عصام الحازمي", "محمد العمري", "حسين الرحيلي", "ناصر المزيني", "عائض الجابري", "خالد العوفي", "معتز دردير", "رائد الصاعدي"];
+        let teachersPool = ["عصام الحازمي", "محمد العمري", "حسين الرحيلي", "ناصر المزيني", "عائض الجابري", "خالد العوفي", "معتز دردير", "رائد الصاعدي", "نايف الترجي"];
         let coursesPool = ["الرياضيات", "الإنجليزية", "العلوم", "العربية", "الإسلامية", "البدنية", "الفنية", "الحياتية", "الاجتماعيات"];
 
         const FIELDS_CONFIG = {
@@ -1170,10 +1298,12 @@
         };
 
         let weekAssignments = {};
+        let nonClassAssignments = {};
         let activeDayName = "الثلاثاء";
         let activeWeekLabel = "الأسبوع الثامن";
         let currentTerm = 1;
         let selectedCellInfo = null;
+        let selectedNonClassKey = null;
 
         const CAL_1448 = [
             { t: 1, w: 1, label: "الأسبوع الأول", days: [{name:"الأحد",h:"1448/02/10 هـ",m:"2026/08/16 م"},{name:"الإثنين",h:"1448/02/11 هـ",m:"2026/08/17 م"},{name:"الثلاثاء",h:"1448/02/12 هـ",m:"2026/08/18 م"},{name:"الأربعاء",h:"1448/02/13 هـ",m:"2026/08/19 م"},{name:"الخميس",h:"1448/02/14 هـ",m:"2026/08/20 م"}]},
@@ -1265,6 +1395,7 @@
                 if (docRef.exists) {
                     let data = docRef.data();
                     if (data.weekAssignments) weekAssignments = data.weekAssignments;
+                    if (data.nonClassAssignments) nonClassAssignments = data.nonClassAssignments;
                     if (data.classes) targetClasses = data.classes;
                     if (data.teachers) teachersPool = data.teachers;
                 }
@@ -1272,6 +1403,18 @@
                 console.log("جارِ استخدام البيانات المحلية...");
             }
             updateFieldCounters();
+        }
+
+        function toggleActivityTypeView(type) {
+            if (type === 'class') {
+                document.getElementById('classActivitiesView').style.display = 'block';
+                document.getElementById('nonClassActivitiesView').style.display = 'none';
+                renderScheduleTableForDay(activeDayName);
+            } else {
+                document.getElementById('classActivitiesView').style.display = 'none';
+                document.getElementById('nonClassActivitiesView').style.display = 'block';
+                renderNonClassSchedule();
+            }
         }
 
         function setTodayAutomatically() {
@@ -1299,7 +1442,12 @@
             document.getElementById('currentDayText').innerText = `${cur.weekLabel} - ${cur.dayName}`;
             document.getElementById('currentWeekText').innerText = `الموافق: ${cur.hDate} (${cur.mDate})`;
 
-            renderScheduleTableForDay(cur.dayName);
+            let actType = document.getElementById('mainActivityTypeSelect').value;
+            if (actType === 'class') {
+                renderScheduleTableForDay(cur.dayName);
+            } else {
+                renderNonClassSchedule();
+            }
         }
 
         function navigateDay(direction) {
@@ -1383,6 +1531,91 @@
             updateFieldCounters();
         }
 
+        /* عرض الأنشطة اللاصفية بناءً على الأسبوع الحالي */
+        function renderNonClassSchedule() {
+            const tbody = document.getElementById('nonClassTableBody');
+            tbody.innerHTML = '';
+
+            const defaultTimeSlots = ["الحضور والاصطفاف الصباحي", "الروتين اليومي", "صلاة الظهر والمناوبة"];
+
+            defaultTimeSlots.forEach((slot, slotIndex) => {
+                let key = `${activeWeekLabel}_${slotIndex}`;
+                let item = nonClassAssignments[key] || {};
+
+                let tr = document.createElement('tr');
+                let weekTd = slotIndex === 0 ? `<td rowspan="3" style="font-weight: 800; background-color: #f1f5f9; vertical-align: middle;">${activeWeekLabel}</td>` : '';
+
+                tr.innerHTML = `
+                    ${weekTd}
+                    <td style="font-size: 0.95rem; font-weight: 800; color: #0f172a; cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.time || slot}</td>
+                    <td style="font-weight: 700; cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.name || '—'}</td>
+                    <td style="cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.duration || 'أسبوع'}</td>
+                    <td style="font-weight: 700; color: #047857; cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.teacher || '—'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openNonClassModal(defaultSlot, slotIndex) {
+            selectedNonClassKey = `${activeWeekLabel}_${slotIndex}`;
+            let item = nonClassAssignments[selectedNonClassKey] || {};
+
+            document.getElementById('nonClassModalSubtitle').innerText = `${activeWeekLabel}`;
+            document.getElementById('ncTimeInput').value = item.time || defaultSlot;
+            document.getElementById('ncNameInput').value = item.name || '';
+            document.getElementById('ncDurationInput').value = item.duration || 'أسبوع';
+            document.getElementById('ncBarcodeFileInput').value = '';
+            document.getElementById('ncLinkInput').value = item.linkUrl || '';
+
+            const teacherSel = document.getElementById('ncTeacherSelect');
+            teacherSel.innerHTML = `<option value="">— اختر المعلم —</option>` + teachersPool.map(t => `<option value="${t}">${t}</option>`).join('');
+            teacherSel.value = item.teacher || '';
+
+            document.getElementById('nonClassModal').classList.add('show');
+        }
+
+        function closeNonClassModal() {
+            document.getElementById('nonClassModal').classList.remove('show');
+            selectedNonClassKey = null;
+        }
+
+        async function saveNonClassItem() {
+            if (!selectedNonClassKey) return;
+
+            let time = document.getElementById('ncTimeInput').value.trim();
+            let name = document.getElementById('ncNameInput').value.trim();
+            let duration = document.getElementById('ncDurationInput').value.trim();
+            let teacher = document.getElementById('ncTeacherSelect').value;
+            let fileInput = document.getElementById('ncBarcodeFileInput');
+            let linkInput = document.getElementById('ncLinkInput').value.trim();
+
+            let existingData = nonClassAssignments[selectedNonClassKey] || {};
+            let barcodeSrc = existingData.barcodeSrc || null;
+            let linkUrl = existingData.linkUrl || "";
+
+            if (fileInput.files && fileInput.files[0]) {
+                barcodeSrc = await compressImage(fileInput.files[0], 250, 250, 0.5);
+                linkUrl = "";
+            } else if (linkInput) {
+                linkUrl = linkInput;
+                barcodeSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(linkInput)}`;
+            }
+
+            nonClassAssignments[selectedNonClassKey] = { time, name, duration, teacher, barcodeSrc, linkUrl };
+
+            await saveToCloud();
+            closeNonClassModal();
+            renderNonClassSchedule();
+        }
+
+        async function deleteNonClassItem() {
+            if (!selectedNonClassKey) return;
+            delete nonClassAssignments[selectedNonClassKey];
+            await saveToCloud();
+            closeNonClassModal();
+            renderNonClassSchedule();
+        }
+
         function onFieldChange(fieldKey) {
             let sel = document.getElementById('cellActPresetSelect');
             sel.innerHTML = '';
@@ -1419,12 +1652,15 @@
         }
 
         function generateBarcodeCellContent(cellData) {
-            if (cellData.barcodeSrc) {
+            if (cellData && cellData.barcodeSrc) {
                 return `<img src="${cellData.barcodeSrc}" class="qr-code-img" alt="باركود">`;
+            } else if (cellData && cellData.linkUrl) {
+                return `<a href="${cellData.linkUrl}" target="_blank" style="font-size:0.75rem;">رابط آلي</a>`;
             }
             return '—';
         }
 
+        /* الطباعة اليومية */
         function executeDailyPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1432,6 +1668,7 @@
             let cur = ALL_DAYS_FLAT[currentFlatIndex];
             document.getElementById('actReportSubTitle').innerText = `${cur.weekLabel} - يوم ${cur.dayName} | الفترة: ${cur.hDate} هـ (${cur.mDate} م)`;
 
+            // 1. الصفية اليومية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1465,11 +1702,42 @@
             });
 
             if (count === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="padding: 20px; text-align: center; color: #777;">لا توجد حصص نشاط مخصصة في هذا اليوم.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية مخصصة في هذا اليوم.</td></tr>`;
             }
+
+            // 2. اللاصفية اليومية (عرض الأسبوع التابع لهذا اليوم)
+            let ncTbody = document.getElementById('actReportNonClassTableBody');
+            ncTbody.innerHTML = '';
+            let ncCount = 0;
+            const defaultTimeSlots = ["الحضور والاصطفاف الصباحي", "الروتين اليومي", "صلاة الظهر والمناوبة"];
+
+            defaultTimeSlots.forEach((slot, slotIndex) => {
+                let key = `${activeWeekLabel}_${slotIndex}`;
+                let item = nonClassAssignments[key];
+                if (item && item.name) {
+                    ncCount++;
+                    let barcodeContent = generateBarcodeCellContent(item);
+                    ncTbody.innerHTML += `
+                        <tr>
+                            <td>${ncCount}</td>
+                            <td style="font-size: 0.95rem; font-weight: 800; color: #0f172a;">${item.time || slot}</td>
+                            <td style="font-weight: 700;">${item.name}</td>
+                            <td>${item.duration || 'يومي'}</td>
+                            <td>${barcodeContent}</td>
+                            <td>${item.teacher || 'غير محدد'}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            if (ncCount === 0) {
+                ncTbody.innerHTML = `<tr><td colspan="6" style="padding: 15px; text-align: center; color: #777;">لا توجد برامج لاصفية مسجلة في هذا اليوم.</td></tr>`;
+            }
+
             window.print();
         }
 
+        /* الطباعة الأسبوعية */
         function executeWeeklyPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1477,6 +1745,7 @@
             let curWkObj = CAL_1448.find(w => w.label === activeWeekLabel) || CAL_1448[0];
             document.getElementById('actReportSubTitle').innerText = `${activeWeekLabel} | من ${curWkObj.days[0].h} إلى ${curWkObj.days[curWkObj.days.length-1].h}`;
 
+            // 1. الصفية الأسبوعية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1511,11 +1780,42 @@
             });
 
             if (count === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="padding: 20px; text-align: center; color: #777;">لا توجد حصص نشاط مخصصة في هذا الأسبوع.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية مخصصة في هذا الأسبوع.</td></tr>`;
             }
+
+            // 2. اللاصفية الأسبوعية
+            let ncTbody = document.getElementById('actReportNonClassTableBody');
+            ncTbody.innerHTML = '';
+            let ncCount = 0;
+            const defaultTimeSlots = ["الحضور والاصطفاف الصباحي", "الروتين اليومي", "صلاة الظهر والمناوبة"];
+
+            defaultTimeSlots.forEach((slot, slotIndex) => {
+                let key = `${activeWeekLabel}_${slotIndex}`;
+                let item = nonClassAssignments[key];
+                if (item && item.name) {
+                    ncCount++;
+                    let barcodeContent = generateBarcodeCellContent(item);
+                    ncTbody.innerHTML += `
+                        <tr>
+                            <td>${ncCount}</td>
+                            <td style="font-size: 0.95rem; font-weight: 800; color: #0f172a;">${item.time || slot}</td>
+                            <td style="font-weight: 700;">${item.name}</td>
+                            <td>${item.duration || 'أسبوع'}</td>
+                            <td>${barcodeContent}</td>
+                            <td>${item.teacher || 'غير محدد'}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            if (ncCount === 0) {
+                ncTbody.innerHTML = `<tr><td colspan="6" style="padding: 15px; text-align: center; color: #777;">لا توجد برامج لاصفية مسجلة في هذا الأسبوع.</td></tr>`;
+            }
+
             window.print();
         }
 
+        /* الطباعة الشهرية */
         function executeMonthlyPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1525,6 +1825,7 @@
             let selectedWeeks = CAL_1448.slice(Math.floor(curIdx / 4) * 4, Math.floor(curIdx / 4) * 4 + 4);
             document.getElementById('actReportSubTitle').innerText = `الخطة الشهرية (${selectedWeeks[0].label} إلى ${selectedWeeks[selectedWeeks.length-1].label})`;
 
+            // 1. الصفية الشهرية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1560,11 +1861,44 @@
             });
 
             if (count === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="padding: 20px; text-align: center; color: #777;">لا توجد حصص نشاط خلال هذا الشهر.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية خلال هذا الشهر.</td></tr>`;
             }
+
+            // 2. اللاصفية الشهرية
+            let ncTbody = document.getElementById('actReportNonClassTableBody');
+            ncTbody.innerHTML = '';
+            let ncCount = 0;
+            const defaultTimeSlots = ["الحضور والاصطفاف الصباحي", "الروتين اليومي", "صلاة الظهر والمناوبة"];
+
+            selectedWeeks.forEach(wk => {
+                defaultTimeSlots.forEach((slot, slotIndex) => {
+                    let key = `${wk.label}_${slotIndex}`;
+                    let item = nonClassAssignments[key];
+                    if (item && item.name) {
+                        ncCount++;
+                        let barcodeContent = generateBarcodeCellContent(item);
+                        ncTbody.innerHTML += `
+                            <tr>
+                                <td>${ncCount}</td>
+                                <td style="font-size: 0.95rem; font-weight: 800; color: #0f172a;">${wk.label} - ${item.time || slot}</td>
+                                <td style="font-weight: 700;">${item.name}</td>
+                                <td>${item.duration || 'أسبوع'}</td>
+                                <td>${barcodeContent}</td>
+                                <td>${item.teacher || 'غير محدد'}</td>
+                            </tr>
+                        `;
+                    }
+                });
+            });
+
+            if (ncCount === 0) {
+                ncTbody.innerHTML = `<tr><td colspan="6" style="padding: 15px; text-align: center; color: #777;">لا توجد برامج لاصفية مسجلة خلال هذا الشهر.</td></tr>`;
+            }
+
             window.print();
         }
 
+        /* الطباعة الفصلية */
         function executeTermPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1572,6 +1906,7 @@
             let termWeeks = CAL_1448.filter(w => w.t === currentTerm);
             document.getElementById('actReportSubTitle').innerText = `خطة الفصل الدراسي ${currentTerm === 1 ? 'الأول' : 'الثاني'} الكاملة`;
 
+            // 1. الصفية الفصلية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1607,12 +1942,44 @@
             });
 
             if (count === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="padding: 20px; text-align: center; color: #777;">لا توجد حصص نشاط مخصصة في هذا الفصل.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية مخصصة في هذا الفصل.</td></tr>`;
             }
+
+            // 2. اللاصفية الفصلية
+            let ncTbody = document.getElementById('actReportNonClassTableBody');
+            ncTbody.innerHTML = '';
+            let ncCount = 0;
+            const defaultTimeSlots = ["الحضور والاصطفاف الصباحي", "الروتين اليومي", "صلاة الظهر والمناوبة"];
+
+            termWeeks.forEach(wk => {
+                defaultTimeSlots.forEach((slot, slotIndex) => {
+                    let key = `${wk.label}_${slotIndex}`;
+                    let item = nonClassAssignments[key];
+                    if (item && item.name) {
+                        ncCount++;
+                        let barcodeContent = generateBarcodeCellContent(item);
+                        ncTbody.innerHTML += `
+                            <tr>
+                                <td>${ncCount}</td>
+                                <td style="font-size: 0.95rem; font-weight: 800; color: #0f172a;">${wk.label} - ${item.time || slot}</td>
+                                <td style="font-weight: 700;">${item.name}</td>
+                                <td>${item.duration || 'أسبوع'}</td>
+                                <td>${barcodeContent}</td>
+                                <td>${item.teacher || 'غير محدد'}</td>
+                            </tr>
+                        `;
+                    }
+                });
+            });
+
+            if (ncCount === 0) {
+                ncTbody.innerHTML = `<tr><td colspan="6" style="padding: 15px; text-align: center; color: #777;">لا توجد برامج لاصفية مسجلة في هذا الفصل.</td></tr>`;
+            }
+
             window.print();
         }
 
-        /* دوال طباعة بطاقات برامج النشاط (يومي، أسبوعي، فصلي) - المعدلة */
+        /* دوال طباعة بطاقات برامج النشاط (يومي، أسبوعي، فصلي) */
         function executeDailyActivityCardPrint() {
             document.body.className = "print-activity-card-mode";
             let menu = document.getElementById('reportsDropdownMenu');
@@ -1815,7 +2182,7 @@
             });
         }
 
-        /* دوال طباعة بطاقات مسابقات النشاط (يومي، أسبوعي، فصلي) - المعدلة */
+        /* دوال طباعة بطاقات مسابقات النشاط (يومي، أسبوعي، فصلي) */
         function executeDailyCompetitionCardPrint() {
             document.body.className = "print-competition-card-mode";
             let menu = document.getElementById('reportsDropdownMenu');
@@ -2240,6 +2607,7 @@
             try {
                 await db.collection("schedules").doc("main_schedule").set({
                     weekAssignments: weekAssignments,
+                    nonClassAssignments: nonClassAssignments,
                     classes: targetClasses,
                     teachers: teachersPool
                 });
