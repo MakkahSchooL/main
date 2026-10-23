@@ -13,6 +13,7 @@
 
     <!-- مكتبات Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
     <style>
@@ -559,7 +560,6 @@
             line-height: 1.2;
         }
 
-        /* تنسيقات الأنشطة اللاصفية المحدثة باللون الداكن المتناسق */
         .non-class-table {
             width: 100%;
             border-collapse: collapse;
@@ -596,7 +596,6 @@
             direction: rtl;
         }
 
-        /* ترويسة التقارير المحدثة بدون خط فاصل */
         .act-report-header {
             text-align: right;
             border-bottom: none !important;
@@ -662,7 +661,6 @@
             margin: 0 auto;
         }
 
-        /* تنسيق قالب البطاقات المطبوعة */
         #activityCardPrintArea, #competitionCardPrintArea {
             display: none;
             background: #fff;
@@ -1066,7 +1064,7 @@
                     <th class="class-col-header">
                         <div class="header-class-title-box">
                             <span>الفصل</span>
-                            <button class="header-gear-btn" onclick="openModalForAdd()" title="إضافة فصل جديد"><i class="fas fa-plus-circle"></i></button>
+                            <span id="addClassBtnContainer"></span>
                         </div>
                     </th>
                     <th>الحصة 1</th>
@@ -1197,6 +1195,19 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        let currentUser = null;
+
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            let actType = document.getElementById('mainActivityTypeSelect').value;
+            if (actType === 'class') {
+                renderScheduleTableForDay(activeDayName);
+            } else {
+                renderNonClassSchedule();
+            }
+        });
 
         let targetClasses = ["1/أ", "1/ب", "1/ج", "1/د", "2/أ", "2/ب", "2/ج", "2/د", "3/أ", "3/ب", "3/ج", "3/د", "4/أ", "4/ب", "4/ج", "5/أ", "5/ب", "5/ج", "6/أ", "6/ب", "6/ج"];
         let teachersPool = ["عصام الحازمي", "محمد العمري", "حسين الرحيلي", "ناصر المزيني", "عائض الجابري", "خالد العوفي", "معتز دردير", "رائد الصاعدي", "نايف الترجي"];
@@ -1479,13 +1490,23 @@
             });
             activeDayName = cleanDay;
 
+            // إظهار أو إخفاء زر إضافة فصل للمسؤول فقط
+            const addClassBtnContainer = document.getElementById('addClassBtnContainer');
+            if (currentUser) {
+                addClassBtnContainer.innerHTML = `<button class="header-gear-btn" onclick="openModalForAdd()" title="إضافة فصل جديد"><i class="fas fa-plus-circle"></i></button>`;
+            } else {
+                addClassBtnContainer.innerHTML = '';
+            }
+
             const tbody = document.getElementById('scheduleTableBody');
             tbody.innerHTML = '';
 
             targetClasses.forEach((cls, index) => {
                 let tr = document.createElement('tr');
+                let classHeaderAttr = currentUser ? `onclick="openClassActionModal(${index}, '${cls}')" style="cursor: pointer;" title="إدارة الفصل"` : `style="cursor: default;"`;
+                
                 let html = `<th class="class-col-header">
-                    <div class="class-row-header-box" onclick="openClassActionModal(${index}, '${cls}')" title="إدارة الفصل">
+                    <div class="class-row-header-box" ${classHeaderAttr}>
                         <span class="class-title-text">${cls}</span>
                     </div>
                 </th>`;
@@ -1494,13 +1515,15 @@
                     let weekKey = `${activeWeekLabel}_${cleanDay}_${cls}_${i}`;
                     let cellData = weekAssignments[weekKey] || null;
 
+                    let cellOnClick = currentUser ? `onclick="openCellClickModal('${cleanDay}', '${cls}', ${i})"` : `style="cursor: default;"`;
+
                     if (cellData && cellData.isActivity) {
                         let fKey = cellData.fieldKey || "citizenship";
                         let fConf = FIELDS_CONFIG[fKey] || FIELDS_CONFIG["citizenship"];
                         let flexibility = cellData.flexibility || "ثابتة";
                         let hoursCount = cellData.hours || 1;
 
-                        html += `<td onclick="openCellClickModal('${cleanDay}', '${cls}', ${i})">
+                        html += `<td ${cellOnClick}>
                             <div class="activity-card-custom" style="border-color: ${fConf.color};">
                                 <span class="field-tag-badge" style="background: ${fConf.color};">${fConf.title}</span>
                                 <div class="activity-meta-row px-1">
@@ -1512,14 +1535,14 @@
                             </div>
                         </td>`;
                     } else if (cellData && cellData.course) {
-                        html += `<td onclick="openCellClickModal('${cleanDay}', '${cls}', ${i})">
+                        html += `<td ${cellOnClick}>
                             <div class="course-cell-box">
                                 <div class="course-name-large">${cellData.course}</div>
                                 <div class="teacher-name-badge">${cellData.teacher || "—"}</div>
                             </div>
                         </td>`;
                     } else {
-                        html += `<td onclick="openCellClickModal('${cleanDay}', '${cls}', ${i})">
+                        html += `<td ${cellOnClick}>
                             <div class="empty-cell-box"></div>
                         </td>`;
                     }
@@ -1531,7 +1554,7 @@
             updateFieldCounters();
         }
 
-        /* عرض الأنشطة اللاصفية بناءً على الأسبوع الحالي */
+        /* عرض الأنشطة اللاصفية */
         function renderNonClassSchedule() {
             const tbody = document.getElementById('nonClassTableBody');
             tbody.innerHTML = '';
@@ -1544,19 +1567,21 @@
 
                 let tr = document.createElement('tr');
                 let weekTd = slotIndex === 0 ? `<td rowspan="3" style="font-weight: 800; background-color: #f1f5f9; vertical-align: middle;">${activeWeekLabel}</td>` : '';
+                let rowOnClick = currentUser ? `onclick="openNonClassModal('${slot}', ${slotIndex})" style="cursor: pointer;"` : `style="cursor: default;"`;
 
                 tr.innerHTML = `
                     ${weekTd}
-                    <td style="font-size: 0.95rem; font-weight: 800; color: #0f172a; cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.time || slot}</td>
-                    <td style="font-weight: 700; cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.name || '—'}</td>
-                    <td style="cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.duration || 'أسبوع'}</td>
-                    <td style="font-weight: 700; color: #047857; cursor: pointer;" onclick="openNonClassModal('${slot}', ${slotIndex})">${item.teacher || '—'}</td>
+                    <td style="font-size: 0.95rem; font-weight: 800; color: #0f172a;" ${rowOnClick}>${item.time || slot}</td>
+                    <td style="font-weight: 700;" ${rowOnClick}>${item.name || '—'}</td>
+                    <td ${rowOnClick}>${item.duration || 'أسبوع'}</td>
+                    <td style="font-weight: 700; color: #047857;" ${rowOnClick}>${item.teacher || '—'}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
         function openNonClassModal(defaultSlot, slotIndex) {
+            if (!currentUser) return; // حماية للزوار
             selectedNonClassKey = `${activeWeekLabel}_${slotIndex}`;
             let item = nonClassAssignments[selectedNonClassKey] || {};
 
@@ -1580,6 +1605,7 @@
         }
 
         async function saveNonClassItem() {
+            if (!currentUser) return alert("عذراً، التعديل متاح للمسؤول فقط.");
             if (!selectedNonClassKey) return;
 
             let time = document.getElementById('ncTimeInput').value.trim();
@@ -1609,6 +1635,7 @@
         }
 
         async function deleteNonClassItem() {
+            if (!currentUser) return alert("عذراً، الحذف متاح للمسؤول فقط.");
             if (!selectedNonClassKey) return;
             delete nonClassAssignments[selectedNonClassKey];
             await saveToCloud();
@@ -1660,7 +1687,7 @@
             return '—';
         }
 
-        /* الطباعة اليومية */
+        /* دوال الطباعة */
         function executeDailyPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1668,7 +1695,6 @@
             let cur = ALL_DAYS_FLAT[currentFlatIndex];
             document.getElementById('actReportSubTitle').innerText = `${cur.weekLabel} - يوم ${cur.dayName} | الفترة: ${cur.hDate} هـ (${cur.mDate} م)`;
 
-            // 1. الصفية اليومية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1705,7 +1731,6 @@
                 tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية مخصصة في هذا اليوم.</td></tr>`;
             }
 
-            // 2. اللاصفية اليومية (عرض الأسبوع التابع لهذا اليوم)
             let ncTbody = document.getElementById('actReportNonClassTableBody');
             ncTbody.innerHTML = '';
             let ncCount = 0;
@@ -1737,7 +1762,6 @@
             window.print();
         }
 
-        /* الطباعة الأسبوعية */
         function executeWeeklyPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1745,7 +1769,6 @@
             let curWkObj = CAL_1448.find(w => w.label === activeWeekLabel) || CAL_1448[0];
             document.getElementById('actReportSubTitle').innerText = `${activeWeekLabel} | من ${curWkObj.days[0].h} إلى ${curWkObj.days[curWkObj.days.length-1].h}`;
 
-            // 1. الصفية الأسبوعية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1783,7 +1806,6 @@
                 tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية مخصصة في هذا الأسبوع.</td></tr>`;
             }
 
-            // 2. اللاصفية الأسبوعية
             let ncTbody = document.getElementById('actReportNonClassTableBody');
             ncTbody.innerHTML = '';
             let ncCount = 0;
@@ -1815,7 +1837,6 @@
             window.print();
         }
 
-        /* الطباعة الشهرية */
         function executeMonthlyPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1825,7 +1846,6 @@
             let selectedWeeks = CAL_1448.slice(Math.floor(curIdx / 4) * 4, Math.floor(curIdx / 4) * 4 + 4);
             document.getElementById('actReportSubTitle').innerText = `الخطة الشهرية (${selectedWeeks[0].label} إلى ${selectedWeeks[selectedWeeks.length-1].label})`;
 
-            // 1. الصفية الشهرية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1864,7 +1884,6 @@
                 tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية خلال هذا الشهر.</td></tr>`;
             }
 
-            // 2. اللاصفية الشهرية
             let ncTbody = document.getElementById('actReportNonClassTableBody');
             ncTbody.innerHTML = '';
             let ncCount = 0;
@@ -1898,7 +1917,6 @@
             window.print();
         }
 
-        /* الطباعة الفصلية */
         function executeTermPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -1906,7 +1924,6 @@
             let termWeeks = CAL_1448.filter(w => w.t === currentTerm);
             document.getElementById('actReportSubTitle').innerText = `خطة الفصل الدراسي ${currentTerm === 1 ? 'الأول' : 'الثاني'} الكاملة`;
 
-            // 1. الصفية الفصلية
             let tbody = document.getElementById('actReportTableBody');
             tbody.innerHTML = '';
             let count = 0;
@@ -1945,7 +1962,6 @@
                 tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; text-align: center; color: #777;">لا توجد حصص نشاط صفية مخصصة في هذا الفصل.</td></tr>`;
             }
 
-            // 2. اللاصفية الفصلية
             let ncTbody = document.getElementById('actReportNonClassTableBody');
             ncTbody.innerHTML = '';
             let ncCount = 0;
@@ -1979,7 +1995,6 @@
             window.print();
         }
 
-        /* دوال طباعة بطاقات برامج النشاط (يومي، أسبوعي، فصلي) */
         function executeDailyActivityCardPrint() {
             document.body.className = "print-activity-card-mode";
             let menu = document.getElementById('reportsDropdownMenu');
@@ -2182,7 +2197,6 @@
             });
         }
 
-        /* دوال طباعة بطاقات مسابقات النشاط (يومي، أسبوعي، فصلي) */
         function executeDailyCompetitionCardPrint() {
             document.body.className = "print-competition-card-mode";
             let menu = document.getElementById('reportsDropdownMenu');
@@ -2406,6 +2420,7 @@
         });
 
         function openCellClickModal(day, cls, period) {
+            if (!currentUser) return; // حماية لغير المسؤولين
             let weekKey = `${activeWeekLabel}_${day}_${cls}_${period}`;
             let cellData = weekAssignments[weekKey] || {};
 
@@ -2499,6 +2514,7 @@
         }
 
         async function saveCellAssignment() {
+            if (!currentUser) return alert("عذراً، التعديل متاح للمسؤول فقط.");
             if (!selectedCellInfo) return;
 
             const { day, cls, period } = selectedCellInfo;
@@ -2573,6 +2589,7 @@
         }
 
         function openTeachersManagerModal() {
+            if (!currentUser) return alert("عذراً، إدارة المعلمين متاحة للمسؤول فقط.");
             renderTeachersListInManager();
             document.getElementById('teachersManagerModal').classList.add('show');
         }
@@ -2590,6 +2607,7 @@
             `).join('');
         }
         async function addNewTeacher() {
+            if (!currentUser) return alert("عذراً، الإضافة متاحة للمسؤول فقط.");
             let name = document.getElementById('newTeacherNameInput').value.trim();
             if(!name) return;
             teachersPool.push(name);
@@ -2598,12 +2616,14 @@
             await saveToCloud();
         }
         async function deleteTeacher(idx) {
+            if (!currentUser) return alert("عذراً، الحذف متاح للمسؤول فقط.");
             teachersPool.splice(idx, 1);
             renderTeachersListInManager();
             await saveToCloud();
         }
 
         async function saveToCloud() {
+            if (!currentUser) return;
             try {
                 await db.collection("schedules").doc("main_schedule").set({
                     weekAssignments: weekAssignments,
@@ -2670,6 +2690,7 @@
 
         let selectedClassIndexForAction = null;
         function openClassActionModal(index, className) {
+            if (!currentUser) return; // حماية لغير المسؤولين
             selectedClassIndexForAction = index;
             document.getElementById('actionModalClassName').innerText = `الفصل: ${className}`;
             document.getElementById('classActionModal').classList.add('show');
@@ -2679,6 +2700,7 @@
             selectedClassIndexForAction = null;
         }
         async function moveSelectedClass(direction) {
+            if (!currentUser) return alert("عذراً، الصلاحية للمسؤول فقط.");
             if (selectedClassIndexForAction === null) return;
             let targetIndex = selectedClassIndexForAction + direction;
             if (targetIndex < 0 || targetIndex >= targetClasses.length) return;
@@ -2690,15 +2712,20 @@
             renderScheduleTableForDay(activeDayName);
         }
         async function deleteSelectedClass() {
+            if (!currentUser) return alert("عذراً، الحذف للمسؤول فقط.");
             if (selectedClassIndexForAction === null) return;
             targetClasses.splice(selectedClassIndexForAction, 1);
             closeClassActionModal();
             await saveToCloud();
             renderScheduleTableForDay(activeDayName);
         }
-        function openModalForAdd() { document.getElementById('addClassModal').style.display = 'flex'; }
+        function openModalForAdd() { 
+            if (!currentUser) return alert("عذراً، الإضافة للمسؤول فقط.");
+            document.getElementById('addClassModal').style.display = 'flex'; 
+        }
         function closeAddModal() { document.getElementById('addClassModal').style.display = 'none'; }
         async function addNewClassRow() {
+            if (!currentUser) return alert("عذراً، الإضافة للمسؤول فقط.");
             let className = document.getElementById('newClassNameInput').value.trim();
             if(!className) return;
             targetClasses.push(className);
