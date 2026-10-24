@@ -46,32 +46,6 @@
             padding: 15px;
         }
 
-        .page-header-card {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 16px 22px;
-            box-shadow: 0 1px 2px rgba(15,23,42,.04);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .header-icon-box {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg, var(--brand), #0891b2);
-            color: #fff;
-            font-size: 1.2rem;
-            box-shadow: 0 6px 18px -6px rgba(12,106,100,.45);
-        }
-
         .cal-nav-bar {
             background: #111827;
             color: #fff;
@@ -757,7 +731,7 @@
 
         @media print {
             body { background: #fff !important; padding: 0 !important; }
-            .page-header-card, .cal-nav-bar, .control-btns-container, .modal-cal, .table-responsive, .header-gear-btn { display: none !important; }
+            .cal-nav-bar, .control-btns-container, .modal-cal, .table-responsive, .header-gear-btn { display: none !important; }
             body.print-plan-mode #activityReportPrintArea { display: block !important; }
             body.print-activity-card-mode #activityCardPrintArea { display: block !important; }
             body.print-competition-card-mode #competitionCardPrintArea { display: block !important; }
@@ -765,22 +739,6 @@
     </style>
 </head>
 <body>
-
-    <div class="page-header-card">
-        <div class="d-flex align-items-center" style="gap: 12px;">
-            <div class="header-icon-box">
-                <i class="fas fa-calendar-check"></i>
-            </div>
-            <div>
-                <div style="font-size: 1.15rem; font-weight: 700; color: #0f172a;">خطة النشاط الطلابي </div>
-                <div style="font-size: 0.8rem; color: #64748b;">الإدارة العامة للتعليم بمنطقة المدينة المنورة - مدرسة مكة المكرمة الابتدائية</div>
-                <div style="font-size: 0.8rem; color: #64748b;">رائد النشاط عواد محمد العوفي</div>
-            </div>
-        </div>
-        <div>
-            <span class="badge badge-light border p-2" style="font-size: 0.85rem;"><i class="fas fa-school text-success ml-1"></i> العام الدراسي 1448 هـ</span>
-        </div>
-    </div>
 
     <div class="cal-nav-bar">
         <div class="d-flex align-items-center gap-3">
@@ -1490,7 +1448,6 @@
             });
             activeDayName = cleanDay;
 
-            // إظهار أو إخفاء زر إضافة فصل للمسؤول فقط
             const addClassBtnContainer = document.getElementById('addClassBtnContainer');
             if (currentUser) {
                 addClassBtnContainer.innerHTML = `<button class="header-gear-btn" onclick="openModalForAdd()" title="إضافة فصل جديد"><i class="fas fa-plus-circle"></i></button>`;
@@ -1554,7 +1511,6 @@
             updateFieldCounters();
         }
 
-        /* عرض الأنشطة اللاصفية */
         function renderNonClassSchedule() {
             const tbody = document.getElementById('nonClassTableBody');
             tbody.innerHTML = '';
@@ -1581,7 +1537,7 @@
         }
 
         function openNonClassModal(defaultSlot, slotIndex) {
-            if (!currentUser) return; // حماية للزوار
+            if (!currentUser) return;
             selectedNonClassKey = `${activeWeekLabel}_${slotIndex}`;
             let item = nonClassAssignments[selectedNonClassKey] || {};
 
@@ -1687,7 +1643,6 @@
             return '—';
         }
 
-        /* دوال الطباعة */
         function executeDailyPrint() {
             document.body.className = "print-plan-mode";
             let menu = document.getElementById('printDropdownMenu');
@@ -2420,7 +2375,7 @@
         });
 
         function openCellClickModal(day, cls, period) {
-            if (!currentUser) return; // حماية لغير المسؤولين
+            if (!currentUser) return;
             let weekKey = `${activeWeekLabel}_${day}_${cls}_${period}`;
             let cellData = weekAssignments[weekKey] || {};
 
@@ -2690,7 +2645,7 @@
 
         let selectedClassIndexForAction = null;
         function openClassActionModal(index, className) {
-            if (!currentUser) return; // حماية لغير المسؤولين
+            if (!currentUser) return;
             selectedClassIndexForAction = index;
             document.getElementById('actionModalClassName').innerText = `الفصل: ${className}`;
             document.getElementById('classActionModal').classList.add('show');
