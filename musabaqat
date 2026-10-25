@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>دليل المسابقات الطلابية المعتمدة 1448هـ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
 :root{
   --paper:#EEF3F2;--surface:#FFFFFF;--surface2:#F6F9F8;--ink:#13302E;--muted:#5A6F6C;--line:#D3DEDB;
   --brand:#0C6A64;--brand-ink:#FFFFFF;--open:#17804A;--soon:#9C6200;--ended:#8C9896;
@@ -23,6 +30,12 @@ button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 .wrap{max-width:1280px;margin:0 auto;padding:20px 16px 80px}
 
+/* head */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;padding:12px 0 18px;border-bottom:2px solid var(--ink)}
+.top h1{margin:0;font-size:clamp(22px,3.4vw,32px);font-weight:700;letter-spacing:0}
+.top p{margin:4px 0 0;color:var(--muted)}
+.today{font-size:clamp(16px,2vw,19px);font-weight:500;max-width:46ch}
+.today b{color:var(--open)}
 
 /* tabs */
 .tabs{display:flex;gap:4px;margin:18px 0 14px;border-bottom:1px solid var(--line)}
