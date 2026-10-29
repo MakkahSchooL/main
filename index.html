@@ -107,22 +107,22 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* تصميم التقرير بالبرواز المقطع ومضبوط تماماً لصفحة عمودية واحدة A4 */
 .report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:10mm 12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
-.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:6mm 8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
-.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:5px; margin-bottom:6px; }
-.rep-logo img { max-height:42px; max-width:85px; object-fit:contain; }
-.rep-gov { text-align:center; font-weight:700; font-size:11.5px; color:#5A6F6C; }
-.rep-gov span { display:block; font-size:13.5px; color:#0C6A64; }
-.rep-title-box { text-align:center; margin-bottom:6px; }
-.rep-title { font-size:19px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
-.rep-section { margin-bottom:5px; }
-.rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:3px 6px; margin:0 0 3px 0; font-size:12px; color:#0C6A64; }
-.rep-content-box { border:1px solid var(--line); border-radius:6px; padding:5px 7px; min-height:30px; font-size:11.5px; line-height:1.45; background:#fff; }
-.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-top:3px; }
-.rep-img-card { border:1px solid var(--line); border-radius:6px; padding:3px; text-align:center; background:#fafafa; }
-.rep-img-card img { width:100%; height:95px; object-fit:cover; border-radius:4px; margin-bottom:2px; }
-.rep-img-caption { font-size:10.5px; color:#5A6F6C; font-weight:600; }
-.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:6px; font-size:11.5px; font-weight:600; border-top:1px solid var(--line); padding-top:6px; }
+.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:8mm 10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
+.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:5mm 7mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
+.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:4px; margin-bottom:4px; }
+.rep-logo img { max-height:38px; max-width:75px; object-fit:contain; }
+.rep-gov { text-align:center; font-weight:700; font-size:11px; color:#5A6F6C; }
+.rep-gov span { display:block; font-size:13px; color:#0C6A64; }
+.rep-title-box { text-align:center; margin-bottom:4px; }
+.rep-title { font-size:18px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
+.rep-section { margin-bottom:4px; }
+.rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:2px 5px; margin:0 0 2px 0; font-size:11.5px; color:#0C6A64; }
+.rep-content-box { border:1px solid var(--line); border-radius:5px; padding:4px 6px; min-height:26px; font-size:11px; line-height:1.4; background:#fff; }
+.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; margin-top:2px; }
+.rep-img-card { border:1px solid var(--line); border-radius:5px; padding:2px; text-align:center; background:#fafafa; }
+.rep-img-card img { width:100%; height:85px; object-fit:cover; border-radius:4px; margin-bottom:2px; }
+.rep-img-caption { font-size:10px; color:#5A6F6C; font-weight:600; }
+.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:4px; font-size:11px; font-weight:600; border-top:1px solid var(--line); padding-top:4px; }
 
 /* جدول الأسماء المحفوظة للنشاط */
 .table-wrap { overflow-x: auto; margin-top: 10px; }
@@ -132,7 +132,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قواعد الطباعة: التقارير عمودية (portrait) والشهادات أفقية (landscape) */
+/* قواعد الطباعة الدقيقة: التقارير عمودية (portrait) والشهادات أفقية (landscape) */
 @media print {
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   
@@ -147,7 +147,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   #page-reports > *:not(.report-preview-box) { display: none !important; }
   .report-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
 
-  /* تنسيق طباعة الشهادات (أفقي) */
+  /* طباعة الشهادات (أفقي) */
   body:not(.printing-report):not(.printing-batch) @page { size: landscape; margin: 0; }
   body:not(.printing-report):not(.printing-batch) #printableCertificate {
     display: flex !important;
@@ -163,7 +163,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     page-break-inside: avoid !important;
   }
 
-  /* تنسيق طباعة التقارير (عمودي ومنضبط لصفحة واحدة) */
+  /* طباعة التقارير (عمودي ومنضبط تماماً لصفحة واحدة A4) */
   body.printing-report @page { size: portrait; margin: 0; }
   body.printing-report #printableReport {
     display: flex !important;
@@ -430,11 +430,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
             <h4>التوثيق المصور للفعالية</h4>
             <div class="rep-images-grid" id="lblRepImagesGrid">
               <div class="rep-img-card">
-                <div id="imgPreview1" style="height:95px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
+                <div id="imgPreview1" style="height:85px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
                 <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
               </div>
               <div class="rep-img-card">
-                <div id="imgPreview2" style="height:95px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
+                <div id="imgPreview2" style="height:85px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
                 <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
               </div>
             </div>
@@ -445,7 +445,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           <div>
             <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
           </div>
-          <div style="text-align:center; font-size:11.5px; color:#0C6A64; font-weight:bold;">
+          <div style="text-align:center; font-size:11px; color:#0C6A64; font-weight:bold;">
             معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span> <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
           </div>
         </div>
@@ -947,14 +947,14 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
     const prev1 = document.getElementById('imgPreview1');
     if(reportImages[1]) {
-      prev1.innerHTML = `<img src="${reportImages[1]}" style="width:100%; height:95px; object-fit:cover; border-radius:4px;">`;
+      prev1.innerHTML = `<img src="${reportImages[1]}" style="width:100%; height:85px; object-fit:cover; border-radius:4px;">`;
     } else {
       prev1.innerHTML = `الصورة الأولى`;
     }
 
     const prev2 = document.getElementById('imgPreview2');
     if(reportImages[2]) {
-      prev2.innerHTML = `<img src="${reportImages[2]}" style="width:100%; height:95px; object-fit:cover; border-radius:4px;">`;
+      prev2.innerHTML = `<img src="${reportImages[2]}" style="width:100%; height:85px; object-fit:cover; border-radius:4px;">`;
     } else {
       prev2.innerHTML = `الصورة الثانية`;
     }
