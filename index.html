@@ -88,41 +88,41 @@ button,input,select,textarea{font:inherit;color:inherit}
 .ticker-text span { margin-inline-start:40px; font-weight:600; color:var(--ink); }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-/* تصميم شهادة الشكر والتقدير مع البرواز المقطع (أفقي) */
+/* تصميم شهادة الشكر والتقدير الأصلية (أفقي) */
 .cert-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; }
-.cert-inner { border:2px dashed #0C6A64; height:100%; padding:6mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
+.certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
+.cert-inner { border:2px dashed #0C6A64; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
 .cert-header { display:flex; justify-content:space-between; align-items:flex-start; }
-.cert-logo img { max-height:60px; max-width:100px; }
-.cert-gov { text-align:center; font-weight:700; font-size:13px; color:#5A6F6C; line-height:1.5; }
-.cert-gov span { display:block; font-size:16px; color:#0C6A64; }
-.cert-body { text-align:center; margin:2px 0; }
-.cert-title { font-size:32px; font-weight:700; color:#0C6A64; margin-bottom:6px; letter-spacing:1px; }
-.cert-subtitle { font-size:14px; color:#5A6F6C; margin-bottom:8px; }
-.cert-name { font-size:28px; font-weight:700; color:#C9A04A; border-bottom:2px solid #C9A04A; display:inline-block; padding:0 20px 4px 20px; margin:6px 0 8px 0; }
-.cert-text { font-size:16px; line-height:1.7; color:#13302E; max-width:850px; margin:0 auto; }
-.cert-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:6px; font-size:14px; font-weight:600; padding:0 20px; }
+.cert-logo img { max-height:65px; max-width:110px; }
+.cert-gov { text-align:center; font-weight:700; font-size:14px; color:#5A6F6C; line-height:1.5; }
+.cert-gov span { display:block; font-size:17px; color:#0C6A64; }
+.cert-body { text-align:center; margin:5px 0; }
+.cert-title { font-size:34px; font-weight:700; color:#0C6A64; margin-bottom:8px; letter-spacing:1px; }
+.cert-subtitle { font-size:15px; color:#5A6F6C; margin-bottom:10px; }
+.cert-name { font-size:30px; font-weight:700; color:#C9A04A; border-bottom:2px solid #C9A04A; display:inline-block; padding:0 20px 4px 20px; margin:8px 0 10px 0; }
+.cert-text { font-size:17px; line-height:1.8; color:#13302E; max-width:850px; margin:0 auto; }
+.cert-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:10px; font-size:15px; font-weight:600; padding:0 30px; }
 .cert-sign { text-align:center; line-height:1.8; }
-.cert-sign b { display:block; font-size:16px; color:#0C6A64; }
+.cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
 /* تصميم التقرير بالبرواز المقطع ومضبوط تماماً لصفحة عمودية واحدة A4 */
 .report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:8mm 10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
-.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:5mm 7mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
-.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:4px; margin-bottom:4px; }
-.rep-logo img { max-height:38px; max-width:75px; object-fit:contain; }
-.rep-gov { text-align:center; font-weight:700; font-size:11px; color:#5A6F6C; }
-.rep-gov span { display:block; font-size:13px; color:#0C6A64; }
-.rep-title-box { text-align:center; margin-bottom:4px; }
-.rep-title { font-size:18px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
-.rep-section { margin-bottom:4px; }
-.rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:2px 5px; margin:0 0 2px 0; font-size:11.5px; color:#0C6A64; }
-.rep-content-box { border:1px solid var(--line); border-radius:5px; padding:4px 6px; min-height:26px; font-size:11px; line-height:1.4; background:#fff; }
-.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; margin-top:2px; }
-.rep-img-card { border:1px solid var(--line); border-radius:5px; padding:2px; text-align:center; background:#fafafa; }
-.rep-img-card img { width:100%; height:85px; object-fit:cover; border-radius:4px; margin-bottom:2px; }
-.rep-img-caption { font-size:10px; color:#5A6F6C; font-weight:600; }
-.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:4px; font-size:11px; font-weight:600; border-top:1px solid var(--line); padding-top:4px; }
+.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:10mm 12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
+.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:6mm 8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
+.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:5px; margin-bottom:6px; }
+.rep-logo img { max-height:42px; max-width:85px; object-fit:contain; }
+.rep-gov { text-align:center; font-weight:700; font-size:11.5px; color:#5A6F6C; }
+.rep-gov span { display:block; font-size:13.5px; color:#0C6A64; }
+.rep-title-box { text-align:center; margin-bottom:6px; }
+.rep-title { font-size:19px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
+.rep-section { margin-bottom:5px; }
+.rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:3px 6px; margin:0 0 3px 0; font-size:12px; color:#0C6A64; }
+.rep-content-box { border:1px solid var(--line); border-radius:6px; padding:5px 7px; min-height:30px; font-size:11.5px; line-height:1.45; background:#fff; }
+.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-top:3px; }
+.rep-img-card { border:1px solid var(--line); border-radius:6px; padding:3px; text-align:center; background:#fafafa; }
+.rep-img-card img { width:100%; height:95px; object-fit:cover; border-radius:4px; margin-bottom:2px; }
+.rep-img-caption { font-size:10.5px; color:#5A6F6C; font-weight:600; }
+.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:6px; font-size:11.5px; font-weight:600; border-top:1px solid var(--line); padding-top:6px; }
 
 /* جدول الأسماء المحفوظة للنشاط */
 .table-wrap { overflow-x: auto; margin-top: 10px; }
@@ -132,7 +132,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قواعد الطباعة الدقيقة: التقارير عمودية (portrait) والشهادات أفقية (landscape) */
+/* قاعدة الطباعة الآمنة والمفصولة تماماً */
 @media print {
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   
@@ -147,7 +147,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   #page-reports > *:not(.report-preview-box) { display: none !important; }
   .report-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
 
-  /* طباعة الشهادات (أفقي) */
+  /* قاعدة طباعة شهادات الشكر الفردية (أفقي Landscape كما كانت تماماً) */
   body:not(.printing-report):not(.printing-batch) @page { size: landscape; margin: 0; }
   body:not(.printing-report):not(.printing-batch) #printableCertificate {
     display: flex !important;
@@ -163,7 +163,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     page-break-inside: avoid !important;
   }
 
-  /* طباعة التقارير (عمودي ومنضبط تماماً لصفحة واحدة A4) */
+  /* قاعدة طباعة التقارير (عمودي Portrait وفي صفحة واحدة) */
   body.printing-report @page { size: portrait; margin: 0; }
   body.printing-report #printableReport {
     display: flex !important;
@@ -179,6 +179,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     page-break-inside: avoid !important;
   }
 
+  /* قاعدة الطباعة الجماعية للشهادات (أفقي Landscape) */
   body.printing-batch @page { size: landscape; margin: 0; }
   body.printing-batch #batchPrintContainer {
     display: block !important;
@@ -430,11 +431,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
             <h4>التوثيق المصور للفعالية</h4>
             <div class="rep-images-grid" id="lblRepImagesGrid">
               <div class="rep-img-card">
-                <div id="imgPreview1" style="height:85px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
+                <div id="imgPreview1" style="height:95px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
                 <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
               </div>
               <div class="rep-img-card">
-                <div id="imgPreview2" style="height:85px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
+                <div id="imgPreview2" style="height:95px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
                 <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
               </div>
             </div>
@@ -445,7 +446,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           <div>
             <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
           </div>
-          <div style="text-align:center; font-size:11px; color:#0C6A64; font-weight:bold;">
+          <div style="text-align:center; font-size:11.5px; color:#0C6A64; font-weight:bold;">
             معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span> <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
           </div>
         </div>
@@ -544,7 +545,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة الشهادة (بالبرواز المقطع)</h3>
+    <h3>معاينة الشهادة الرسمية (أفقي)</h3>
   </div>
   
   <div class="cert-preview-box">
@@ -947,14 +948,14 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
     const prev1 = document.getElementById('imgPreview1');
     if(reportImages[1]) {
-      prev1.innerHTML = `<img src="${reportImages[1]}" style="width:100%; height:85px; object-fit:cover; border-radius:4px;">`;
+      prev1.innerHTML = `<img src="${reportImages[1]}" style="width:100%; height:95px; object-fit:cover; border-radius:4px;">`;
     } else {
       prev1.innerHTML = `الصورة الأولى`;
     }
 
     const prev2 = document.getElementById('imgPreview2');
     if(reportImages[2]) {
-      prev2.innerHTML = `<img src="${reportImages[2]}" style="width:100%; height:85px; object-fit:cover; border-radius:4px;">`;
+      prev2.innerHTML = `<img src="${reportImages[2]}" style="width:100%; height:95px; object-fit:cover; border-radius:4px;">`;
     } else {
       prev2.innerHTML = `الصورة الثانية`;
     }
