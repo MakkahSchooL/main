@@ -113,20 +113,53 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
+/* إصلاح شفرة الطباعة بالكامل لمنع ظهور الصفحة البيضاء */
 @media print {
   @page { size: landscape; margin: 0; }
-  body { background: #fff !important; }
-  body * { visibility: hidden !important; }
+  html, body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
   
-  /* في حال الطباعة الجماعية للنشاط */
-  body.printing-batch #batchPrintContainer, body.printing-batch #batchPrintContainer * { visibility: visible !important; }
-  body.printing-batch #batchPrintContainer { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+  /* إخفاء واجهة الموقع بالكامل */
+  .no-print, header, nav, footer, .panel, .cert-preview-box, .topline, #toast, .modal-overlay { display: none !important; }
+  .wrap { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
 
-  /* في حال الطباعة الفردية */
-  body:not(.printing-batch) #printableCertificate, body:not(.printing-batch) #printableCertificate * { visibility: visible !important; }
-  body:not(.printing-batch) #printableCertificate { position: absolute; left: 0; top: 0; width: 297mm; height: 210mm; margin: 0; box-shadow: none; border: 8px solid #0C6A64; }
+  /* الطباعة الفردية */
+  body:not(.printing-batch) #printableCertificate {
+    display: flex !important;
+    visibility: visible !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: 8px solid #0C6A64 !important;
+    z-index: 99999 !important;
+  }
+  body:not(.printing-batch) #printableCertificate * {
+    visibility: visible !important;
+  }
 
-  .no-print { display: none !important; }
+  /* الطباعة الجماعية */
+  body.printing-batch #batchPrintContainer {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+  }
+  body.printing-batch #batchPrintContainer .certificate {
+    display: flex !important;
+    visibility: visible !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    border: 8px solid #0C6A64 !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+  }
+  body.printing-batch #batchPrintContainer * {
+    visibility: visible !important;
+  }
 }
 </style>
 </head>
