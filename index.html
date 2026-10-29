@@ -80,7 +80,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
 .field textarea { min-height:80px; resize:vertical; }
 
-/* تصميم شهادة الشكر والتقدير */
+/* تصميم شهادة الشكر الأصلي المضبوط بدقة */
 .cert-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
 .cert-inner { border:2px dashed #0C6A64; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
@@ -97,17 +97,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
-/* تصميم نموذج التقارير الرسمي الموحد (مضبوط لصفحة واحدة A4) */
+/* تصميم نموذج التقارير الرسمي الموحد (مع البرواز ومضبوط تماماً لصفحة واحدة A4) */
 .report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:10mm 12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:5px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; overflow:hidden; }
 .rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:6mm 8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
 .rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:6px; margin-bottom:8px; }
-.rep-logo img { max-height:42px; }
+.rep-logo img { max-height:45px; max-width:90px; object-fit:contain; }
 .rep-gov { text-align:center; font-weight:700; font-size:12px; color:#5A6F6C; }
 .rep-gov span { display:block; font-size:14px; color:#0C6A64; }
 .rep-title-box { text-align:center; margin-bottom:8px; }
 .rep-title { font-size:20px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
-.rep-subtitle { font-size:12px; color:#5A6F6C; }
 .rep-section { margin-bottom:6px; }
 .rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:4px 8px; margin:0 0 4px 0; font-size:12.5px; color:#0C6A64; }
 .rep-content-box { border:1px solid var(--line); border-radius:6px; padding:6px 8px; min-height:35px; font-size:12px; line-height:1.5; background:#fff; }
@@ -125,9 +124,9 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قاعدة الطباعة الآمنة لمنع الصفحات الزائدة */
+/* قواعد طباعة آمنة تماماً تمنع أي صفحات بيضاء وتضمن صفحة واحدة لكل مستند */
 @media print {
-  @page { size: A4 portrait; margin: 0; }
+  @page { size: auto; margin: 0; }
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   
   body * { visibility: hidden !important; }
@@ -245,7 +244,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
  <section id="page-reports" class="page hidden">
   <div class="panel no-print">
     <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> مُولّد التقارير الرسمية الموحدة - <span id="currentReportDeptTitle">النشاط الطلابي</span></h2>
-    <p>قم بإدخال تفاصيل التقرير، الأهداف، التنفيذ، وإرفاق صورتين توثيقيتين بحجم مكبر، ثم اضغط طباعة أو حفظ PDF.</p>
+    <p>قم بإدخال تفاصيل التقرير، رفع الشعار يدوياً، إرفاق صورتين توثيقيتين، ثم اضغط طباعة أو حفظ PDF.</p>
     
     <div class="formgrid" style="margin-top:15px;">
       <div class="field">
@@ -257,11 +256,16 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="text" id="repDateInput" value="1447/03/05 هـ" oninput="updateReportPreview()">
       </div>
 
-      <!-- حقول التخصيص الكامل للأسماء والمسميات -->
+      <!-- رفع شعار الوزارة أو المدرسة يدوياً -->
+      <div class="field">
+        <label>رفع شعار الوزارة / المدرسة (يدوياً)</label>
+        <input type="file" accept="image/*" onchange="loadReportLogo(event)">
+      </div>
       <div class="field">
         <label>المسمى الوظيفي للمسؤول (الموقع)</label>
         <input type="text" id="repSignerTitle" value="رائد النشاط الطلابي" oninput="updateReportPreview()">
       </div>
+
       <div class="field">
         <label>اسم المسؤول (الموقع)</label>
         <input type="text" id="repSignerName" value="عواد محمد العوفي" oninput="updateReportPreview()">
@@ -270,6 +274,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <label>مسمى مدير المدرسة</label>
         <input type="text" id="repPrincipalTitle" value="مدير المدرسة" oninput="updateReportPreview()">
       </div>
+
       <div class="field">
         <label>اسم مدير المدرسة</label>
         <input type="text" id="repPrincipalName" value="متعب حسن السحيمي" oninput="updateReportPreview()">
@@ -310,7 +315,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة التقرير الرسمي الموحد (مع البرواز)</h3>
+    <h3>معاينة التقرير الرسمي الموحد (بصفحة واحدة)</h3>
   </div>
   
   <div class="report-preview-box">
@@ -318,22 +323,20 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       <div class="rep-inner-frame">
         <div>
           <div class="rep-header">
-            <div class="rep-logo">
-              <!-- شعار وزارة التعليم الجديد -->
-              <img src="Saudi_Ministry_of_Education_Logo_2025.png" alt="شعار وزارة التعليم">
+            <div class="rep-logo" id="repLogoArea">
+              <div style="font-size:11px; color:#5A6F6C; border:1px dashed var(--line); padding:4px; border-radius:4px;">الشعار اليدوي</div>
             </div>
             <div class="rep-gov">
               الإدارة العامة للتعليم بمنطقة المدينة المنورة<br>
               <span>مدرسة مكة المكرمة الابتدائية</span>
             </div>
-            <div style="text-align:left; font-size:12px; color:#5A6F6C;" id="lblRepHeaderDept">
+            <div style="text-align:left; font-size:11.5px; color:#5A6F6C;" id="lblRepHeaderDept">
               النشاط الطلابي<br><span id="lblRepDate">1447/03/05 هـ</span>
             </div>
           </div>
 
           <div class="rep-title-box">
             <div class="rep-title" id="lblRepTitle">تقرير تنفيذ فعالية اليوم الوطني السعودي</div>
-            <div class="rep-subtitle">نموذج التقرير الإداري والتربوي الموحد</div>
           </div>
 
           <div class="rep-section">
@@ -347,14 +350,14 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           </div>
 
           <div class="rep-section">
-            <h4>التوثيق المصور للفعالية (صورتان)</h4>
+            <h4>التوثيق المصور للفعالية</h4>
             <div class="rep-images-grid" id="lblRepImagesGrid">
               <div class="rep-img-card">
-                <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الأولى</div>
+                <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
                 <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
               </div>
               <div class="rep-img-card">
-                <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الثانية</div>
+                <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
                 <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
               </div>
             </div>
@@ -783,11 +786,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     const grid = document.getElementById('lblRepImagesGrid');
     grid.innerHTML = `
       <div class="rep-img-card">
-        ${reportImages[1] ? `<img src="${reportImages[1]}" alt="1">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الأولى</div>`}
+        ${reportImages[1] ? `<img src="${reportImages[1]}" alt="1">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>`}
         <div class="rep-img-caption">${document.getElementById('repCap1').value}</div>
       </div>
       <div class="rep-img-card">
-        ${reportImages[2] ? `<img src="${reportImages[2]}" alt="2">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الثانية</div>`}
+        ${reportImages[2] ? `<img src="${reportImages[2]}" alt="2">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>`}
         <div class="rep-img-caption">${document.getElementById('repCap2').value}</div>
       </div>
     `;
@@ -802,6 +805,18 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         updateReportPreview();
       } catch(e) {
         alert("خطأ في تحميل الصورة");
+      }
+    }
+  };
+
+  window.loadReportLogo = async function(event) {
+    const file = event.target.files[0];
+    if(file) {
+      try {
+        const dataUrl = await fileToDataUrl(file);
+        document.getElementById('repLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار">`;
+      } catch(e) {
+        alert("خطأ في تحميل الشعار");
       }
     }
   };
