@@ -88,7 +88,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .ticker-text span { margin-inline-start:40px; font-weight:600; color:var(--ink); }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-/* تصميم شهادة الشكر والتقدير الأصلية (أفقي) */
+/* تصميم شهادة الشكر والتقدير */
 .cert-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
 .cert-inner { border:2px dashed #0C6A64; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
@@ -105,25 +105,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
-/* تصميم التقرير بالبرواز المقطع ومضبوط تماماً لصفحة عمودية واحدة A4 */
-.report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:10mm 12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
-.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:6mm 8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
-.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:5px; margin-bottom:6px; }
-.rep-logo img { max-height:42px; max-width:85px; object-fit:contain; }
-.rep-gov { text-align:center; font-weight:700; font-size:11.5px; color:#5A6F6C; }
-.rep-gov span { display:block; font-size:13.5px; color:#0C6A64; }
-.rep-title-box { text-align:center; margin-bottom:6px; }
-.rep-title { font-size:19px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
-.rep-section { margin-bottom:5px; }
-.rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:3px 6px; margin:0 0 3px 0; font-size:12px; color:#0C6A64; }
-.rep-content-box { border:1px solid var(--line); border-radius:6px; padding:5px 7px; min-height:30px; font-size:11.5px; line-height:1.45; background:#fff; }
-.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-top:3px; }
-.rep-img-card { border:1px solid var(--line); border-radius:6px; padding:3px; text-align:center; background:#fafafa; }
-.rep-img-card img { width:100%; height:95px; object-fit:cover; border-radius:4px; margin-bottom:2px; }
-.rep-img-caption { font-size:10.5px; color:#5A6F6C; font-weight:600; }
-.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:6px; font-size:11.5px; font-weight:600; border-top:1px solid var(--line); padding-top:6px; }
-
 /* جدول الأسماء المحفوظة للنشاط */
 .table-wrap { overflow-x: auto; margin-top: 10px; }
 table.data-table { width: 100%; border-collapse: collapse; text-align: right; font-size: 13.5px; }
@@ -132,24 +113,21 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قاعدة الطباعة الآمنة والمفصولة تماماً */
+/* قاعدة الطباعة الآمنة والمعدلة لمنع الصفحة البيضاء */
 @media print {
+  @page { size: landscape; margin: 0; }
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   
+  /* إخفاء عام لكل محتويات الموقع باستثناء حاوي الشهادة أو حاوي الدفعات */
   body > *:not(.wrap) { display: none !important; }
   .wrap > *:not(main) { display: none !important; }
-  
-  main > *:not(#page-certificates):not(#page-reports) { display: none !important; }
+  main > *:not(#page-certificates) { display: none !important; }
   
   #page-certificates > *:not(.cert-preview-box) { display: none !important; }
   .cert-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
   
-  #page-reports > *:not(.report-preview-box) { display: none !important; }
-  .report-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
-
-  /* قاعدة طباعة شهادات الشكر الفردية (أفقي Landscape كما كانت تماماً) */
-  body:not(.printing-report):not(.printing-batch) @page { size: landscape; margin: 0; }
-  body:not(.printing-report):not(.printing-batch) #printableCertificate {
+  /* إظهار الشهادة الفردية بصورة مؤكدة */
+  body:not(.printing-batch) #printableCertificate {
     display: flex !important;
     position: absolute !important;
     left: 0 !important;
@@ -159,28 +137,9 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     margin: 0 !important;
     box-shadow: none !important;
     border: 8px solid #0C6A64 !important;
-    page-break-after: avoid !important;
-    page-break-inside: avoid !important;
   }
 
-  /* قاعدة طباعة التقارير (عمودي Portrait وفي صفحة واحدة) */
-  body.printing-report @page { size: portrait; margin: 0; }
-  body.printing-report #printableReport {
-    display: flex !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 210mm !important;
-    height: 297mm !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: 6px solid #0C6A64 !important;
-    page-break-after: avoid !important;
-    page-break-inside: avoid !important;
-  }
-
-  /* قاعدة الطباعة الجماعية للشهادات (أفقي Landscape) */
-  body.printing-batch @page { size: landscape; margin: 0; }
+  /* إظهار حاوي الطباعة الجماعية عند تفعيله */
   body.printing-batch #batchPrintContainer {
     display: block !important;
     position: absolute !important;
@@ -229,15 +188,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   <button class="tab" data-tab="announcements" onclick="switchTab('announcements')"><i class="fa-solid fa-bullhorn"></i> الإنجاز</button>
   <button class="tab" data-tab="competitions" onclick="switchTab('competitions')"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
   
-  <div class="dropdown">
-    <button class="tab" data-tab="reports"><i class="fa-solid fa-file-lines"></i> التقارير <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i></button>
-    <div class="dropdown-content">
-      <button onclick="selectReportDept('activity')"><i class="fa-solid fa-star"></i> النشاط الطلابي</button>
-      <button onclick="selectReportDept('guidance')"><i class="fa-solid fa-user-graduate"></i> التوجيه الطلابي</button>
-      <button onclick="selectReportDept('admin')"><i class="fa-solid fa-building-columns"></i> الإدارة المدرسية</button>
-    </div>
-  </div>
-
   <div class="dropdown">
     <button class="tab" data-tab="certificates"><i class="fa-solid fa-award"></i> شهادات الشكر <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i></button>
     <div class="dropdown-content">
@@ -320,145 +270,10 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div> 
  </section>
 
- <!-- PAGE: REPORTS -->
- <section id="page-reports" class="page hidden">
-  <div class="panel no-print">
-    <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> مُولّد التقارير الرسمية - <span id="currentReportDeptTitle">النشاط الطلابي</span></h2>
-    <p>قم بإدخال تفاصيل التقرير، رفع الشعار يدوياً، إرفاق صورتين توثيقيتين، ثم اضغط طباعة أو حفظ PDF.</p>
-    
-    <div class="formgrid" style="margin-top:15px;">
-      <div class="field">
-        <label>عنوان التقرير / البرنامج</label>
-        <input type="text" id="repTitleInput" value="تقرير تنفيذ فعالية اليوم الوطني السعودي" oninput="updateReportPreview()">
-      </div>
-      <div class="field">
-        <label>تاريخ التقرير</label>
-        <input type="text" id="repDateInput" value="1447/03/05 هـ" oninput="updateReportPreview()">
-      </div>
-
-      <div class="field">
-        <label>رفع شعار الوزارة / المدرسة (يدوياً)</label>
-        <input type="file" accept="image/*" onchange="loadReportLogo(event)">
-      </div>
-      <div class="field">
-        <label>المسمى الوظيفي للمسؤول (الموقع)</label>
-        <input type="text" id="repSignerTitle" value="رائد النشاط الطلابي" oninput="updateReportPreview()">
-      </div>
-
-      <div class="field">
-        <label>اسم المسؤول (الموقع)</label>
-        <input type="text" id="repSignerName" value="عواد محمد العوفي" oninput="updateReportPreview()">
-      </div>
-      <div class="field">
-        <label>مسمى مدير المدرسة</label>
-        <input type="text" id="repPrincipalTitle" value="مدير المدرسة" oninput="updateReportPreview()">
-      </div>
-
-      <div class="field">
-        <label>اسم مدير المدرسة</label>
-        <input type="text" id="repPrincipalName" value="متعب حسن السحيمي" oninput="updateReportPreview()">
-      </div>
-
-      <div class="field full">
-        <label>أهداف البرنامج / الفعالية</label>
-        <textarea id="repObjectivesInput" oninput="updateReportPreview()">1. تعزيز الانتماء الوطني والولاء للقيادة الرشيدة.\n2. إبراز جهود المملكة وتاريخها العريق.\n3. مشاركة الطلاب بفعالية في الأنشطة اللاصفية.</textarea>
-      </div>
-      <div class="field full">
-        <label>ملخص التنفيذ وسير العمل</label>
-        <textarea id="repSummaryInput" oninput="updateReportPreview()">أقيمت فعاليات البرنامج في مقر المدرسة بحضور طاقم الإدارة والمعلمين والطلاب، حيث تخلل البرنامج كلمات توجيهية، وعروض مرئية، ومسابقات ثقافية وفنية تعبيرية عكست حب الوطن ومقدراته.</textarea>
-      </div>
-
-      <div class="field">
-        <label>الصورة التوثيقية (1)</label>
-        <input type="file" accept="image/*" onchange="loadReportImage(event, 1)">
-      </div>
-      <div class="field">
-        <label>تعليق الصورة (1)</label>
-        <input type="text" id="repCap1" value="جانب من الفعاليات الطلابية" oninput="updateReportPreview()">
-      </div>
-
-      <div class="field">
-        <label>الصورة التوثيقية (2)</label>
-        <input type="file" accept="image/*" onchange="loadReportImage(event, 2)">
-      </div>
-      <div class="field">
-        <label>تعليق الصورة (2)</label>
-        <input type="text" id="repCap2" value="تفاعل الطلاب مع البرامج" oninput="updateReportPreview()">
-      </div>
-
-      <div class="actions full" style="display:flex; gap:10px; align-items:center; margin-top:10px;">
-        <button class="btn primary" onclick="printSingleReport()"><i class="fa-solid fa-print"></i> طباعة التقرير / حفظ PDF</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel no-print">
-    <h3>معاينة التقرير الرسمي (بالبرواز المقطع وفي صفحة عمودية واحدة)</h3>
-  </div>
-  
-  <div class="report-preview-box">
-    <div class="report-page" id="printableReport">
-      <div class="rep-inner-frame">
-        <div>
-          <div class="rep-header">
-            <div class="rep-logo" id="repLogoArea">
-              <div style="font-size:11px; color:#5A6F6C; border:1px dashed var(--line); padding:4px; border-radius:4px;">الشعار اليدوي</div>
-            </div>
-            <div class="rep-gov">
-              الإدارة العامة للتعليم بمنطقة المدينة المنورة<br>
-              <span>مدرسة مكة المكرمة الابتدائية</span>
-            </div>
-            <div style="text-align:left; font-size:11.5px; color:#5A6F6C;" id="lblRepHeaderDept">
-              النشاط الطلابي<br><span id="lblRepDate">1447/03/05 هـ</span>
-            </div>
-          </div>
-
-          <div class="rep-title-box">
-            <div class="rep-title" id="lblRepTitle">تقرير تنفيذ فعالية اليوم الوطني السعودي</div>
-          </div>
-
-          <div class="rep-section">
-            <h4>أهداف البرنامج / الفعالية</h4>
-            <div class="rep-content-box" id="lblRepObjectives" style="white-space: pre-line;">-</div>
-          </div>
-
-          <div class="rep-section">
-            <h4>ملخص التنفيذ وسير العمل</h4>
-            <div class="rep-content-box" id="lblRepSummary" style="white-space: pre-line;">-</div>
-          </div>
-
-          <div class="rep-section">
-            <h4>التوثيق المصور للفعالية</h4>
-            <div class="rep-images-grid" id="lblRepImagesGrid">
-              <div class="rep-img-card">
-                <div id="imgPreview1" style="height:95px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
-                <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
-              </div>
-              <div class="rep-img-card">
-                <div id="imgPreview2" style="height:95px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
-                <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="rep-footer">
-          <div>
-            <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
-          </div>
-          <div style="text-align:center; font-size:11.5px; color:#0C6A64; font-weight:bold;">
-            معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span> <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
- </section>
-
  <!-- PAGE: CERTIFICATES -->
  <section id="page-certificates" class="page hidden">
   <div class="panel no-print">
-    <h2><i class="fa-solid fa-award" style="color:var(--brand)"></i> مُولّد شهادات الشكر والتقدير - <span id="currentDeptTitle">النشاط الطلابي</span></h2>
+    <h2><i class="fa-solid fa-award" style="color:var(--brand)"></i> مُولّد شهادات الشكر والتقدير الرسمية - <span id="currentDeptTitle">النشاط الطلابي</span></h2>
     <p>قم بإدخال بيانات الشهادة وتعديل النصوص حسب الحاجة، ثم اضغط طباعة أو حفظ كملف PDF.</p>
     
     <div class="formgrid" style="margin-top:15px;">
@@ -492,6 +307,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="text" id="certYear" value="1447 - 1448 هـ" oninput="updateCertPreview()">
       </div>
 
+      <!-- حقول تخصيص التوقيع والترويسة -->
       <div class="field" id="signerTitleField">
         <label>المسمى الوظيفي للموقع (اليسار)</label>
         <input type="text" id="certSignerTitle" value="رائد النشاط الطلابي" oninput="updateCertPreview()">
@@ -545,7 +361,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة الشهادة الرسمية (أفقي)</h3>
+    <h3>معاينة الشهادة الرسمية</h3>
   </div>
   
   <div class="cert-preview-box">
@@ -640,9 +456,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   
   let currentUser = null;  
   let state = { announcements: [], batchStudents: [] };
-  let activeDept = 'activity'; 
-  let activeReportDept = 'activity';
-  let reportImages = { 1: '', 2: '' };
+  let activeDept = 'activity'; // activity, guidance, admin
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -774,6 +588,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;      }  
   }
 
+  // إدارة جدول السجل السحابي للدفعة
   window.saveCurrentToBatchList = async function() {
     if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول لحفظ الأسماء بالسجل.");
     
@@ -827,6 +642,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.querySelectorAll('.batch-chk').forEach(chk => chk.checked = master.checked);
   };
 
+  // طباعة دفعة شهادات
   window.printSelectedBatch = function() {
     const selectedIds = Array.from(document.querySelectorAll('.batch-chk:checked')).map(chk => chk.dataset.id);
     if(selectedIds.length === 0) return alert("يرجى تحديد اسم واحد على الأقل من الجدول للطباعة.");
@@ -872,7 +688,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     `).join('');
 
     document.body.classList.add('printing-batch');
-    document.body.classList.remove('printing-report');
     window.print();
     setTimeout(() => {
       document.body.classList.remove('printing-batch');
@@ -881,13 +696,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   };
 
   window.printSingleCert = function() {
-    document.body.classList.remove('printing-report');
-    document.body.classList.remove('printing-batch');
-    window.print();
-  };
-
-  window.printSingleReport = function() {
-    document.body.classList.add('printing-report');
     document.body.classList.remove('printing-batch');
     window.print();
   };
@@ -901,89 +709,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));      
       document.querySelectorAll(".page").forEach(page => page.classList.toggle("hidden", page.id !== "page-" + tabId));      
       window.scrollTo({ top: 0, behavior: 'smooth' });  
-  };
-
-  // دوال إدارة التقارير (النشاط، التوجيه، الإدارة)
-  window.selectReportDept = function(dept) {
-    activeReportDept = dept;
-    switchTab('reports');
-    
-    const titleEl = document.getElementById('currentReportDeptTitle');
-    const headerDeptText = document.getElementById('lblRepHeaderDept');
-    const signerTitleInput = document.getElementById('repSignerTitle');
-    const signerNameInput = document.getElementById('repSignerName');
-
-    if(dept === 'activity') {
-      titleEl.textContent = 'النشاط الطلابي';
-      headerDeptText.innerHTML = `النشاط الطلابي<br><span>${document.getElementById('repDateInput').value}</span>`;
-      signerTitleInput.value = 'رائد النشاط الطلابي';
-      signerNameInput.value = 'عواد محمد العوفي';
-    } else if(dept === 'guidance') {
-      titleEl.textContent = 'التوجيه الطلابي';
-      headerDeptText.innerHTML = `التوجيه الطلابي<br><span>${document.getElementById('repDateInput').value}</span>`;
-      signerTitleInput.value = 'الموجه الطلابي';
-      signerNameInput.value = 'اسم الموجه الطلابي';
-    } else if(dept === 'admin') {
-      titleEl.textContent = 'الإدارة المدرسية';
-      headerDeptText.innerHTML = `الإدارة المدرسية<br><span>${document.getElementById('repDateInput').value}</span>`;
-      signerTitleInput.value = 'وكيل الشؤون التعليمية';
-      signerNameInput.value = 'اسم المسؤول';
-    }
-    updateReportPreview();
-  };
-
-  window.updateReportPreview = function() {
-    document.getElementById('lblRepTitle').textContent = document.getElementById('repTitleInput').value || 'عنوان التقرير';
-    document.getElementById('lblRepDate').textContent = document.getElementById('repDateInput').value || '';
-    document.getElementById('lblRepObjectives').textContent = document.getElementById('repObjectivesInput').value || '';
-    document.getElementById('lblRepSummary').textContent = document.getElementById('repSummaryInput').value || '';
-
-    document.getElementById('lblRepSignerTitle').textContent = document.getElementById('repSignerTitle').value || '';
-    document.getElementById('lblRepSignerName').textContent = document.getElementById('repSignerName').value || '';
-    document.getElementById('lblRepPrincipalTitle').textContent = document.getElementById('repPrincipalTitle').value || '';
-    document.getElementById('lblRepPrincipalName').textContent = document.getElementById('repPrincipalName').value || '';
-
-    document.getElementById('lblCap1').textContent = document.getElementById('repCap1').value || '';
-    document.getElementById('lblCap2').textContent = document.getElementById('repCap2').value || '';
-
-    const prev1 = document.getElementById('imgPreview1');
-    if(reportImages[1]) {
-      prev1.innerHTML = `<img src="${reportImages[1]}" style="width:100%; height:95px; object-fit:cover; border-radius:4px;">`;
-    } else {
-      prev1.innerHTML = `الصورة الأولى`;
-    }
-
-    const prev2 = document.getElementById('imgPreview2');
-    if(reportImages[2]) {
-      prev2.innerHTML = `<img src="${reportImages[2]}" style="width:100%; height:95px; object-fit:cover; border-radius:4px;">`;
-    } else {
-      prev2.innerHTML = `الصورة الثانية`;
-    }
-  };
-
-  window.loadReportImage = async function(event, index) {
-    const file = event.target.files[0];
-    if(file) {
-      try {
-        const dataUrl = await fileToDataUrl(file);
-        reportImages[index] = dataUrl;
-        updateReportPreview();
-      } catch(e) {
-        alert("خطأ في تحميل الصورة");
-      }
-    }
-  };
-
-  window.loadReportLogo = async function(event) {
-    const file = event.target.files[0];
-    if(file) {
-      try {
-        const dataUrl = await fileToDataUrl(file);
-        document.getElementById('repLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار">`;
-      } catch(e) {
-        alert("خطأ في تحميل الشعار");
-      }
-    }
   };
 
   // التحكم بأقسام الشهادات المختلفة (النشاط، التوجيه، الإدارة)
@@ -1023,6 +748,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     updateCertPreview();
   };
 
+  // دوال توليد وتحديث شهادة الشكر
   window.updateCertPreview = function() {
     const targetType = document.getElementById('certTargetType').value;
     const subTitle = document.getElementById('lblCertSub');
