@@ -106,11 +106,49 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; min-width:180px; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
+/* تنسيقات الطباعة الجماعية للشهادات */
+#batchPrintContainer { display:none; }
+
 @media print {
   @page { size: landscape; margin: 0; }
   body * { visibility: hidden !important; }
-  #printableCertificate, #printableCertificate * { visibility: visible !important; }
-  #printableCertificate { position: absolute; left: 0; top: 0; width: 297mm; height: 210mm; margin: 0; box-shadow: none; border: 8px solid #0C6A64; }
+  
+  /* في حال كان هناك أمر طباعة جماعية */
+  body.printing-batch #batchPrintContainer,
+  body.printing-batch #batchPrintContainer * {
+    visibility: visible !important;
+  }
+  body.printing-batch #batchPrintContainer {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  body.printing-batch .batch-cert-item {
+    width: 297mm;
+    height: 210mm;
+    page-break-after: always;
+    break-after: page;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+
+  /* في حال كان أمر طباعة شهادة واحدة من المعاينة */
+  body:not(.printing-batch) #printableCertificate, 
+  body:not(.printing-batch) #printableCertificate * { 
+    visibility: visible !important; 
+  }
+  body:not(.printing-batch) #printableCertificate { 
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    width: 297mm; 
+    height: 210mm; 
+    margin: 0; 
+    box-shadow: none; 
+    border: 8px solid #0C6A64; 
+  }
   .no-print { display: none !important; }
 }
 </style>
@@ -286,8 +324,40 @@ button,input,select,textarea{font:inherit;color:inherit}
         <input type="file" id="certLogoInput" accept="image/*" onchange="loadCertLogo(event)">
       </div>
       <div class="actions full" style="display:flex; gap:10px; align-items:center;">
-        <button class="btn primary" onclick="window.print()"><i class="fa-solid fa-print"></i> طباعة الشهادة / حفظ PDF</button>
+        <button class="btn primary" onclick="printSingleCert()"><i class="fa-solid fa-print"></i> طباعة هذه الشهادة / PDF</button>
       </div>
+    </div>
+  </div>
+
+  <!-- لوحة إدارة وحفظ أسماء المكرمين والطباعة الجماعية (تظهر عند تسجيل الدخول كمسؤول) -->
+  <div class="panel no-print admin-only hidden" style="border: 2px solid var(--brand); background: var(--surface2);">
+    <h2><i class="fa-solid fa-users-gear" style="color:var(--brand)"></i> قائمة الحفظ والطباعة الجماعية للشهادات (خاص بالمسؤول)</h2>
+    <p class="muted">يمكنك إضافة وإدارة سجل أسماء الطلاب أو المعلمين لحفظهم سحابياً واصدار وطباعة كافة شهاداتهم دفعة واحدة.</p>
+    
+    <div style="display:flex; justify-content:space-between; align-items:center; margin:15px 0; flex-wrap:wrap; gap:10px;">
+      <button class="btn gold small" onclick="addCurrentToBatchList()"><i class="fa-solid fa-user-plus"></i> إضافة بيانات الشهادة الحالية للقائمة السحابية</button>
+      <div style="display:flex; gap:8px;">
+        <button class="btn primary" onclick="printSelectedBatch()"><i class="fa-solid fa-print"></i> طباعة الشهادات المحددة دفعة واحدة</button>
+      </div>
+    </div>
+
+    <!-- جدول الأسماء المخزنة -->
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; text-align:right; font-size:13.5px; background:var(--surface); border-radius:8px; overflow:hidden;">
+        <thead>
+          <tr style="background:var(--brand); color:var(--brand-ink);">
+            <th style="padding:8px 12px;"><input type="checkbox" id="selectAllRecipients" onchange="toggleSelectAllRecipients(this)"></th>
+            <th style="padding:8px 12px;">اسم المكرم</th>
+            <th style="padding:8px 12px;">الفئة</th>
+            <th style="padding:8px 12px;">الصف / المسمى</th>
+            <th style="padding:8px 12px;">القسم</th>
+            <th style="padding:8px 12px; text-align:center;">إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="recipientsTableBody">
+          <tr><td colspan="6" style="text-align:center; padding:15px;" class="muted">جاري تحميل قائمة الأسماء...</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -295,7 +365,7 @@ button,input,select,textarea{font:inherit;color:inherit}
     <h3>معاينة الشهادة الرسمية</h3>
   </div>
   
-  <div class="cert-preview-box">
+  <div class="cert-preview-box no-print">
     <div class="certificate" id="printableCertificate">
       <div class="cert-inner">
         <div class="cert-header">
@@ -331,6 +401,9 @@ button,input,select,textarea{font:inherit;color:inherit}
       </div>
     </div>
   </div>
+
+  <!-- حاوية توليد الشهادات للطباعة الجماعية -->
+  <div id="batchPrintContainer"></div>
  </section>
 </main>
 
@@ -383,8 +456,9 @@ button,input,select,textarea{font:inherit;color:inherit}
   const db = getFirestore(app);
   
   let currentUser = null;  
-  let state = { cards: [], announcements: [] };
+  let state = { cards: [], announcements: [], certRecipients: [] };
   let currentCertCategory = 'activity'; // activity | guidance | admin
+  let customLogoData = '';
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -443,159 +517,152 @@ button,input,select,textarea{font:inherit;color:inherit}
       state.announcements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderAll();  
   });
-  
-  document.getElementById('announcementEntryForm').addEventListener('submit', async function(e) {      
-      e.preventDefault();      
-      if (!currentUser) return alert("عذراً، يجب تسجيل الدخول أولاً.");
 
-      const title = document.getElementById('ancTitle').value;      
-      const category = document.getElementById('ancCategory').value;      
-      const showInTicker = document.getElementById('ancShowInTicker').value;      
-      const desc = document.getElementById('ancDesc').value;      
-      const videoUrl = document.getElementById('ancVideoUrl').value.trim();      
-      const fileInput = document.getElementById('ancFile');      
-      const file = fileInput.files[0];
-
-      let fileData = "";      
-      let fileType = "";
-      const saveBtn = document.getElementById('saveAncBtn');      
-      saveBtn.disabled = true;      
-      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري النشر...`;
-      try {          
-          if (file) {              
-              if (file.size > 5 * 1024 * 1024) {                  
-                  throw new Error("حجم الملف كبير، يرجى اختيار ملف أقل من 5 ميجابايت.");              }
-              fileData = await fileToDataUrl(file);              
-              fileType = file.type.startsWith('image/') ? 'image' : (file.type.includes('pdf') ? 'pdf' : 'other');          }
-
-          await addDoc(collection(db, "announcements"), {              
-              title, category, showInTicker, desc, fileData, fileType, videoUrl, date: new Date().toLocaleDateString('ar-SA'), createdAt: Date.now()            
-          });
-
-          this.reset();          
-          hideForm('announcementFormPanel');          
-          toast("تم نشر الإعلان وتحديث الشريط بنجاح!");      } catch (err) {          
-          alert("حدث خطأ أثناء النشر: " + err.message);      } finally {          
-          saveBtn.disabled = false;          
-          saveBtn.innerHTML = `<i class="fa-solid fa-bullhorn"></i> نشر الإعلان سحابياً`;      }  
+  // الاستماع لحفظ أسماء المكرمين في Firestore
+  onSnapshot(collection(db, "cert_recipients"), (snapshot) => {
+      state.certRecipients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderRecipientsTable();
   });
-  
-  window.deleteAnnouncement = async function(docId) {      
-      if (!currentUser) return alert("يجب تسجيل الدخول للحذف.");      
-      if (confirm("هل تريد حذف هذا الإعلان؟")) {          
-        try { await deleteDoc(doc(db, "announcements", docId)); toast("تم حذف الإعلان."); } catch(e) { alert("خطأ: " + e.message); }      }  
+
+  /* ... existing announcement handlers ... */
+
+  // إضافة البيانات الحالية للقائمة السحابية
+  window.addCurrentToBatchList = async function() {
+    if(!currentUser) return alert("يرجى تسجيل الدخول كمسؤول أولاً.");
+
+    const name = document.getElementById('certRecName').value.trim();
+    if(!name) return alert("يرجى كتابة اسم المكرم أولاً.");
+
+    const recipientObj = {
+      name: name,
+      targetType: document.getElementById('certTargetType').value,
+      grade: document.getElementById('certGrade').value.trim(),
+      certType: document.getElementById('certTypeSelect').value,
+      year: document.getElementById('certYear').value,
+      customText: document.getElementById('certCustomText').value,
+      leftSignTitle: document.getElementById('certLeftSignTitleInput').value,
+      leftSignName: document.getElementById('certLeftSignNameInput').value,
+      category: currentCertCategory,
+      createdAt: Date.now()
+    };
+
+    try {
+      await addDoc(collection(db, "cert_recipients"), recipientObj);
+      toast("تم حفظ اسم المكرم في القائمة السحابية بنجاح!");
+    } catch(err) {
+      alert("خطأ في الحفظ: " + err.message);
+    }
   };
-  
-  function renderAnnouncements() {      
-      const container = document.getElementById('announcementsGrid');      
-      const tickerContainer = document.getElementById('tickerContent');
 
-      if (!state.announcements || !state.announcements.length) {          
-          container.innerHTML = '<div class="empty full">لا توجد إعلانات منشورة بعد.</div>';          
-          tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> أهلاً بكم في بوابة النشاط الطلابي بمدرسة مكة المكرمة الابتدائية.</span>`;          
-          return;      }
+  // عرض جدول الأسماء
+  function renderRecipientsTable() {
+    const tbody = document.getElementById('recipientsTableBody');
+    if(!state.certRecipients || state.certRecipients.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:15px;" class="muted">لا توجد أسماء مضافة في القائمة بعد.</td></tr>`;
+      return;
+    }
 
-      container.innerHTML = state.announcements.map((a) => `          
-          <article class="card">              
-              <div class="card-top">                  
-                  <span class="category">${esc(a.category)}</span>                  
-                  <span class="muted">${esc(a.date || '')}</span>              </div>              
-              <h3>${esc(a.title)}</h3>              
-              <div class="muted">${esc(a.desc)}</div>              
-              ${currentUser ? `<div class="actions no-print" style="margin-top:10px;"><button class="btn danger small" onclick="deleteAnnouncement('${a.id}')">حذف الإعلان</button></div>` : ''}          </article>      `).join('');
+    const catLabels = { activity: 'النشاط الطلابي', guidance: 'التوجيه الطلابي', admin: 'الإدارة' };
 
-      const tickerItems = state.announcements.filter(a => a.showInTicker === 'yes');      
-      if (tickerItems.length > 0) {          
-          tickerContainer.innerHTML = tickerItems.map(a => `              
-              <span><i class="fa-solid fa-bullhorn"></i> ${esc(a.title)}: ${esc(a.desc)}</span>          `).join('');      } else {          
-          tickerContainer.innerHTML = `<span><i class="fa-solid fa-bell"></i> مرحباً بكم - قم بتفعيل خيار الشريط عند إضافة إعلان جديد ليظهر هنا.</span>`;      }  
+    tbody.innerHTML = state.certRecipients.map(r => `
+      <tr style="border-bottom:1px solid var(--line);">
+        <td style="padding:8px 12px;"><input type="checkbox" class="recipient-checkbox" value="${r.id}"></td>
+        <td style="padding:8px 12px; font-weight:bold;">${esc(r.name)}</td>
+        <td style="padding:8px 12px;">${r.targetType === 'student' ? 'طالب' : 'معلم'}</td>
+        <td style="padding:8px 12px;">${esc(r.grade)}</td>
+        <td style="padding:8px 12px;"><span class="category" style="font-size:11px;">${catLabels[r.category] || 'عام'}</span></td>
+        <td style="padding:8px 12px; text-align:center;">
+          <button class="btn gold small" onclick="loadRecipientToForm('${r.id}')" title="معاينة الشهادة"><i class="fa-solid fa-eye"></i></button>
+          <button class="btn danger small" onclick="deleteRecipient('${r.id}')" title="حذف"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
   }
-  
-  function renderAll() {      
-      renderAnnouncements();  }
-  
-  window.switchTab = function(tabId) {      
-      document.querySelectorAll(".tab").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));      
-      document.querySelectorAll(".page").forEach(page => page.classList.toggle("hidden", page.id !== "page-" + tabId));      
-      window.scrollTo({ top: 0, behavior: 'smooth' });  };
-  
-  document.querySelectorAll(".tab:not(#certTabBtn)").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
 
-  // التحكم بأقسام الشهادات المختلفة (النشاط / التوجيه / الإدارة)
-  window.selectCertCategory = function(cat) {
-    currentCertCategory = cat;
-    switchTab('certificates');
-    document.getElementById('certTabBtn').classList.add('active');
-
-    const titleEl = document.getElementById('certSectionTitle');
-    const headerDeptEl = document.getElementById('lblHeaderDeptText');
-    const titleInput = document.getElementById('certLeftSignTitleInput');
-    const nameInput = document.getElementById('certLeftSignNameInput');
-
-    if(cat === 'activity') {
-      titleEl.textContent = 'النشاط الطلابي';
-      headerDeptEl.textContent = 'النشاط الطلابي';
-      titleInput.value = 'رائد النشاط الطلابي';
-      nameInput.value = 'عواد محمد العوفي';
-    } else if(cat === 'guidance') {
-      titleEl.textContent = 'التوجيه الطلابي';
-      headerDeptEl.textContent = 'التوجيه الطلابي';
-      titleInput.value = 'الموجه الطلابي';
-      nameInput.value = 'مشرف التوجيه';
-    } else if(cat === 'admin') {
-      titleEl.textContent = 'إدارة المدرسة';
-      headerDeptEl.textContent = ''; // يترك فارغاً بناءً على الطلب
-      titleInput.value = 'وكيل الشؤون التعليمية';
-      nameInput.value = 'اسم المسؤول';
-    }
-    updateCertPreview();
+  window.toggleSelectAllRecipients = function(master) {
+    document.querySelectorAll('.recipient-checkbox').forEach(cb => cb.checked = master.checked);
   };
 
-  // دوال توليد وتحديث شهادة الشكر
-  window.updateCertPreview = function() {
-    const targetType = document.getElementById('certTargetType').value;
-    const subTitle = document.getElementById('lblCertSub');
-    if(targetType === 'student') {
-      subTitle.textContent = "تُمنح هذه الشهادة بكل فخر واعتزاز إلى الطالب:";
-    } else {
-      subTitle.textContent = "تُمنح هذه الشهادة بكل فخر واعتزاز إلى الزميل التربوي / المعلم:";
+  window.deleteRecipient = async function(id) {
+    if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول.");
+    if(confirm("هل أصلًا تريد حذف هذا الاسم من القائمة؟")) {
+      try {
+        await deleteDoc(doc(db, "cert_recipients", id));
+        toast("تم الحذف بنجاح.");
+      } catch(e) {
+        alert("خطأ: " + e.message);
+      }
     }
-
-    document.getElementById('lblCertName').textContent = document.getElementById('certRecName').value || 'اسم المكرم';
-    document.getElementById('lblCertGrade').textContent = document.getElementById('certGrade').value || '';
-    document.getElementById('lblCertYear').textContent = document.getElementById('certYear').value;
-    document.getElementById('lblCertDesc').textContent = document.getElementById('certCustomText').value;
-
-    // توقيع اليسار والمسمى
-    document.getElementById('lblLeftSignTitle').textContent = document.getElementById('certLeftSignTitleInput').value || '';
-    document.getElementById('lblLeftSignName').textContent = document.getElementById('certLeftSignNameInput').value || '';
   };
 
-  window.updateCertTemplate = function() {
-    const targetType = document.getElementById('certTargetType').value;
-    const val = document.getElementById('certTypeSelect').value;
-    const txtArea = document.getElementById('certCustomText');
-    
-    if(targetType === 'student') {
-      if(val === '1') {
-        txtArea.value = "تقديراً لجهوده المتميزة وتفوقه المستمر في الأنشطة والبرامج المدرسية، وحرصه الدائم على التميز والإبداع.";
-      } else if(val === '2') {
-        txtArea.value = "نظراً لتحقيقه مستويات متقدمة في التفوق الدراسي والالتزام بالقيم السلوكية الإيجابية خلال العام الدراسي.";
-      } else if(val === '3') {
-        txtArea.value = "تثميناً لإنجازه المتميز في حفظ كتاب الله الكريم (أو أجزاء منه) / السنة النبوية، ومثابرته العالية.";
-      } else if(val === '4') {
-        txtArea.value = "نظراً لمشاركته الفعالة والمتميزة في الأنشطة الصفية واللاصفية وإسهامه في إنجاح فعاليات المدرسة.";
-      } else if(val === '5') {
-        txtArea.value = "تقديراً لتعاونه المستمر وحسن الخلق والانضباط المدرسي المميز.";
-      }
-    } else {
-      if(val === '1' || val === '5') {
-        txtArea.value = "تثميناً لجهودكم المخلصة وإسهاماتكم الفعالة في إنجاح خطط وبرامج المدرسة وتميز الأداء التربوي والتعليمي.";
-      } else {
-        txtArea.value = "تقديراً للتميز والإبداع في تفعيل الأنشطة الصفية والمدرسية وخدمة العملية التعليمية بكل تفانٍ وإخلاص.";
-      }
-    }
+  window.loadRecipientToForm = function(id) {
+    const r = state.certRecipients.find(x => x.id === id);
+    if(!r) return;
+
+    document.getElementById('certTargetType').value = r.targetType || 'student';
+    document.getElementById('certRecName').value = r.name || '';
+    document.getElementById('certGrade').value = r.grade || '';
+    document.getElementById('certTypeSelect').value = r.certType || '1';
+    document.getElementById('certYear').value = r.year || '1447 - 1448 هـ';
+    document.getElementById('certCustomText').value = r.customText || '';
+    document.getElementById('certLeftSignTitleInput').value = r.leftSignTitle || '';
+    document.getElementById('certLeftSignNameInput').value = r.leftSignName || '';
+
     updateCertPreview();
+    window.scrollTo({ top: document.getElementById('printableCertificate').offsetTop - 100, behavior: 'smooth' });
+  };
+
+  // طباعة شهادة واحدة فقط
+  window.printSingleCert = function() {
+    document.body.classList.remove('printing-batch');
+    window.print();
+  };
+
+  // الطباعة الجماعية للشهادات المحددة
+  window.printSelectedBatch = function() {
+    const selectedIds = Array.from(document.querySelectorAll('.recipient-checkbox:checked')).map(cb => cb.value);
+    if(selectedIds.length === 0) return alert("يرجى تحديد اسم واحد على الأقل من الجدول للطباعة الجماعية.");
+
+    const itemsToPrint = state.certRecipients.filter(r => selectedIds.includes(r.id));
+    const container = document.getElementById('batchPrintContainer');
+    container.innerHTML = '';
+
+    itemsToPrint.forEach(r => {
+      const subText = r.targetType === 'student' ? 'تُمنح هذه الشهادة بكل فخر واعتزاز إلى الطالب:' : 'تُمنح هذه الشهادة بكل فخر واعتزاز إلى الزميل التربوي / المعلم:';
+      const headerDept = r.category === 'admin' ? '' : (r.category === 'guidance' ? 'التوجيه الطلابي' : 'النشاط الطلابي');
+      const logoHTML = customLogoData ? `<img src="${customLogoData}" alt="شعار">` : `<b>وزارة التعليم</b><br><span style="font-size:10px; color:#5A6F6C;">المملكة العربية السعودية</span>`;
+
+      const certDiv = document.createElement('div');
+      certDiv.className = 'certificate batch-cert-item';
+      certDiv.innerHTML = `
+        <div class="cert-inner">
+          <div class="cert-header">
+            <div class="cert-logo">${logoHTML}</div>
+            <div class="cert-gov">الإدارة العامة للتعليم بمنطقة المدينة المنورة<br><span>مدرسة مكة المكرمة الابتدائية</span></div>
+            <div style="text-align:left; font-size:12px; color:#5A6F6C;">${headerDept ? headerDept + '<br>' : ''}<span>${esc(r.year || '1447 - 1448 هـ')}</span></div>
+          </div>
+          <div class="cert-body">
+            <div class="cert-title">شهادة شكر وتقدير</div>
+            <div class="cert-subtitle">${subText}</div>
+            <div class="cert-name">${esc(r.name)}</div>
+            <div style="font-size:14px; font-weight:bold; color:#5A6F6C; margin-bottom:10px;">${esc(r.grade || '')}</div>
+            <div class="cert-text">${esc(r.customText || '')}</div>
+          </div>
+          <div class="cert-footer">
+            <div class="cert-sign"><span>${esc(r.leftSignTitle || '')}</span><br><b>${esc(r.leftSignName || '')}</b></div>
+            <div style="text-align:center; font-size:12px; color:#C9A04A; font-weight:bold;"><i class="fa-solid fa-award fa-2x"></i><br>معتمدة من إدارة المدرسة</div>
+            <div class="cert-sign">مدير المدرسة<br><b>متعب حسن السحيمي</b></div>
+          </div>
+        </div>
+      `;
+      container.appendChild(certDiv);
+    });
+
+    document.body.classList.add('printing-batch');
+    setTimeout(() => {
+      window.print();
+      document.body.classList.remove('printing-batch');
+    }, 300);
   };
 
   window.loadCertLogo = function(event) {
@@ -603,7 +670,8 @@ button,input,select,textarea{font:inherit;color:inherit}
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById('certLogoArea').innerHTML = `<img src="${e.target.result}" alt="شعار">`;
+        customLogoData = e.target.result;
+        document.getElementById('certLogoArea').innerHTML = `<img src="${customLogoData}" alt="شعار">`;
       }
       reader.readAsDataURL(file);
     }
