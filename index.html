@@ -78,7 +78,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* Certificate Design */
 .cert-preview-box{background:#f4f7f6;border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;justify-content:center;align-items:center;overflow-x:auto}
-.certificate{width:297mm;height:210mm;background:#ffffff;color:#13302E;position:relative;padding:12mm;font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;flex-direction:column;justify-content:space-between;border:8px solid #0C6A64;box-sizing:border-box;page-break-after:always}
+.certificate{width:297mm;height:210mm;background:#ffffff;color:#13302E;position:relative;padding:12mm;font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;flex-direction:column;justify-content:space-between;border:8px solid #0C6A64;box-sizing:border-box;page-break-after:always;page-break-inside:avoid}
 .cert-inner{border:2px dashed #0C6A64;height:100%;padding:8mm;display:flex;flex-direction:column;justify-content:space-between;position:relative;background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%)}
 .cert-header{display:flex;justify-content:space-between;align-items:flex-start}
 .cert-logo img{max-height:65px;max-width:110px}
@@ -93,13 +93,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign{text-align:center;line-height:1.8}
 .cert-sign b{display:block;font-size:17px;color:#0C6A64}
 
+/* قواعد الطباعة المصححة */
 @media print {
   @page { size: landscape; margin: 0; }
-  body * { visibility: hidden !important; }
-  #batchPrintArea, #batchPrintArea * { visibility: visible !important; }
-  #batchPrintArea { position: absolute; left: 0; top: 0; width: 297mm; }
-  .certificate { width: 297mm; height: 210mm; margin: 0; box-shadow: none; border: 8px solid #0C6A64; }
-  .no-print { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .no-print, header, nav, footer, .panel, .toast, .modal-overlay, .ticker-wrap { display: none !important; }
+  .wrap { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  .page { display: block !important; }
+  .cert-preview-box { background: transparent !important; border: none !important; padding: 0 !important; }
+  #batchPrintArea, #printableCertificate { display: block !important; visibility: visible !important; }
+  .certificate { width: 297mm !important; height: 210mm !important; margin: 0 !important; box-shadow: none !important; border: 8px solid #0C6A64 !important; page-break-after: always !important; }
 }
 </style>
 </head>
@@ -162,7 +165,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
  <!-- ANNOUNCEMENTS PAGE --> 
  <section id="page-announcements" class="page hidden">
-  <div class="ticker-wrap">    
+  <div class="ticker-wrap no-print">    
     <div class="ticker-badge"><i class="fa-solid fa-bullhorn"></i> الأخبار:</div>    
     <div class="ticker-container"><div id="tickerContent" class="ticker-text"><span>أهلاً بكم في بوابة النشاط الطلابي...</span></div></div> 
   </div>
@@ -272,7 +275,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   </div>
   
   <div id="batchPrintArea">
-    <div class="cert-preview-box no-print">
+    <div class="cert-preview-box">
       <div class="certificate" id="printableCertificate">
         <div class="cert-inner">
           <div class="cert-header">
@@ -447,6 +450,43 @@ button,input,select,textarea{font:inherit;color:inherit}
   };
 
   window.printSingleCert = function() {
+    // التأكد من تهيئة حاوي الشهادة الأحادية للطباعة
+    const area = document.getElementById('batchPrintArea');
+    const headerDeptText = document.getElementById('lblCertHeaderDept').innerHTML;
+    const descText = document.getElementById('certCustomText').value;
+    const signTitleText = document.getElementById('certLeftSignTitle').value;
+    const signNameText = document.getElementById('certLeftSignName').value;
+    const isStudent = document.getElementById('certTargetType').value === 'student';
+    const subTitleText = isStudent ? "تُمنح هذه الشهادة بكل فخر واعتزاز إلى الطالب:" : "تُمنح هذه الشهادة بكل فخر واعتزاز إلى المعلم / المنسوب:";
+    const recName = document.getElementById('certRecName').value || 'اسم المكرم';
+    const recGrade = document.getElementById('certGrade').value || '';
+
+    area.innerHTML = `
+      <div class="cert-preview-box">
+        <div class="certificate" id="printableCertificate">
+          <div class="cert-inner">
+            <div class="cert-header">
+              <div class="cert-logo"><b>وزارة التعليم</b><br><span style="font-size:10px; color:#5A6F6C;">المملكة العربية السعودية</span></div>
+              <div class="cert-gov">الإدارة العامة للتعليم بمنطقة المدينة المنورة<br><span>مدرسة مكة المكرمة الابتدائية</span></div>
+              <div style="text-align:left; font-size:12px; color:#5A6F6C;">${headerDeptText}</div>
+            </div>
+            <div class="cert-body">
+              <div class="cert-title">شهادة شكر وتقدير</div>
+              <div class="cert-subtitle">${subTitleText}</div>
+              <div class="cert-name">${recName}</div>
+              <div style="font-size:14px; font-weight:bold; color:#5A6F6C; margin-bottom:10px;">${recGrade}</div>
+              <div class="cert-text">${descText}</div>
+            </div>
+            <div class="cert-footer">
+              <div class="cert-sign"><span>${signTitleText}</span><br><b>${signNameText}</b></div>
+              <div style="text-align:center; font-size:12px; color:#C9A04A; font-weight:bold;"><i class="fa-solid fa-award fa-2x"></i><br>معتمدة من إدارة المدرسة</div>
+              <div class="cert-sign">مدير المدرسة<br><b>متعب حسن السحيمي</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
     window.print();
   };
 
@@ -557,7 +597,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 
     area.innerHTML = html;
     window.print();
-    setTimeout(() => { selectCertCategory(currentCategory); }, 1000);
   };
 
   // Close dropdown when clicking outside
