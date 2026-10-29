@@ -125,18 +125,19 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قاعدة الطباعة الآمنة الموحدة للتقارير والشهادات بدون صفحات بيضاء */
+/* قاعدة الطباعة الآمنة المطلقة لمنع الصفحة البيضاء */
 @media print {
   @page { size: auto; margin: 0; }
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   
-  .no-print, header, nav, footer, .panel, .cert-preview-box, .report-preview-box, .topline, #toast, .modal-overlay { display: none !important; }
-  .wrap { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  body * { visibility: hidden !important; }
   
-  /* في حالة طباعة التقرير */
+  #printableReport, #printableReport *, #printableCertificate, #printableCertificate * {
+    visibility: visible !important;
+  }
+  
   #printableReport {
-    display: flex !important;
-    position: fixed !important;
+    position: absolute !important;
     left: 0 !important;
     top: 0 !important;
     width: 210mm !important;
@@ -144,14 +145,10 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     margin: 0 !important;
     box-shadow: none !important;
     border: 6px solid #0C6A64 !important;
-    z-index: 99999 !important;
   }
-  #printableReport * { visibility: visible !important; }
 
-  /* في حالة طباعة الشهادة الفردية */
   #printableCertificate {
-    display: flex !important;
-    position: fixed !important;
+    position: absolute !important;
     left: 0 !important;
     top: 0 !important;
     width: 297mm !important;
@@ -159,7 +156,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     margin: 0 !important;
     box-shadow: none !important;
     border: 8px solid #0C6A64 !important;
-    z-index: 99999 !important;
   }
 }
 </style>
@@ -645,7 +641,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   window.deleteBatchStudent = async function(docId) {
     if(!currentUser) return alert("يجب تسجيل الدخول للحذف.");
     if(confirm("هل تريد حذف هذا الاسم من السجل؟")) {
-      try { await deleteDoc(doc(db, "batch_students", docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }
+      try { await deleteDoc(doc(docId)); toast("تم الحذف."); } catch(e) { alert("خطأ: " + e.message); }
     }
   };
 
