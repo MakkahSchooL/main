@@ -97,24 +97,25 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
-/* تصميم نموذج التقارير الرسمي الموحد */
+/* تصميم نموذج التقارير الرسمي الموحد (مع البرواز والصورتين المكبرتين) */
 .report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.report-page { width:210mm; min-height:297mm; background:#ffffff; color:#13302E; position:relative; padding:15mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:2px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
-.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:10px; margin-bottom:15px; }
-.rep-logo img { max-height:55px; }
-.rep-gov { text-align:center; font-weight:700; font-size:13px; color:#5A6F6C; }
-.rep-gov span { display:block; font-size:15px; color:#0C6A64; }
-.rep-title-box { text-align:center; margin-bottom:15px; }
-.rep-title { font-size:24px; font-weight:700; color:#0C6A64; margin-bottom:4px; }
-.rep-subtitle { font-size:13.5px; color:#5A6F6C; }
-.rep-section { margin-bottom:12px; }
-.rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:6px 10px; margin:0 0 6px 0; font-size:14px; color:#0C6A64; }
-.rep-content-box { border:1px solid var(--line); border-radius:6px; padding:10px; min-height:50px; font-size:13.5px; line-height:1.7; background:#fff; }
-.rep-images-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:8px; }
+.report-page { width:210mm; min-height:297mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
+.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; }
+.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:8px; margin-bottom:12px; }
+.rep-logo img { max-height:50px; }
+.rep-gov { text-align:center; font-weight:700; font-size:12.5px; color:#5A6F6C; }
+.rep-gov span { display:block; font-size:14.5px; color:#0C6A64; }
+.rep-title-box { text-align:center; margin-bottom:12px; }
+.rep-title { font-size:22px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
+.rep-subtitle { font-size:13px; color:#5A6F6C; }
+.rep-section { margin-bottom:10px; }
+.rep-section h4 { background:var(--surface2); border-inline-start:4px solid var(--brand); padding:5px 8px; margin:0 0 5px 0; font-size:13.5px; color:#0C6A64; }
+.rep-content-box { border:1px solid var(--line); border-radius:6px; padding:8px 10px; min-height:45px; font-size:13px; line-height:1.6; background:#fff; }
+.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-top:6px; }
 .rep-img-card { border:1px solid var(--line); border-radius:6px; padding:6px; text-align:center; background:#fafafa; }
-.rep-img-card img { width:100%; height:110px; object-fit:cover; border-radius:4px; margin-bottom:4px; }
-.rep-img-caption { font-size:11px; color:#5A6F6C; }
-.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px; font-size:14px; font-weight:600; border-top:1px solid var(--line); padding-top:15px; }
+.rep-img-card img { width:100%; height:145px; object-fit:cover; border-radius:4px; margin-bottom:4px; }
+.rep-img-caption { font-size:11.5px; color:#5A6F6C; font-weight:600; }
+.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:15px; font-size:13px; font-weight:600; border-top:1px solid var(--line); padding-top:12px; }
 
 /* جدول الأسماء المحفوظة للنشاط */
 .table-wrap { overflow-x: auto; margin-top: 10px; }
@@ -124,21 +125,41 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قاعدة الطباعة الآمنة */
+/* قاعدة الطباعة الآمنة الموحدة للتقارير والشهادات بدون صفحات بيضاء */
 @media print {
-  @page { size: auto; margin: 10mm; }
+  @page { size: auto; margin: 0; }
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   
   .no-print, header, nav, footer, .panel, .cert-preview-box, .report-preview-box, .topline, #toast, .modal-overlay { display: none !important; }
   .wrap { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
   
-  body:not(.printing-batch) #printableCertificate, body:not(.printing-batch) #printableReport {
+  /* في حالة طباعة التقرير */
+  #printableReport {
     display: flex !important;
-    position: absolute !important;
+    position: fixed !important;
     left: 0 !important;
     top: 0 !important;
+    width: 210mm !important;
+    height: 297mm !important;
     margin: 0 !important;
     box-shadow: none !important;
+    border: 6px solid #0C6A64 !important;
+    z-index: 99999 !important;
+  }
+  #printableReport * { visibility: visible !important; }
+
+  /* في حالة طباعة الشهادة الفردية */
+  #printableCertificate {
+    display: flex !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: 8px solid #0C6A64 !important;
+    z-index: 99999 !important;
   }
 }
 </style>
@@ -172,7 +193,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   <button class="tab" data-tab="plan" onclick="switchTab('plan')"><i class="fa-solid fa-calendar-check"></i> خطة النشاط</button> 
   <button class="tab" data-tab="competitions" onclick="switchTab('competitions')"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
   
-  <!-- تبويب التقارير كقائمة منسدلة قبل شهادات الشكر -->
+  <!-- تبويب التقارير -->
   <div class="dropdown">
     <button class="tab" data-tab="reports"><i class="fa-solid fa-file-lines"></i> التقارير <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i></button>
     <div class="dropdown-content">
@@ -182,6 +203,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     </div>
   </div>
 
+  <!-- تبويب شهادات الشكر -->
   <div class="dropdown">
     <button class="tab" data-tab="certificates"><i class="fa-solid fa-award"></i> شهادات الشكر <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i></button>
     <div class="dropdown-content">
@@ -223,7 +245,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
  <section id="page-reports" class="page hidden">
   <div class="panel no-print">
     <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> مُولّد التقارير الرسمية الموحدة - <span id="currentReportDeptTitle">النشاط الطلابي</span></h2>
-    <p>قم بإدخال تفاصيل التقرير، الأهداف، التنفيذ، وإرفاق صور توثيقية (من 2 إلى 3 صور)، ثم اضغط طباعة أو حفظ PDF.</p>
+    <p>قم بإدخال تفاصيل التقرير، الأهداف، التنفيذ، وإرفاق صورتين توثيقيتين بحجم مكبر، ثم اضغط طباعة أو حفظ PDF.</p>
     
     <div class="formgrid" style="margin-top:15px;">
       <div class="field">
@@ -234,6 +256,8 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <label>تاريخ التقرير</label>
         <input type="text" id="repDateInput" value="1447/03/05 هـ" oninput="updateReportPreview()">
       </div>
+
+      <!-- حقول التخصيص الكامل للأسماء والمسميات -->
       <div class="field">
         <label>المسمى الوظيفي للمسؤول (الموقع)</label>
         <input type="text" id="repSignerTitle" value="رائد النشاط الطلابي" oninput="updateReportPreview()">
@@ -242,6 +266,15 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <label>اسم المسؤول (الموقع)</label>
         <input type="text" id="repSignerName" value="عواد محمد العوفي" oninput="updateReportPreview()">
       </div>
+      <div class="field">
+        <label>مسمى مدير المدرسة</label>
+        <input type="text" id="repPrincipalTitle" value="مدير المدرسة" oninput="updateReportPreview()">
+      </div>
+      <div class="field">
+        <label>اسم مدير المدرسة</label>
+        <input type="text" id="repPrincipalName" value="متعب حسن السحيمي" oninput="updateReportPreview()">
+      </div>
+
       <div class="field full">
         <label>أهداف البرنامج / الفعالية</label>
         <textarea id="repObjectivesInput" oninput="updateReportPreview()">1. تعزيز الانتماء الوطني والولاء للقيادة الرشيدة.\n2. إبراز جهود المملكة وتاريخها العريق.\n3. مشاركة الطلاب بفعالية في الأنشطة اللاصفية.</textarea>
@@ -250,14 +283,10 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <label>ملخص التنفيذ وسير العمل</label>
         <textarea id="repSummaryInput" oninput="updateReportPreview()">أقيمت فعاليات البرنامج في مقر المدرسة بحضور طاقم الإدارة والمعلمين والطلاب، حيث تخلل البرنامج كلمات توجيهية، وعروض مرئية، ومسابقات ثقافية وفنية تعبيرية عكست حب الوطن ومقدراته.</textarea>
       </div>
-      <div class="field full">
-        <label>التوصيات والمقترحات</label>
-        <textarea id="repRecommendationsInput" oninput="updateReportPreview()">1. الاستمرار في تعزيز الأنشطة اللاصفية المرتبطة بالمناسبات الوطنية.\n2. تكريم الطلاب المتميزين والمشاركين بفعالية.</textarea>
-      </div>
 
-      <!-- رفع الصور التوثيقية (من 2 إلى 3 صور) -->
+      <!-- رفع صورتين توثيقيتين فقط -->
       <div class="field">
-        <label>صورة توثيقية (1)</label>
+        <label>الصورة التوثيقية (1)</label>
         <input type="file" accept="image/*" onchange="loadReportImage(event, 1)">
       </div>
       <div class="field">
@@ -266,21 +295,12 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       </div>
 
       <div class="field">
-        <label>صورة توثيقية (2)</label>
+        <label>الصورة التوثيقية (2)</label>
         <input type="file" accept="image/*" onchange="loadReportImage(event, 2)">
       </div>
       <div class="field">
         <label>تعليق الصورة (2)</label>
         <input type="text" id="repCap2" value="تفاعل الطلاب مع البرامج" oninput="updateReportPreview()">
-      </div>
-
-      <div class="field">
-        <label>صورة توثيقية (3) - اختيارية</label>
-        <input type="file" accept="image/*" onchange="loadReportImage(event, 3)">
-      </div>
-      <div class="field">
-        <label>تعليق الصورة (3)</label>
-        <input type="text" id="repCap3" value="تكريم الطلاب المشاركين" oninput="updateReportPreview()">
       </div>
 
       <div class="actions full" style="display:flex; gap:10px; align-items:center; margin-top:10px;">
@@ -290,65 +310,64 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة التقرير الرسمي الموحد</h3>
+    <h3>معاينة التقرير الرسمي الموحد (مع البرواز)</h3>
   </div>
   
   <div class="report-preview-box">
     <div class="report-page" id="printableReport">
-      <div class="rep-header">
-        <div class="rep-logo">
-          <!-- شعار وزارة التعليم الجديد المرفق -->
-          <img src="Saudi_Ministry_of_Education_Logo_2025.png" alt="شعار وزارة التعليم">
-        </div>
-        <div class="rep-gov">
-          الإدارة العامة للتعليم بمنطقة المدينة المنورة<br>
-          <span>مدرسة مكة المكرمة الابتدائية</span>
-        </div>
-        <div style="text-align:left; font-size:12px; color:#5A6F6C;" id="lblRepHeaderDept">
-          النشاط الطلابي<br><span id="lblRepDate">1447/03/05 هـ</span>
-        </div>
-      </div>
-
-      <div class="rep-title-box">
-        <div class="rep-title" id="lblRepTitle">تقرير تنفيذ فعالية اليوم الوطني السعودي</div>
-        <div class="rep-subtitle">نموذج التقرير الإداري والتربوية الموحد</div>
-      </div>
-
-      <div class="rep-section">
-        <h4>أهداف البرنامج / الفعالية</h4>
-        <div class="rep-content-box" id="lblRepObjectives" style="white-space: pre-line;">-</div>
-      </div>
-
-      <div class="rep-section">
-        <h4>ملخص التنفيذ وسير العمل</h4>
-        <div class="rep-content-box" id="lblRepSummary" style="white-space: pre-line;">-</div>
-      </div>
-
-      <div class="rep-section">
-        <h4>التوثيق المصور للفعالية</h4>
-        <div class="rep-images-grid" id="lblRepImagesGrid">
-          <div class="rep-img-card">
-            <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">صورة 1</div>
-            <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
-          </div>
-          <div class="rep-img-card">
-            <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">صورة 2</div>
-            <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rep-section">
-        <h4>التوصيات والمقترحات</h4>
-        <div class="rep-content-box" id="lblRepRecommendations" style="white-space: pre-line;">-</div>
-      </div>
-
-      <div class="rep-footer">
+      <div class="rep-inner-frame">
         <div>
-          <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
+          <div class="rep-header">
+            <div class="rep-logo">
+              <!-- شعار وزارة التعليم الجديد -->
+              <img src="Saudi_Ministry_of_Education_Logo_2025.png" alt="شعار وزارة التعليم">
+            </div>
+            <div class="rep-gov">
+              الإدارة العامة للتعليم بمنطقة المدينة المنورة<br>
+              <span>مدرسة مكة المكرمة الابتدائية</span>
+            </div>
+            <div style="text-align:left; font-size:12px; color:#5A6F6C;" id="lblRepHeaderDept">
+              النشاط الطلابي<br><span id="lblRepDate">1447/03/05 هـ</span>
+            </div>
+          </div>
+
+          <div class="rep-title-box">
+            <div class="rep-title" id="lblRepTitle">تقرير تنفيذ فعالية اليوم الوطني السعودي</div>
+            <div class="rep-subtitle">نموذج التقرير الإداري والتربوي الموحد</div>
+          </div>
+
+          <div class="rep-section">
+            <h4>أهداف البرنامج / الفعالية</h4>
+            <div class="rep-content-box" id="lblRepObjectives" style="white-space: pre-line;">-</div>
+          </div>
+
+          <div class="rep-section">
+            <h4>ملخص التنفيذ وسير العمل</h4>
+            <div class="rep-content-box" id="lblRepSummary" style="white-space: pre-line;">-</div>
+          </div>
+
+          <div class="rep-section">
+            <h4>التوثيق المصور للفعالية (صورتان)</h4>
+            <div class="rep-images-grid" id="lblRepImagesGrid">
+              <div class="rep-img-card">
+                <div style="height:145px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الأولى</div>
+                <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
+              </div>
+              <div class="rep-img-card">
+                <div style="height:145px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الثانية</div>
+                <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div style="text-align:center; font-size:12px; color:#0C6A64; font-weight:bold;">
-          معتمد من إدارة المدرسة<br>مدير المدرسة: متعب حسن السحيمي
+
+        <div class="rep-footer">
+          <div>
+            <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
+          </div>
+          <div style="text-align:center; font-size:13px; color:#0C6A64; font-weight:bold;">
+            معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span>: <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
+          </div>
         </div>
       </div>
     </div>
@@ -542,7 +561,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   let state = { batchStudents: [] };
   let activeCertDept = 'activity';
   let activeReportDept = 'activity';
-  let reportImages = { 1: '', 2: '', 3: '' };
+  let reportImages = { 1: '', 2: '' };
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -602,7 +621,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       renderBatchTable();  
   });
 
-  // إدارة جدول السجل السحابي للدفعة
   window.saveCurrentToBatchList = async function() {
     if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول لحفظ الأسماء بالسجل.");
     
@@ -753,34 +771,26 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.getElementById('lblRepDate').textContent = document.getElementById('repDateInput').value || '';
     document.getElementById('lblRepObjectives').textContent = document.getElementById('repObjectivesInput').value || '';
     document.getElementById('lblRepSummary').textContent = document.getElementById('repSummaryInput').value || '';
-    document.getElementById('lblRepRecommendations').textContent = document.getElementById('repRecommendationsInput').value || '';
 
     document.getElementById('lblRepSignerTitle').textContent = document.getElementById('repSignerTitle').value || '';
     document.getElementById('lblRepSignerName').textContent = document.getElementById('repSignerName').value || '';
+    document.getElementById('lblRepPrincipalTitle').textContent = document.getElementById('repPrincipalTitle').value || '';
+    document.getElementById('lblRepPrincipalName').textContent = document.getElementById('repPrincipalName').value || '';
 
     document.getElementById('lblCap1').textContent = document.getElementById('repCap1').value || '';
     document.getElementById('lblCap2').textContent = document.getElementById('repCap2').value || '';
 
     const grid = document.getElementById('lblRepImagesGrid');
-    let html = `
+    grid.innerHTML = `
       <div class="rep-img-card">
-        ${reportImages[1] ? `<img src="${reportImages[1]}" alt="1">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">صورة 1</div>`}
+        ${reportImages[1] ? `<img src="${reportImages[1]}" alt="1">` : `<div style="height:145px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الأولى</div>`}
         <div class="rep-img-caption">${document.getElementById('repCap1').value}</div>
       </div>
       <div class="rep-img-card">
-        ${reportImages[2] ? `<img src="${reportImages[2]}" alt="2">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">صورة 2</div>`}
+        ${reportImages[2] ? `<img src="${reportImages[2]}" alt="2">` : `<div style="height:145px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">الصورة الثانية</div>`}
         <div class="rep-img-caption">${document.getElementById('repCap2').value}</div>
       </div>
     `;
-    if(reportImages[3] || document.getElementById('repCap3').value) {
-      html += `
-        <div class="rep-img-card">
-          ${reportImages[3] ? `<img src="${reportImages[3]}" alt="3">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:12px; border-radius:4px;">صورة 3</div>`}
-          <div class="rep-img-caption">${document.getElementById('repCap3').value}</div>
-        </div>
-      `;
-    }
-    grid.innerHTML = html;
   };
 
   window.loadReportImage = async function(event, index) {
