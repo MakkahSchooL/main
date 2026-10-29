@@ -290,7 +290,7 @@ body{background:var(--paper);-webkit-tap-highlight-color:transparent}
   .tabs{position:fixed;z-index:12;bottom:0;left:0;right:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);border-bottom:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
   .tab{flex-direction:column;gap:2px;padding:6px 2px;font-size:11.5px;border:0;border-radius:10px;margin:0;position:relative}
   .tab[aria-selected="true"]{background:color-mix(in srgb,var(--brand) 12%,transparent);color:var(--brand)}
-  .tab .n{position:absolute;top:2px;inset-inline-end:calc(50% - 26px);margin:0;font-size:11px;min-width:18px}
+  .tab .n{position:absolute;top:2px;inset-inline-start:calc(50% - 26px);margin:0;font-size:11px;min-width:18px}
   .fab{display:none!important}
   .filters{grid-template-columns:1fr;margin-top:14px}
   .fsel{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
@@ -319,11 +319,12 @@ body{background:var(--paper);-webkit-tap-highlight-color:transparent}
       <p class="today" id="today"></p>
     </div>
     <div class="stats" id="stats"></div>
-    <div id="authStatusArea" class="noprint" style="align-self: flex-end; margin-top: 8px;">
-      <button id="adminLoginBtn" class="btn" style="background:#C9A04A; color:#fff; border-color:#C9A04A; font-size:13px; padding:6px 12px;"><i class="fa-solid fa-right-to-bracket"></i> تسجيل دخول المسؤول</button>
-      <span id="userInfo" style="display:none; color:var(--ink); font-size:13px; font-weight:bold; align-items:center; gap:8px;">
-        <i class="fa-solid fa-user-check"></i> <span id="userEmailSpan"></span>
-        <button id="logoutBtn" class="btn" style="background:#a83232; color:#fff; border-color:#a83232; padding:4px 10px; font-size:12.5px;"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+    <!-- تم إخفاء زر تسجيل الدخول من هنا تماماً بناءً على طلبك -->
+    <div id="authStatusArea" class="noprint" style="display:none;">
+      <button id="adminLoginBtn" class="btn"></button>
+      <span id="userInfo" style="display:none;">
+        <span id="userEmailSpan"></span>
+        <button id="logoutBtn" class="btn"></button>
       </span>
     </div>
   </header>
@@ -454,34 +455,12 @@ body{background:var(--paper);-webkit-tap-highlight-color:transparent}
   </div>
 </div>
 
-<!-- نافذة تسجيل دخول المسؤول -->
-<div id="loginModal" class="modal noprint" style="display:none;">
-  <div class="mbox" style="width: min(400px, 100%);">
-    <div class="mhead">
-      <h3><i class="fa-solid fa-lock"></i> تسجيل دخول المسؤول</h3>
-      <p>أدخل البريد الإلكتروني وكلمة المرور لإتاحة عرض خطة التنفيذ وبطاقات التنفيذ وإضافة البرامج.</p>
-    </div>
-    <div class="mbody">
-      <form id="loginForm">
-        <div class="form" style="grid-template-columns: 1fr; gap: 10px;">
-          <label>البريد الإلكتروني<input type="email" id="loginEmail" required placeholder="example@domain.com"></label>
-          <label>كلمة المرور<input type="password" id="loginPassword" required placeholder="••••••••"></label>
-        </div>
-      </form>
-    </div>
-    <div class="mfoot">
-      <button class="btn" type="button" onclick="document.getElementById('loginModal').style.display='none'">إلغاء</button>
-      <button type="submit" form="loginForm" class="btn primary">تسجيل الدخول</button>
-    </div>
-  </div>
-</div>
-
 <button class="btn primary fab noprint" id="fab" hidden>إنشاء الخطة (<span id="fabN">0</span>)</button>
 <div class="toast" id="toast" role="status"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDWSwOLWEhS5MR0R98r6cwiQljEd8WH_kY",
@@ -498,50 +477,17 @@ body{background:var(--paper);-webkit-tap-highlight-color:transparent}
 
   window.currentUser = null;
 
-  const adminLoginBtn = document.getElementById('adminLoginBtn');
-  const userInfo = document.getElementById('userInfo');
   const tPlan = document.getElementById('tPlan');
   const tCard = document.getElementById('tCard');
   const openAddModal = document.getElementById('openAddModal');
-  const loginModal = document.getElementById('loginModal');
-  const loginForm = document.getElementById('loginForm');
-  const logoutBtn = document.getElementById('logoutBtn');
-
-  adminLoginBtn.addEventListener('click', () => {
-      loginModal.style.display = 'flex';
-  });
-
-  loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const pass = document.getElementById('loginPassword').value;
-      try {
-          await signInWithEmailAndPassword(auth, email, pass);
-          loginModal.style.display = 'none';
-          if(window.toast) window.toast("تم تسجيل الدخول بنجاح كمسؤول!");
-      } catch (error) {
-          alert("خطأ في بيانات الدخول: " + error.message);
-      }
-  });
-
-  logoutBtn.addEventListener('click', () => {
-      signOut(auth).then(() => {
-          if(window.toast) window.toast("تم تسجيل الخروج.");
-      });
-  });
 
   onAuthStateChanged(auth, (user) => {
       window.currentUser = user;
       if (user) {
-          adminLoginBtn.style.display = 'none';
-          userInfo.style.display = 'inline-flex';
-          document.getElementById('userEmailSpan').textContent = user.email;
           tPlan.style.display = 'inline-flex';
           tCard.style.display = 'inline-flex';
           if(openAddModal) openAddModal.style.display = 'inline-block';
       } else {
-          adminLoginBtn.style.display = 'inline-block';
-          userInfo.style.display = 'none';
           tPlan.style.display = 'none';
           tCard.style.display = 'none';
           if(openAddModal) openAddModal.style.display = 'none';
@@ -813,7 +759,7 @@ $("#saveNewProg").onclick=()=>{
 
 function show(tab){
   if((tab === 'plan' || tab === 'card') && !window.currentUser) {
-    alert("عذراً، هذه الصفحة مخصصة للمسؤول فقط. يرجى تسجيل الدخول.");
+    alert("عذراً، هذه الصفحة مخصصة للمسؤول فقط.");
     tab = 'guide';
   }
   $("#guideView").hidden=tab!=="guide";$("#planView").hidden=tab!=="plan";$("#cardView").hidden=tab!=="card";
