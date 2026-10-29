@@ -80,10 +80,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
 .field textarea { min-height:80px; resize:vertical; }
 
-/* تصميم شهادة الشكر الأصلي المضبوط بدقة */
+/* تصميم شهادة الشكر بدون برواز */
 .cert-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
-.cert-inner { border:2px dashed #0C6A64; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
+.certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:15mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box; margin:0 auto; page-break-after: always; }
+.cert-inner { height:100%; padding:5mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:transparent; }
 .cert-header { display:flex; justify-content:space-between; align-items:flex-start; }
 .cert-logo img { max-height:65px; max-width:110px; }
 .cert-gov { text-align:center; font-weight:700; font-size:14px; color:#5A6F6C; line-height:1.5; }
@@ -97,10 +97,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
-/* تصميم نموذج التقارير الرسمي الموحد (مع البرواز ومضبوط تماماً لصفحة واحدة A4) */
+/* تصميم التقرير بدون برواز ومضبوط تماماً لصفحة واحدة A4 */
 .report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:10mm 12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:5px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; overflow:hidden; }
-.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:6mm 8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
+.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:12mm 15mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box; margin:0 auto; page-break-after: always; overflow:hidden; }
+.rep-inner-frame { height:100%; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
 .rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:6px; margin-bottom:8px; }
 .rep-logo img { max-height:45px; max-width:90px; object-fit:contain; }
 .rep-gov { text-align:center; font-weight:700; font-size:12px; color:#5A6F6C; }
@@ -124,7 +124,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قواعد طباعة آمنة تماماً تمنع أي صفحات بيضاء وتضمن صفحة واحدة لكل مستند */
+/* قواعد طباعة آمنة تماماً تمنع أي صفحات بيضاء وتضمن صفحة واحدة لكل مستند دون تكرار */
 @media print {
   @page { size: auto; margin: 0; }
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -143,7 +143,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     height: 297mm !important;
     margin: 0 !important;
     box-shadow: none !important;
-    border: 5px solid #0C6A64 !important;
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
   }
@@ -156,7 +155,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     height: 210mm !important;
     margin: 0 !important;
     box-shadow: none !important;
-    border: 8px solid #0C6A64 !important;
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
   }
@@ -243,7 +241,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
  <!-- PAGE: REPORTS -->
  <section id="page-reports" class="page hidden">
   <div class="panel no-print">
-    <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> مُولّد التقارير الرسمية الموحدة - <span id="currentReportDeptTitle">النشاط الطلابي</span></h2>
+    <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> مُولّد التقارير الرسمية - <span id="currentReportDeptTitle">النشاط الطلابي</span></h2>
     <p>قم بإدخال تفاصيل التقرير، رفع الشعار يدوياً، إرفاق صورتين توثيقيتين، ثم اضغط طباعة أو حفظ PDF.</p>
     
     <div class="formgrid" style="margin-top:15px;">
@@ -315,7 +313,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة التقرير الرسمي الموحد (بصفحة واحدة)</h3>
+    <h3>معاينة التقرير الرسمي (بصفحة واحدة وبلا برواز)</h3>
   </div>
   
   <div class="report-preview-box">
@@ -353,11 +351,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
             <h4>التوثيق المصور للفعالية</h4>
             <div class="rep-images-grid" id="lblRepImagesGrid">
               <div class="rep-img-card">
-                <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
+                <div id="imgPreview1" style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>
                 <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
               </div>
               <div class="rep-img-card">
-                <div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
+                <div id="imgPreview2" style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>
                 <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
               </div>
             </div>
@@ -369,7 +367,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
             <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
           </div>
           <div style="text-align:center; font-size:12px; color:#0C6A64; font-weight:bold;">
-            معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span>: <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
+            معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span> <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
           </div>
         </div>
       </div>
@@ -380,7 +378,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
  <!-- PAGE: CERTIFICATES -->
  <section id="page-certificates" class="page hidden">
   <div class="panel no-print">
-    <h2><i class="fa-solid fa-award" style="color:var(--brand)"></i> مُولّد شهادات الشكر والتقدير الرسمية - <span id="currentDeptTitle">النشاط الطلابي</span></h2>
+    <h2><i class="fa-solid fa-award" style="color:var(--brand)"></i> مُولّد شهادات الشكر والتقدير - <span id="currentDeptTitle">النشاط الطلابي</span></h2>
     <p>قم بإدخال بيانات الشهادة وتعديل النصوص حسب الحاجة، ثم اضغط طباعة أو حفظ كملف PDF.</p>
     
     <div class="formgrid" style="margin-top:15px;">
@@ -467,7 +465,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة الشهادة الرسمية</h3>
+    <h3>معاينة الشهادة (بدون برواز)</h3>
   </div>
   
   <div class="cert-preview-box">
@@ -721,16 +719,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       </div>
     `).join('');
 
-    document.body.classList.add('printing-batch');
     window.print();
-    setTimeout(() => {
-      document.body.classList.remove('printing-batch');
-      container.innerHTML = '';
-    }, 1000);
+    setTimeout(() => { container.innerHTML = ''; }, 1000);
   };
 
   window.printSingleCert = function() {
-    document.body.classList.remove('printing-batch');
     window.print();
   };
   
@@ -783,17 +776,19 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.getElementById('lblCap1').textContent = document.getElementById('repCap1').value || '';
     document.getElementById('lblCap2').textContent = document.getElementById('repCap2').value || '';
 
-    const grid = document.getElementById('lblRepImagesGrid');
-    grid.innerHTML = `
-      <div class="rep-img-card">
-        ${reportImages[1] ? `<img src="${reportImages[1]}" alt="1">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الأولى</div>`}
-        <div class="rep-img-caption">${document.getElementById('repCap1').value}</div>
-      </div>
-      <div class="rep-img-card">
-        ${reportImages[2] ? `<img src="${reportImages[2]}" alt="2">` : `<div style="height:110px; background:#eef3f2; display:flex; align-items:center; justify-content:center; color:#9ab0ac; font-size:11px; border-radius:4px;">الصورة الثانية</div>`}
-        <div class="rep-img-caption">${document.getElementById('repCap2').value}</div>
-      </div>
-    `;
+    const prev1 = document.getElementById('imgPreview1');
+    if(reportImages[1]) {
+      prev1.innerHTML = `<img src="${reportImages[1]}" style="width:100%; height:110px; object-fit:cover; border-radius:4px;">`;
+    } else {
+      prev1.innerHTML = `الصورة الأولى`;
+    }
+
+    const prev2 = document.getElementById('imgPreview2');
+    if(reportImages[2]) {
+      prev2.innerHTML = `<img src="${reportImages[2]}" style="width:100%; height:110px; object-fit:cover; border-radius:4px;">`;
+    } else {
+      prev2.innerHTML = `الصورة الثانية`;
+    }
   };
 
   window.loadReportImage = async function(event, index) {
