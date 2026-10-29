@@ -88,7 +88,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .ticker-text span { margin-inline-start:40px; font-weight:600; color:var(--ink); }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-/* تصميم شهادة الشكر والتقدير مع البرواز المقطع */
+/* تصميم شهادة الشكر والتقدير مع البرواز المقطع (أفقي) */
 .cert-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; }
 .cert-inner { border:2px dashed #0C6A64; height:100%; padding:6mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
@@ -105,7 +105,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:16px; color:#0C6A64; }
 
-/* تصميم التقرير بالبرواز المقطع ومضبوط تماماً لصفحة واحدة A4 */
+/* تصميم التقرير بالبرواز المقطع ومضبوط تماماً لصفحة عمودية واحدة A4 */
 .report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:10mm 12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
 .rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:6mm 8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
@@ -132,9 +132,8 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قاعدة الطباعة الآمنة والمعدلة لمنع الصفحة البيضاء وتكرار الشهادات */
+/* قواعد الطباعة: التقارير عمودية (portrait) والشهادات أفقية (landscape) */
 @media print {
-  @page { size: landscape; margin: 0; }
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   
   body > *:not(.wrap) { display: none !important; }
@@ -148,7 +147,9 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   #page-reports > *:not(.report-preview-box) { display: none !important; }
   .report-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
 
-  body:not(.printing-batch) #printableCertificate {
+  /* تنسيق طباعة الشهادات (أفقي) */
+  body:not(.printing-report):not(.printing-batch) @page { size: landscape; margin: 0; }
+  body:not(.printing-report):not(.printing-batch) #printableCertificate {
     display: flex !important;
     position: absolute !important;
     left: 0 !important;
@@ -162,7 +163,9 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     page-break-inside: avoid !important;
   }
 
-  #printableReport {
+  /* تنسيق طباعة التقارير (عمودي ومنضبط لصفحة واحدة) */
+  body.printing-report @page { size: portrait; margin: 0; }
+  body.printing-report #printableReport {
     display: flex !important;
     position: absolute !important;
     left: 0 !important;
@@ -176,6 +179,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     page-break-inside: avoid !important;
   }
 
+  body.printing-batch @page { size: landscape; margin: 0; }
   body.printing-batch #batchPrintContainer {
     display: block !important;
     position: absolute !important;
@@ -224,7 +228,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   <button class="tab" data-tab="announcements" onclick="switchTab('announcements')"><i class="fa-solid fa-bullhorn"></i> الإنجاز</button>
   <button class="tab" data-tab="competitions" onclick="switchTab('competitions')"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
   
-  <!-- تبويب التقارير (تم وضعه هنا قبل شهادات الشكر) -->
   <div class="dropdown">
     <button class="tab" data-tab="reports"><i class="fa-solid fa-file-lines"></i> التقارير <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i></button>
     <div class="dropdown-content">
@@ -389,7 +392,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة التقرير الرسمي (بالبرواز المقطع وفي صفحة واحدة)</h3>
+    <h3>معاينة التقرير الرسمي (بالبرواز المقطع وفي صفحة عمودية واحدة)</h3>
   </div>
   
   <div class="report-preview-box">
@@ -868,6 +871,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     `).join('');
 
     document.body.classList.add('printing-batch');
+    document.body.classList.remove('printing-report');
     window.print();
     setTimeout(() => {
       document.body.classList.remove('printing-batch');
@@ -876,11 +880,14 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   };
 
   window.printSingleCert = function() {
+    document.body.classList.remove('printing-report');
     document.body.classList.remove('printing-batch');
     window.print();
   };
 
   window.printSingleReport = function() {
+    document.body.classList.add('printing-report');
+    document.body.classList.remove('printing-batch');
     window.print();
   };
 
