@@ -10,17 +10,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root{
-  --paper:#EEF3F2;--surface:#FFFFFF;--surface2:#F6F9F8;--ink:#13302E;--muted:#5A6F6C;--line:#D3DEDB;
-  --brand:#0C6A64;--brand-ink:#FFFFFF;--open:#17804A;--soon:#9C6200;--ended:#8C9896;
+  --paper:#0E1918;--surface:#152322;--surface2:#1A2B2A;--ink:#E2ECEA;--muted:#9AB0AC;--line:#2A3D3B;
+  --brand:#3AAFA5;--brand-ink:#06201E;--open:#4CC583;--soon:#E0A43A;--ended:#E74C3C;
   --font:"IBM Plex Sans Arabic","Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#0E1918;--surface:#152322;--surface2:#1A2B2A;--ink:#E2ECEA;--muted:#9AB0AC;--line:#2A3D3B;
-  --brand:#3AAFA5;--brand-ink:#06201E;--open:#4CC583;--soon:#E0A43A;--ended:#6E807D;}}
-:root[data-theme="dark"]{
-  --paper:#0E1918;--surface:#152322;--surface2:#1A2B2A;--ink:#E2ECEA;--muted:#9AB0AC;--line:#2A3D3B;
-  --brand:#3AAFA5;--brand-ink:#06201E;--open:#4CC583;--soon:#E0A43A;--ended:#6E807D;}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.65}
@@ -29,7 +23,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .wrap{max-width:1280px;margin:0 auto;padding:20px 16px 80px}
 
 /* head */
-.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;padding:12px 0 18px;border-bottom:2px solid var(--ink)}
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;padding:12px 0 18px;border-bottom:2px solid var(--line)}
 .top h1{margin:0;font-size:clamp(22px,3.4vw,32px);font-weight:700;letter-spacing:0}
 .top p{margin:4px 0 0;color:var(--muted)}
 
@@ -39,58 +33,122 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tab.active,.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
 
 .dropdown { position: relative; display: inline-block; }
-.dropdown-content { display: none; position: absolute; background-color: var(--surface); min-width: 200px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 50; border-radius: 8px; border: 1px solid var(--line); top: 100%; right: 0; }
+.dropdown-content { display: none; position: absolute; background-color: var(--surface); min-width: 200px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4); z-index: 50; border-radius: 8px; border: 1px solid var(--line); top: 100%; right: 0; }
 .dropdown-content button { color: var(--ink); padding: 10px 14px; text-decoration: none; display: block; width: 100%; text-align: right; background: none; border: none; cursor: pointer; font-size: 13.5px; font-weight: 600; }
 .dropdown-content button:hover { background-color: var(--surface2); color: var(--brand); }
 .dropdown:hover .dropdown-content { display: block; }
 
 /* buttons & forms */
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s ease;}
 .btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .btn.danger{background:#a83232;color:#fff;border-color:#a83232}
 .btn.gold{background:#C9A04A;color:#fff;border-color:#C9A04A}
 .btn.small{padding:4px 10px;font-size:12.5px}
-.empty{padding:40px 16px;text-align:center;color:var(--muted)}
 
 /* panel & forms */
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
-.panel h2,.panel h3{margin:0 0 10px;font-size:17px}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px}
+.panel h2,.panel h3{margin:0 0 10px;font-size:18px}
 
 /* toast & modal */
-.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
 .toast.show{opacity:1}
-.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:100; display:flex; align-items:center; justify-content:center; padding:16px; }
-.modal-card { background:var(--surface); border-radius:14px; padding:20px; width:100%; max-width:400px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; display:flex; align-items:center; justify-content:center; padding:16px; }
+.modal-card { background:var(--surface); border-radius:14px; padding:24px; width:100%; max-width:480px; box-shadow:0 10px 30px rgba(0,0,0,0.5); border:1px solid var(--line); }
 
 /* Extra UI Components */
 .hero-bottom { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; width:100%; margin-top:12px; }
 .pill-group { display:flex; flex-wrap:wrap; gap:8px; }
-.pill { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); padding:4px 12px; border-radius:999px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-top:14px; }
-.card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px; }
-.card-top { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
-.category { background:var(--surface2); border:1px solid var(--line); padding:2px 8px; border-radius:6px; font-weight:600; color:var(--brand); }
+.pill { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); padding:4px 12px; border-radius:999px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
 .muted { color:var(--muted); font-size:13.5px; }
 .hidden { display:none !important; }
 .formgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .formgrid .full { grid-column:1/-1; }
 .field { display:flex; flex-direction:column; gap:4px; }
 .field label { font-size:13px; font-weight:600; color:var(--muted); }
-.field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
+.field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface2); color:var(--ink); }
 .field textarea { min-height:80px; resize:vertical; }
 
-/* شريط الإعلانات المتحرك التفاعلي */
-.ticker-wrap { display:flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:16px; box-shadow:var(--shadow); }
-.ticker-badge { background:var(--brand); color:var(--brand-ink); padding:10px 14px; font-weight:700; font-size:13.5px; display:flex; align-items:center; gap:6px; flex-shrink:0; }
-.ticker-container { overflow:hidden; white-space:nowrap; position:relative; width:100%; padding:10px; }
-.ticker-text { display:inline-block; animation: ticker 25s linear infinite; }
-.ticker-text span { margin-inline-start:40px; font-weight:600; color:var(--ink); }
-@keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+/* تصميم بطاقات المسابقات */
+.comp-card-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+.comp-right-info { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.comp-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.comp-title-text { font-size: 16px; font-weight: 700; color: var(--ink); }
 
-/* تصميم شهادة الشكر والتقدير الأصلية */
-.cert-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
+/* شارات الحالة */
+.badge-status { padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
+.badge-status.open { background: rgba(76, 197, 131, 0.15); color: #4CC583; border: 1px solid rgba(76, 197, 131, 0.3); }
+.badge-status.closed { background: rgba(231, 76, 60, 0.15); color: #E74C3C; border: 1px solid rgba(231, 76, 60, 0.3); }
+
+.comp-domain-text { color: var(--brand); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+.comp-desc-text { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+
+/* الجهة اليسرى: المتبقي + طريقة التسجيل */
+.comp-left-action { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; min-width: 170px; }
+
+.time-pill {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+.time-pill.green { background: rgba(76, 197, 131, 0.15); color: #4CC583; border: 1px solid rgba(76, 197, 131, 0.3); }
+.time-pill.orange { background: rgba(224, 164, 58, 0.15); color: #E0A43A; border: 1px solid rgba(224, 164, 58, 0.3); }
+.time-pill.red { background: rgba(231, 76, 60, 0.15); color: #E74C3C; border: 1px solid rgba(231, 76, 60, 0.3); }
+
+.btn-register {
+  background: var(--brand);
+  color: var(--brand-ink);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.btn-register:hover { opacity: 0.9; }
+.btn-register.disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; border: 1px solid var(--line); }
+
+.reg-text-badge {
+  background: var(--surface2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* تصميم شهادة الشكر والتقدير الأصلية (أفقي) */
+.cert-preview-box { background:#152322; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
+.certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
 .cert-inner { border:2px dashed #0C6A64; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
 .cert-header { display:flex; justify-content:space-between; align-items:flex-start; }
 .cert-logo img { max-height:65px; max-width:110px; }
@@ -105,17 +163,32 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
-/* تصميم معاينة نموذج التقرير */
-.report-preview-box { background:#f4f7f6; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
-.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.15); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; }
-.rep-inner { border:2px dashed #0C6A64; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#fff; }
-.rep-header { display:flex; justify-content:space-between; align-items:flex-start; }
-.rep-gov { text-align:center; font-weight:700; font-size:13px; color:#5A6F6C; line-height:1.5; }
-.rep-gov span { display:block; font-size:16px; color:#0C6A64; }
-.rep-body { margin:10px 0; }
-.rep-title { font-size:26px; font-weight:700; color:#0C6A64; text-align:center; margin-bottom:15px; }
+/* تصميم التقارير الرسمية (عمودي ومضبوط لصفحة واحدة A4) */
+.report-preview-box { background:#152322; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
+.report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:8mm 10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
+.rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:5mm 6mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
+.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:4px; margin-bottom:5px; }
+.rep-logo img { max-height:40px; max-width:75px; object-fit:contain; }
+.rep-gov { text-align:center; font-weight:700; font-size:10px; color:#5A6F6C; line-height:1.3; }
+.rep-gov span { display:block; font-size:12px; color:#0C6A64; }
+.rep-title-box { text-align:center; margin-bottom:4px; }
+.rep-title { font-size:16px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
 
-/* جدول الأسماء المحفوظة للنشاط */
+.rep-info-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:4px 8px; margin-bottom:4px; font-size:11px; background:#F6F9F8; padding:4px 6px; border-radius:4px; border:1px solid #D3DEDB; color:#13302E; }
+.rep-info-item span { font-weight:700; color:#0C6A64; }
+
+.rep-section { margin-bottom:4px; }
+.rep-section h4 { background:#F6F9F8; border-inline-start:4px solid #0C6A64; padding:2px 5px; margin:0 0 2px 0; font-size:11px; color:#0C6A64; }
+.rep-content-box { border:1px solid #D3DEDB; border-radius:4px; padding:3px 5px; min-height:22px; font-size:10.5px; line-height:1.35; background:#fff; color:#13302E; }
+
+.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; margin-top:2px; height: 110mm; }
+.rep-img-card { border:1px solid #D3DEDB; border-radius:6px; padding:3px; text-align:center; background:#fafafa; display:flex; flex-direction:column; height: 100%; box-sizing: border-box; }
+.rep-img-card div[id^="imgPreview"] { flex-grow: 1; width: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #eef3f2; border-radius: 4px; }
+.rep-img-card img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
+.rep-img-caption { font-size:10px; color:#5A6F6C; font-weight:600; margin-top:2px; flex-shrink: 0; }
+
+.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:4px; font-size:10.5px; font-weight:600; border-top:1px solid #D3DEDB; padding-top:4px; }
+
 .table-wrap { overflow-x: auto; margin-top: 10px; }
 table.data-table { width: 100%; border-collapse: collapse; text-align: right; font-size: 13.5px; }
 table.data-table th, table.data-table td { padding: 8px 12px; border: 1px solid var(--line); }
@@ -123,21 +196,20 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
 #batchPrintContainer { display: none; }
 
-/* قاعدة الطباعة الأصلية تماماً لشهادات الشكر والصفحة بدون أي تغيير */
 @media print {
-  @page { size: landscape; margin: 0; }
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  
-  /* إخفاء عام لكل محتويات الموقع باستثناء حاوي الشهادة أو حاوي الدفعات */
   body > *:not(.wrap) { display: none !important; }
   .wrap > *:not(main) { display: none !important; }
-  main > *:not(#page-certificates) { display: none !important; }
+  main > *:not(#page-certificates):not(#page-reports) { display: none !important; }
   
   #page-certificates > *:not(.cert-preview-box) { display: none !important; }
   .cert-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
   
-  /* إظهار الشهادة الفردية بصورة مؤكدة */
-  body:not(.printing-batch) #printableCertificate {
+  #page-reports > *:not(.report-preview-box) { display: none !important; }
+  .report-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
+
+  body:not(.printing-report):not(.printing-batch) @page { size: landscape; margin: 0; }
+  body:not(.printing-report):not(.printing-batch) #printableCertificate {
     display: flex !important;
     position: absolute !important;
     left: 0 !important;
@@ -147,9 +219,26 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     margin: 0 !important;
     box-shadow: none !important;
     border: 8px solid #0C6A64 !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
   }
 
-  /* إظهار حاوي الطباعة الجماعية عند تفعيله */
+  body.printing-report @page { size: portrait; margin: 0; }
+  body.printing-report #printableReport {
+    display: flex !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: 6px solid #0C6A64 !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.printing-batch @page { size: landscape; margin: 0; }
   body.printing-batch #batchPrintContainer {
     display: block !important;
     position: absolute !important;
@@ -172,13 +261,13 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 <div class="wrap">
 <header class="top hero no-print" style="background:radial-gradient(120% 140% at 100% 0%,#14807A 0%,#0C5B57 45%,#083B3A 100%); color:#EAF6F3; border-radius:20px; padding:26px 26px 22px;">
  <div class="hero-content" style="width:100%;">
-  <div class="eyebrow"><i class="fa-solid fa-graduation-cap"></i> الإدارة العامة للتعليم بمنطقة المدينة المنورة - قسم النشاط الطلابي</div>
+  <div class="eyebrow"><i class="fa-solid fa-graduation-cap"></i> الإدارة العامة للتعليم بمنطقة المدينة المنورة - قسم الإدارة المدرسية</div>
   <h1>مدرسة مكة المكرمة الابتدائية</h1>
   <p>بوابة النشاط الطلابي والفعاليات والبرامج الإثرائية</p>
   <div class="hero-bottom">
     <div class="pill-group">
       <span class="pill"><i class="fa-solid fa-calendar-days"></i> العام الدراسي 1447 - 1448 هـ</span>
-      <span class="pill"><i class="fa-solid fa-user-tie"></i> رائد النشاط عواد محمد العوفي</span>
+      <span class="pill"><i class="fa-solid fa-user-tie"></i> رائد النشاط: عواد محمد العوفي</span>
     </div>
     <div id="authStatusArea" class="no-print">
       <button id="loginBtn" class="btn gold small"><i class="fa-solid fa-right-to-bracket"></i> دخول المسؤول</button>
@@ -191,7 +280,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 </div>
 </header>
 
-<!-- شريط التبويبات الرئيسي (تم استبدال الإنجاز بالتقارير ووضعها قبل شهادات الشكر) -->
+<!-- شريط التبويبات الرئيسي -->
 <nav class="tabs no-print" aria-label="التبويبات الرئيسية"> 
   <button class="tab active" data-tab="home" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> الرئيسية</button> 
   <button class="tab" data-tab="plan" onclick="switchTab('plan')"><i class="fa-solid fa-calendar-check"></i> خطة النشاط</button> 
@@ -203,6 +292,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       <button onclick="selectReportDept('activity')"><i class="fa-solid fa-star"></i> النشاط الطلابي</button>
       <button onclick="selectReportDept('guidance')"><i class="fa-solid fa-user-graduate"></i> التوجيه الطلابي</button>
       <button onclick="selectReportDept('admin')"><i class="fa-solid fa-building-columns"></i> الإدارة المدرسية</button>
+      <button onclick="selectReportDept('teacher')"><i class="fa-solid fa-chalkboard-user"></i> تقرير المعلم</button>
     </div>
   </div>
 
@@ -226,6 +316,22 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       <p>منصة متكاملة لإدارة ومتابعة خطط العمل، والمبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بمدرسة مكة المكرمة الابتدائية.</p>     
      </div>    
     </div>    
+
+    <!-- قسم المسابقات المتاحة أُضيف هنا أسفل عبارات الترحيب تماماً -->
+    <div style="margin-top:24px; border-top:1px solid var(--line); padding-top:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h2 style="font-size:18px; color:var(--brand); margin:0 0 4px 0;"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية المتاحة للمشاركة حالياً</h2>
+          <p class="muted" style="margin:0;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</p>
+        </div>
+        <button class="btn gold small admin-only hidden" onclick="showForm('addCompModal')"><i class="fa-solid fa-plus"></i> إضافة مسابقة جديدة</button>
+      </div>
+
+      <!-- حاوي قائمة المسابقات الديناميكية -->
+      <div id="competitionsListContainer">
+        <!-- يتم التحميل هنا -->
+      </div>
+    </div>
   </div>
  </section>
 
@@ -243,58 +349,173 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div> 
  </section>
 
- <!-- PAGE: REPORTS (بدل تبويب الإنجاز وبثلاثة نماذج) -->
+ <!-- PAGE: REPORTS -->
  <section id="page-reports" class="page hidden">
   <div class="panel no-print">
-    <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> نماذج التقارير المدرسية الرسمية - <span id="currentReportDept">النشاط الطلابي</span></h2>
-    <p>قم بتعبئة بيانات التقرير أدناه لكل قسم (النشاط الطلابي، التوجيه الطلابي، الإدارة المدرسية).</p>
+    <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> مُولّد التقارير الرسمية - <span id="currentReportDeptTitle">النشاط الطلابي</span></h2>
+    <p>قم بتعبئة تفاصيل التقرير، اسم البرنامج، وتفاصيل التنفيذ، مع إمكانية إرفاق صورتين توثيقيتين لكافة التقارير.</p>
     
     <div class="formgrid" style="margin-top:15px;">
       <div class="field">
-        <label>عنوان التقرير / البرنامج</label>
-        <input type="text" id="repTitleInput" value="تقرير تنفيذ برامج وفعاليات النشاط الطلابي" oninput="updateReportPreview()">
+        <label>عنوان التقرير الرئيسي</label>
+        <input type="text" id="repTitleInput" value="تقرير تنفيذ فعالية اليوم الوطني السعودي" oninput="updateReportPreview()">
       </div>
       <div class="field">
         <label>تاريخ التقرير</label>
-        <input type="text" id="repDateInput" value="1447 هـ" oninput="updateReportPreview()">
+        <input type="text" id="repDateInput" value="1447/03/05 هـ" oninput="updateReportPreview()">
       </div>
+
+      <div class="field">
+        <label>اسم البرنامج / الفعالية</label>
+        <input type="text" id="repProgNameInput" value="فعالية اليوم الوطني السعودي" oninput="updateReportPreview()">
+      </div>
+      <div class="field">
+        <label>تاريخ التنفيذ</label>
+        <input type="text" id="repExecDateInput" value="الأربعاء 1447/03/05 هـ" oninput="updateReportPreview()">
+      </div>
+
+      <div class="field">
+        <label>مكان التنفيذ</label>
+        <input type="text" id="repExecPlaceInput" value="مقر مدرسة مكة المكرمة الابتدائية" oninput="updateReportPreview()">
+      </div>
+      <div class="field">
+        <label>مدة البرنامج</label>
+        <input type="text" id="repExecDurationInput" value="يوم دراسي واحد" oninput="updateReportPreview()">
+      </div>
+
       <div class="field full">
-        <label>مضمون وتفاصيل التقرير</label>
-        <textarea id="repContentInput" oninput="updateReportPreview()">تم بحمد الله تنفيذ البرامج المخطط لها وفق الزمن المحدد، وبمشاركة فعالة من الطلاب والكادر الإداري والتعليمي.</textarea>
+        <label>أدوات التنفيذ</label>
+        <input type="text" id="repToolsInput" value="عروض مرئية، منشورات توعوية، إذاعة مدرسية" oninput="updateReportPreview()">
+      </div>
+
+      <div class="field">
+        <label>رفع شعار الوزارة / المدرسة (يدوياً)</label>
+        <input type="file" accept="image/*" onchange="loadReportLogo(event)">
+      </div>
+      <div class="field">
+        <label>المسمى الوظيفي للمسؤول</label>
+        <input type="text" id="repSignerTitle" value="رائد النشاط الطلابي" oninput="updateReportPreview()">
+      </div>
+
+      <div class="field">
+        <label>اسم المسؤول</label>
+        <input type="text" id="repSignerName" value="عواد محمد العوفي" oninput="updateReportPreview()">
+      </div>
+      <div class="field">
+        <label>مسمى مدير المدرسة</label>
+        <input type="text" id="repPrincipalTitle" value="مدير المدرسة" oninput="updateReportPreview()">
+      </div>
+
+      <div class="field">
+        <label>اسم مدير المدرسة</label>
+        <input type="text" id="repPrincipalName" value="متعب حسن السحيمي" oninput="updateReportPreview()">
+      </div>
+      
+      <div class="field full" id="fieldBlock1">
+        <label id="lblField1Name">أهداف البرنامج / الفعالية</label>
+        <textarea id="repField1Input" oninput="updateReportPreview()">1. تعزيز الانتماء الوطني والولاء للقيادة الرشيدة.\n2. إبراز جهود المملكة وتاريخها العريق.\n3. مشاركة الطلاب بفعالية في الأنشطة اللاصفية.</textarea>
+      </div>
+
+      <div class="field full" id="fieldBlock2">
+        <label id="lblField2Name">ملخص التنفيذ وسير العمل</label>
+        <textarea id="repField2Input" oninput="updateReportPreview()">أقيمت فعاليات البرنامج في مقر المدرسة بحضور طاقم الإدارة والمعلمين والطلاب، حيث تخلل البرنامج كلمات توجيهية، وعروض مرئية.</textarea>
+      </div>
+
+      <div class="field" id="imgField1">
+        <label>الصورة التوثيقية (1)</label>
+        <input type="file" accept="image/*" onchange="loadReportImage(event, 1)">
+      </div>
+      <div class="field" id="capField1">
+        <label>تعليق الصورة (1)</label>
+        <input type="text" id="repCap1" value="جانب من الفعاليات" oninput="updateReportPreview()">
+      </div>
+
+      <div class="field" id="imgField2">
+        <label>الصورة التوثيقية (2)</label>
+        <input type="file" accept="image/*" onchange="loadReportImage(event, 2)">
+      </div>
+      <div class="field" id="capField2">
+        <label>تعليق الصورة (2)</label>
+        <input type="text" id="repCap2" value="تفاعل الطلاب" oninput="updateReportPreview()">
+      </div>
+
+      <div class="actions full" style="display:flex; gap:10px; align-items:center; margin-top:10px;">
+        <button class="btn primary" onclick="printSingleReport()"><i class="fa-solid fa-print"></i> طباعة التقرير / حفظ PDF</button>
       </div>
     </div>
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة التقرير</h3>
+    <h3>معاينة التقرير الرسمي (عمودي لصفحة واحدة)</h3>
   </div>
   
   <div class="report-preview-box">
-    <div class="report-page">
-      <div class="rep-inner">
-        <div class="rep-header">
-          <div><b>وزارة التعليم</b><br><span style="font-size:10px; color:#5A6F6C;">المملكة العربية السعودية</span></div>
-          <div class="rep-gov">
-            الإدارة العامة للتعليم بمنطقة المدينة المنورة<br>
-            <span>مدرسة مكة المكرمة الابتدائية</span>
+    <div class="report-page" id="printableReport">
+      <div class="rep-inner-frame">
+        <div style="flex-shrink: 0;">
+          <div class="rep-header">
+            <div class="rep-logo" id="repLogoArea">
+              <div style="font-size:10px; color:#5A6F6C; border:1px dashed var(--line); padding:3px; border-radius:4px;">الشعار اليدوي</div>
+            </div>
+            <div class="rep-gov">
+              وزارة التعليم<br>
+              الإدارة العامة للتعليم بمنطقة المدينة المنورة<br>
+              الشؤون التعليمية / إدارة أداء التعليم<br>
+              قسم الإدارة المدرسية<br>
+              <span>مدرسة مكة المكرمة الابتدائية</span>
+            </div>
+            <div style="text-align:left; font-size:11px; color:#5A6F6C;" id="lblRepHeaderDept">
+              النشاط الطلابي<br><span id="lblRepDate">1447/03/05 هـ</span>
+            </div>
           </div>
-          <div style="text-align:left; font-size:12px; color:#5A6F6C;" id="lblRepDeptHeader">
-            <span>النشاط الطلابي</span><br><span id="lblRepDate">1447 هـ</span>
+
+          <div class="rep-title-box">
+            <div class="rep-title" id="lblRepTitle">تقرير تنفيذ فعالية اليوم الوطني السعودي</div>
+          </div>
+
+          <div class="rep-info-grid">
+            <div class="rep-info-item"><span>اسم البرنامج:</span> <span id="lblProgName">فعالية اليوم الوطني السعودي</span></div>
+            <div class="rep-info-item"><span>تاريخ التنفيذ:</span> <span id="lblExecDate">الأربعاء 1447/03/05 هـ</span></div>
+            <div class="rep-info-item"><span>مكان التنفيذ:</span> <span id="lblExecPlace">مقر مدرسة مكة المكرمة الابتدائية</span></div>
+            <div class="rep-info-item"><span>مدة البرنامج:</span> <span id="lblExecDuration">يوم دراسي واحد</span></div>
+            <div class="rep-info-item full" style="grid-column: 1/-1;"><span>أدوات التنفيذ:</span> <span id="lblTools">عروض مرئية، منشورات توعوية</span></div>
+          </div>
+
+          <div class="rep-section">
+            <h4 id="lblSec1Title">أهداف البرنامج / الفعالية</h4>
+            <div class="rep-content-box" id="lblRepField1" style="white-space: pre-line;">-</div>
+          </div>
+
+          <div class="rep-section">
+            <h4 id="lblSec2Title">ملخص التنفيذ وسير العمل</h4>
+            <div class="rep-content-box" id="lblRepField2" style="white-space: pre-line;">-</div>
           </div>
         </div>
-        <div class="rep-body">
-          <div class="rep-title" id="lblRepTitle">تقرير تنفيذ برامج وفعاليات النشاط الطلابي</div>
-          <div class="cert-text" id="lblRepContent" style="font-size:16px; line-height:2; text-align:right;">تم بحمد الله تنفيذ البرامج المخطط لها وفق الزمن المحدد، وبمشاركة فعالة من الطلاب والكادر الإداري والتعليمي.</div>
+
+        <div class="rep-section" id="imagesSectionBox" style="flex-grow: 1; display: flex; flex-direction: column; margin-top: 2px;">
+          <h4 id="lblSec3Title" style="flex-shrink: 0;">التوثيق المصور للفعالية</h4>
+          <div class="rep-images-grid" id="lblRepImagesGrid">
+            <div class="rep-img-card">
+              <div id="imgPreview1">
+                <span style="color:#9ab0ac; font-size:11px;">الصورة الأولى</span>
+              </div>
+              <div class="rep-img-caption" id="lblCap1">جانب من الفعاليات</div>
+            </div>
+            <div class="rep-img-card">
+              <div id="imgPreview2">
+                <span style="color:#9ab0ac; font-size:11px;">الصورة الثانية</span>
+              </div>
+              <div class="rep-img-caption" id="lblCap2">تفاعل الطلاب</div>
+            </div>
+          </div>
         </div>
-        <div class="cert-footer">
-          <div class="cert-sign">
+
+        <div class="rep-footer" style="flex-shrink: 0;">
+          <div>
             <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
           </div>
-          <div style="text-align:center; font-size:12px; color:#C9A04A; font-weight:bold;">
-            <i class="fa-solid fa-file-shield fa-2x"></i><br>معتمد من إدارة المدرسة
-          </div>
-          <div class="cert-sign">
-            مدير المدرسة<br><b>متعب حسن السحيمي</b>
+          <div style="text-align:center; font-size:10.5px; color:#0C6A64; font-weight:bold;">
+            معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span> <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
           </div>
         </div>
       </div>
@@ -305,7 +526,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
  <!-- PAGE: CERTIFICATES -->
  <section id="page-certificates" class="page hidden">
   <div class="panel no-print">
-    <h2><i class="fa-solid fa-award" style="color:var(--brand)"></i> مُولّد شهادات الشكر والتقدير الرسمية - <span id="currentDeptTitle">النشاط الطلابي</span></h2>
+    <h2><i class="fa-solid fa-award" style="color:var(--brand)"></i> مُولّد شهادات الشكر والتقدير - <span id="currentDeptTitle">النشاط الطلابي</span></h2>
     <p>قم بإدخال بيانات الشهادة وتعديل النصوص حسب الحاجة، ثم اضغط طباعة أو حفظ كملف PDF.</p>
     
     <div class="formgrid" style="margin-top:15px;">
@@ -339,7 +560,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="text" id="certYear" value="1447 - 1448 هـ" oninput="updateCertPreview()">
       </div>
 
-      <!-- حقول تخصيص التوقيع والترويسة -->
       <div class="field" id="signerTitleField">
         <label>المسمى الوظيفي للموقع (اليسار)</label>
         <input type="text" id="certSignerTitle" value="رائد النشاط الطلابي" oninput="updateCertPreview()">
@@ -363,7 +583,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     </div>
   </div>
 
-  <!-- قسم إدارة وتخزين الأسماء للنشاط الطلابي فقط (للمسؤولين) -->
   <div id="activityBatchPanel" class="panel no-print admin-only hidden" style="border: 2px dashed var(--brand); background: var(--surface2);">
     <h3><i class="fa-solid fa-users-gear" style="color:var(--brand)"></i> سجل حفظ الأسماء والطباعة الجماعية (خاص بالنشاط الطلابي)</h3>
     <p class="muted">يمكنك حفظ بيانات الطلاب أو المعلمين في السجل السحابي وطباعة شهاداتهم دفعة واحدة بنقرة زر.</p>
@@ -393,7 +612,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة الشهادة الرسمية</h3>
+    <h3>معاينة الشهادة (بالبرواز المقطع)</h3>
   </div>
   
   <div class="cert-preview-box">
@@ -435,12 +654,53 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
  </section>
 </main>
 
-<!-- حاوي الطباعة الجماعية المباشرة -->
 <div id="batchPrintContainer"></div>
 
+<!-- النافذة المنبثقة لإضافة مسابقة جديدة (للمسؤول فقط) -->
+<div id="addCompModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3 style="margin-top:0; color:var(--brand);"><i class="fa-solid fa-trophy"></i> إضافة مسابقة جديدة</h3>
+    <form id="addCompForm">
+      <div class="field" style="margin-bottom:10px;">
+        <label>عنوان المسابقة / البرنامج</label>
+        <input type="text" id="newCompTitle" required placeholder="مثال: مسابقة تحدي القراءة العربي">
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>المجال / القسم</label>
+        <input type="text" id="newCompDomain" required placeholder="مثال: الثقافة واللغة العربية">
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>الوصف / العبارة التحفيزية</label>
+        <input type="text" id="newCompDesc" placeholder="مثال: «اقرأ ترتقِ.. أطلق العنان لخيالك»">
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>طريقة التسجيل والتفاصيل</label>
+        <select id="newCompType" onchange="toggleRegTypeInput()">
+          <option value="link">رابط موقع إلكتروني خارجي</option>
+          <option value="activity_leader">عن طريق رائد النشاط الطلابي</option>
+          <option value="subject_teacher">عن طريق معلم المادة</option>
+        </select>
+      </div>
+      <div class="field" id="linkInputField" style="margin-bottom:10px;">
+        <label>رابط التسجيل والتفاصيل</label>
+        <input type="url" id="newCompLink" placeholder="https://example.com/register">
+      </div>
+      <div class="field" style="margin-bottom:15px;">
+        <label>الأيام المتبقية للإغلاق (أدخل عدد الأيام)</label>
+        <input type="number" id="newCompDays" required min="0" value="30" placeholder="مثال: 30">
+      </div>
+      <div class="actions" style="display:flex; gap:8px;">
+        <button type="submit" class="btn primary" style="flex:1; justify-content:center;">حفظ ونشر المسابقة</button>
+        <button type="button" class="btn" style="flex:1; justify-content:center;" onclick="hideForm('addCompModal')">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- modal login -->
 <div id="loginModal" class="modal-overlay hidden">  
   <div class="modal-card">    
-    <h3 style="margin-top:0; color:var(--primary);"><i class="fa-solid fa-lock"></i> تسجيل دخول المسؤول</h3>    
+    <h3 style="margin-top:0; color:var(--brand);"><i class="fa-solid fa-lock"></i> تسجيل دخول المسؤول</h3>    
     <p class="muted" style="margin-bottom:15px; font-size:12px;">أدخل البريد الإلكتروني وكلمة المرور لإتاحة خيارات إضافة وتعديل البيانات.</p>    
     <form id="loginForm">      
       <div class="field" style="margin-bottom:10px;">        
@@ -487,9 +747,19 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   const db = getFirestore(app);
   
   let currentUser = null;  
-  let state = { announcements: [], batchStudents: [] };
-  let activeDept = 'activity'; // activity, guidance, admin
-  let activeReportDept = 'activity'; // activity, guidance, admin
+  let state = { batchStudents: [], competitions: [] };
+  let activeDept = 'activity'; 
+  let activeReportDept = 'activity';
+  let reportImages = { 1: '', 2: '' };
+
+  const defaultCompetitions = [
+    { id: 'def1', title: 'تحدي القراءة العربي - الدورة التاسعة', domain: 'الثقافة واللغة العربية', desc: '«اقرأ ترتقِ.. أطلق العنان لخيالك واكتشف عوالم المعرفة عبر تلخيص الكتب»', regType: 'link', link: 'https://makkahschool.github.io/main/musabaqat', days: 31 },
+    { id: 'def2', title: 'أولمبياد الرسم والفن التشكيلي (وطننا أمانة)', domain: 'الفنون البصرية والمهارات الفنية', desc: '«أنامل تبدع ولوحات تروي قصة حب الوطن وولائه في ميادين الفن»', regType: 'activity_leader', link: '', days: 46 },
+    { id: 'def3', title: 'مسابقة المهارات الأدبية (الخط العربي والإلقاء والحديث)', domain: 'الإذاعة المدرسية والتعبير الفصيح', desc: '«حرفٌ يزهو جمالاً وصوتٌ يصدح إبداعاً في المحافل المدرسية»', regType: 'subject_teacher', link: '', days: 36 },
+    { id: 'def4', title: 'مسابقة بيبراس السعودية للمعلوماتية والبرمجة', domain: 'العلوم والتقنية والابتكار', desc: '«عقول المستقبل.. ننمّي مهارات التفكير العلمي والحلول الذكية»', regType: 'link', link: 'https://makkahschool.github.io/main/musabaqat', days: 26 },
+    { id: 'def5', title: 'المسابقة الوطنية للقرآن الكريم والسنة النبوية', domain: 'الأنشطة الإسلامية والتربوية', desc: '«خيركم من تعلم القرآن وعلمه.. نور الهدى ورفعة الأثر»', regType: 'activity_leader', link: '', days: 51 },
+    { id: 'def6', title: 'أولمبياد العلوم والرياضيات المدرسية', domain: 'النشاط العلمي والأولمبيادات', desc: '«إبداع بلا حدود في استكشاف أسرار العلم ومعادلات المستقبل»', regType: 'subject_teacher', link: '', days: 41 }
+  ];
   
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -504,6 +774,14 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   
   function esc(s) {      
       return String(s??"").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));  
+  }
+  
+  function fileToDataUrl(file) {      
+      return new Promise((resolve, reject) => {          
+          const reader = new FileReader();          
+          reader.readAsDataURL(file);          
+          reader.onload = () => resolve(reader.result);          
+          reader.onerror = error => reject(error);      });  
   }
   
   document.getElementById('loginBtn').addEventListener('click', () => showForm('loginModal'));    
@@ -536,12 +814,121 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       renderAll();  
   });
 
+  window.toggleRegTypeInput = function() {
+    const type = document.getElementById('newCompType').value;
+    const linkField = document.getElementById('linkInputField');
+    if(type === 'link') {
+      linkField.classList.remove('hidden');
+    } else {
+      linkField.classList.add('hidden');
+    }
+  };
+
+  onSnapshot(collection(db, "competitions"), (snapshot) => {      
+      const dbComps = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      if (dbComps.length > 0) {
+        state.competitions = dbComps;
+      } else {
+        state.competitions = defaultCompetitions;
+      }
+      renderCompetitions();  
+  });
+
+  document.getElementById('addCompForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول أولاً.");
+
+    const title = document.getElementById('newCompTitle').value.trim();
+    const domain = document.getElementById('newCompDomain').value.trim();
+    const desc = document.getElementById('newCompDesc').value.trim();
+    const regType = document.getElementById('newCompType').value;
+    const link = document.getElementById('newCompLink').value.trim();
+    const days = parseInt(document.getElementById('newCompDays').value, 10);
+
+    try {
+      await addDoc(collection(db, "competitions"), {
+        title, domain, desc, regType, link, days, createdAt: Date.now()
+      });
+      toast("تمت إضافة المسابقة ونشرها بنجاح!");
+      hideForm('addCompModal');
+      document.getElementById('addCompForm').reset();
+    } catch(err) {
+      alert("حدث خطأ في إضافة المسابقة: " + err.message);
+    }
+  });
+
+  window.deleteComp = async function(compId) {
+    if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول.");
+    if(confirm("هل تريد حذف هذه المسابقة من الصفحة؟")) {
+      try {
+        if(compId.startsWith('def')) {
+          state.competitions = state.competitions.filter(c => c.id !== compId);
+          renderCompetitions();
+          toast("تم إخفاء المسابقة الافتراضية.");
+        } else {
+          await deleteDoc(doc(db, "competitions", compId));
+          toast("تم حذف المسابقة بنجاح.");
+        }
+      } catch(e) { alert("خطأ في الحذف: " + e.message); }
+    }
+  };
+
+  function renderCompetitions() {
+    const container = document.getElementById('competitionsListContainer');
+    if(!state.competitions || !state.competitions.length) {
+      container.innerHTML = `<div class="empty">لا توجد مسابقات معروضة حالياً.</div>`;
+      return;
+    }
+
+    container.innerHTML = state.competitions.map(item => {
+      const days = parseInt(item.days, 10) || 0;
+      let timeClass = 'green';
+      let statusBadge = `<span class="badge-status open"><i class="fa-solid fa-circle-check"></i> متاح للمشاركة</span>`;
+      let timeText = `متبقي ${days} يوم/أيام`;
+      let actionHtml = '';
+
+      if (days <= 0) {
+        timeClass = 'red';
+        statusBadge = `<span class="badge-status closed"><i class="fa-solid fa-circle-xmark"></i> مغلق</span>`;
+        timeText = `انتهت فترة التسجيل`;
+        actionHtml = `<button class="btn-register disabled" disabled>التسجيل مغلق</button>`;
+      } else {
+        if (days <= 7) timeClass = 'orange';
+
+        if (item.regType === 'activity_leader') {
+          actionHtml = `<div class="reg-text-badge"><i class="fa-solid fa-user-tie" style="color:var(--brand)"></i> التسجيل عبر رائد النشاط</div>`;
+        } else if (item.regType === 'subject_teacher') {
+          actionHtml = `<div class="reg-text-badge"><i class="fa-solid fa-chalkboard-user" style="color:var(--brand)"></i> التسجيل عبر معلم المادة</div>`;
+        } else {
+          actionHtml = `<a href="${esc(item.link || '#')}" target="_blank" class="btn-register">التسجيل والتفاصيل</a>`;
+        }
+      }
+
+      return `
+        <div class="comp-card-item">
+          <div class="comp-right-info">
+            <div class="comp-title-row">
+              ${statusBadge}
+              <span class="comp-title-text">${esc(item.title)}</span>
+              ${currentUser ? `<button class="btn danger small" style="padding:2px 6px; font-size:11px;" onclick="deleteComp('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>` : ''}
+            </div>
+            <div class="comp-domain-text"><i class="fa-solid fa-tag"></i> ${esc(item.domain)}</div>
+            <div class="comp-desc-text">${esc(item.desc)}</div>
+          </div>
+          <div class="comp-left-action">
+            <div class="time-pill ${timeClass}"><i class="fa-solid fa-clock"></i> ${timeText}</div>
+            ${actionHtml}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
   onSnapshot(collection(db, "batch_students"), (snapshot) => {      
       state.batchStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderBatchTable();  
   });
   
-  // إدارة جدول السجل السحابي للدفعة
   window.saveCurrentToBatchList = async function() {
     if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول لحفظ الأسماء بالسجل.");
     
@@ -595,7 +982,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.querySelectorAll('.batch-chk').forEach(chk => chk.checked = master.checked);
   };
 
-  // طباعة دفعة شهادات
   window.printSelectedBatch = function() {
     const selectedIds = Array.from(document.querySelectorAll('.batch-chk:checked')).map(chk => chk.dataset.id);
     if(selectedIds.length === 0) return alert("يرجى تحديد اسم واحد على الأقل من الجدول للطباعة.");
@@ -649,11 +1035,19 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   };
 
   window.printSingleCert = function() {
+    document.body.classList.remove('printing-report');
+    document.body.classList.remove('printing-batch');
+    window.print();
+  };
+
+  window.printSingleReport = function() {
+    document.body.classList.add('printing-report');
     document.body.classList.remove('printing-batch');
     window.print();
   };
 
   function renderAll() {      
+      renderCompetitions();
       renderBatchTable();
   }
   
@@ -663,37 +1057,158 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       window.scrollTo({ top: 0, behavior: 'smooth' });  
   };
 
-  // التحكم بأقسام التقارير الثلاثة
   window.selectReportDept = function(dept) {
     activeReportDept = dept;
     switchTab('reports');
     
-    const titleEl = document.getElementById('currentReportDept');
-    const headerDeptText = document.getElementById('lblRepDeptHeader');
-    const signerTitleInput = document.getElementById('lblRepSignerTitle');
+    const titleEl = document.getElementById('currentReportDeptTitle');
+    const headerDeptText = document.getElementById('lblRepHeaderDept');
+    const signerTitleInput = document.getElementById('repSignerTitle');
+    const signerNameInput = document.getElementById('repSignerName');
+    
+    const lblSec1 = document.getElementById('lblSec1Title');
+    const lblSec2 = document.getElementById('lblSec2Title');
+    const lblSec3 = document.getElementById('lblSec3Title');
+    const lblField1 = document.getElementById('lblField1Name');
+    const lblField2 = document.getElementById('lblField2Name');
+    const imagesSecBox = document.getElementById('imagesSectionBox');
 
     if(dept === 'activity') {
       titleEl.textContent = 'النشاط الطلابي';
-      headerDeptText.innerHTML = `<span>النشاط الطلابي</span><br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
-      signerTitleInput.textContent = 'رائد النشاط الطلابي';
+      headerDeptText.innerHTML = `النشاط الطلابي<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
+      signerTitleInput.value = 'رائد النشاط الطلابي';
+      signerNameInput.value = 'عواد محمد العوفي';
+      
+      document.getElementById('repTitleInput').value = 'تقرير تنفيذ فعالية النشاط الطلابي والبرامج الإثرائية';
+      lblField1.textContent = 'أهداف البرنامج / الفعالية';
+      document.getElementById('repField1Input').value = '1. تعزيز الانتماء والولاء للوطن.\n2. إبراز المواهب الطلابية وتنميتها.\n3. مشاركة الطلاب بفعالية في الأنشطة اللاصفية.';
+      
+      lblField2.textContent = 'ملخص التنفيذ وسير العمل';
+      document.getElementById('repField2Input').value = 'أقيمت فعاليات البرنامج في مقر المدرسة بحضور الطلاب والمعلمين، حيث تخلل البرنامج عروض مرئية وأنشطة تفاعلية مميزة.';
+      
+      lblSec1.textContent = 'أهداف البرنامج / الفعالية';
+      lblSec2.textContent = 'ملخص التنفيذ وسير العمل';
+      lblSec3.textContent = 'التوثيق المصور للفعالية';
+      imagesSecBox.style.display = 'flex';
+
     } else if(dept === 'guidance') {
       titleEl.textContent = 'التوجيه الطلابي';
-      headerDeptText.innerHTML = `<span>التوجيه الطلابي</span><br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
-      signerTitleInput.textContent = 'الموجه الطلابي';
+      headerDeptText.innerHTML = `التوجيه الطلابي<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
+      signerTitleInput.value = 'الموجه الطلابي';
+      signerNameInput.value = 'اسم الموجه الطلابي';
+      
+      document.getElementById('repTitleInput').value = 'التقرير الدوري لخدمات التوجيه والإرشاد الطلابي';
+      lblField1.textContent = 'البرامج الإرشادية والمهنية المنفذة';
+      document.getElementById('repField1Input').value = '1. تنفيذ حصص الإذاعة المدرسية للتوجيه المهني.\n2. دراسة حالات التأخر الصباحي والتحصيل الدراسي وتقديم الرعاية.\n3. تفعيل برنامج رعاية الطلاب الجدد والتكيف المدرسي.';
+      
+      lblField2.textContent = 'المرئيات والتوصيات الإرشادية';
+      document.getElementById('repField2Input').value = 'متابعة الحالات السلوكية وتقديم الإرشاد الفردي والجمعي بالتعاون مع أولياء الأمور لتحسين توافق الطلاب المدرسي.';
+      
+      lblSec1.textContent = 'البرامج الإرشادية والمهنية المنفذة';
+      lblSec2.textContent = 'المرئيات والتوصيات الإرشادية';
+      lblSec3.textContent = 'التوثيق المصور لبرامج التوجيه';
+      imagesSecBox.style.display = 'flex';
+
     } else if(dept === 'admin') {
       titleEl.textContent = 'الإدارة المدرسية';
-      headerDeptText.innerHTML = `<span>الإدارة المدرسية</span><br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
-      signerTitleInput.textContent = 'وكيل الشؤون التعليمية';
+      headerDeptText.innerHTML = `الإدارة المدرسية<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
+      signerTitleInput.value = 'وكيل الشؤون التعليمية';
+      signerNameInput.value = 'اسم المسؤول';
+      
+      document.getElementById('repTitleInput').value = 'تقرير الإدارة المدرسية وسير العمل التعليمي';
+      lblField1.textContent = 'المحاور الإدارية والتنظيمية';
+      document.getElementById('repField1Input').value = '1. متابعة الانتظام المدرسي وانضباط الهيئة التعليمية والإدارية.\n2. تفقد المرافق المدرسية وجاهزية القاعات الدراسية والمعامل.\n3. تقييم كفاءة سير خطط العمل الأسبوعية والشهرية.';
+      
+      lblField2.textContent = 'النتائج والمقترحات التطويرية';
+      document.getElementById('repField2Input').value = 'تحقيق مستويات عالية في الانضباط المدرسي وتفعيل قنوات التواصل المستمر مع أولياء الأمور.';
+      
+      lblSec1.textContent = 'المحاور الإدارية والتنظيمية';
+      lblSec2.textContent = 'النتائج والمقترحات التطويرية';
+      lblSec3.textContent = 'التوثيق المصور للأنشطة الإدارية';
+      imagesSecBox.style.display = 'flex';
+
+    } else if(dept === 'teacher') {
+      titleEl.textContent = 'تقرير المعلم';
+      headerDeptText.innerHTML = `تقرير المعلم<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
+      signerTitleInput.value = 'معلم المادة / الصف';
+      signerNameInput.value = 'اسم المعلم';
+      
+      document.getElementById('repTitleInput').value = 'التقرير الأسبوعي للأداء التعليمي والصفّي';
+      lblField1.textContent = 'الدروس والوحدات المنفذة';
+      document.getElementById('repField1Input').value = '1. شرح الدروس المقررة وفق الخطة الفصلية بدقة.\n2. تطبيق استراتيجيات التعلم النشط وتقويم تفاعل الطلاب.\n3. تنفيذ التقييمات التكوينية والختامية ورصد الدرجات.';
+      
+      lblField2.textContent = 'المقترحات وتحسين نواتج التعلم';
+      document.getElementById('repField2Input').value = 'تنفيذ برامج علاجية للطلاب الدون مستوى الإتقان، وتكريم الطلاب المتميزين لتحفيزهم المستمر.';
+      
+      lblSec1.textContent = 'الدروس والوحدات المنفذة';
+      lblSec2.textContent = 'المقترحات وتحسين نواتج التعلم';
+      lblSec3.textContent = 'التوثيق المصور للأنشطة الصفية';
+      imagesSecBox.style.display = 'flex';
     }
+    updateReportPreview();
   };
 
   window.updateReportPreview = function() {
     document.getElementById('lblRepTitle').textContent = document.getElementById('repTitleInput').value || 'عنوان التقرير';
     document.getElementById('lblRepDate').textContent = document.getElementById('repDateInput').value || '';
-    document.getElementById('lblRepContent').textContent = document.getElementById('repContentInput').value || '';
+    
+    document.getElementById('lblProgName').textContent = document.getElementById('repProgNameInput').value || '';
+    document.getElementById('lblExecDate').textContent = document.getElementById('repExecDateInput').value || '';
+    document.getElementById('lblExecPlace').textContent = document.getElementById('repExecPlaceInput').value || '';
+    document.getElementById('lblExecDuration').textContent = document.getElementById('repExecDurationInput').value || '';
+    document.getElementById('lblTools').textContent = document.getElementById('repToolsInput').value || '';
+
+    document.getElementById('lblRepField1').textContent = document.getElementById('repField1Input').value || '';
+    document.getElementById('lblRepField2').textContent = document.getElementById('repField2Input').value || '';
+
+    document.getElementById('lblRepSignerTitle').textContent = document.getElementById('repSignerTitle').value || '';
+    document.getElementById('lblRepSignerName').textContent = document.getElementById('repSignerName').value || '';
+    document.getElementById('lblRepPrincipalTitle').textContent = document.getElementById('repPrincipalTitle').value || '';
+    document.getElementById('lblRepPrincipalName').textContent = document.getElementById('repPrincipalName').value || '';
+
+    document.getElementById('lblCap1').textContent = document.getElementById('repCap1').value || '';
+    document.getElementById('lblCap2').textContent = document.getElementById('repCap2').value || '';
+
+    const prev1 = document.getElementById('imgPreview1');
+    if(reportImages[1]) {
+      prev1.innerHTML = `<img src="${reportImages[1]}" alt="صورة 1">`;
+    } else {
+      prev1.innerHTML = `<span style="color:#9ab0ac; font-size:11px;">الصورة الأولى</span>`;
+    }
+
+    const prev2 = document.getElementById('imgPreview2');
+    if(reportImages[2]) {
+      prev2.innerHTML = `<img src="${reportImages[2]}" alt="صورة 2">`;
+    } else {
+      prev2.innerHTML = `<span style="color:#9ab0ac; font-size:11px;">الصورة الثانية</span>`;
+    }
   };
 
-  // التحكم بأقسام الشهادات المختلفة (النشاط، التوجيه، الإدارة)
+  window.loadReportImage = async function(event, index) {
+    const file = event.target.files[0];
+    if(file) {
+      try {
+        const dataUrl = await fileToDataUrl(file);
+        reportImages[index] = dataUrl;
+        updateReportPreview();
+      } catch(e) {
+        alert("خطأ في تحميل الصورة");
+      }
+    }
+  };
+
+  window.loadReportLogo = async function(event) {
+    const file = event.target.files[0];
+    if(file) {
+      try {
+        const dataUrl = await fileToDataUrl(file);
+        document.getElementById('repLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار">`;
+      } catch(e) {
+        alert("خطأ في تحميل الشعار");
+      }
+    }
+  };
+
   window.selectCertDept = function(dept) {
     activeDept = dept;
     switchTab('certificates');
@@ -730,7 +1245,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     updateCertPreview();
   };
 
-  // دوال توليد وتحديث شهادة الشكر
   window.updateCertPreview = function() {
     const targetType = document.getElementById('certTargetType').value;
     const subTitle = document.getElementById('lblCertSub');
