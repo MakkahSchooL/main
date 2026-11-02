@@ -158,6 +158,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
+/* تنسيق الشعار داخل الشهادة ليظهر بحجم مناسب وغير كبير */
+.cert-logo img {
+  max-height: 55px !important;
+  max-width: 120px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
 /* تصميم التقارير الرسمية (عمودي A4) */
 .report-preview-box { background:#152322; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:8mm 10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
@@ -437,7 +447,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       </div>
 
       <div style="margin-top:25px; border-top:1px solid var(--line); padding-top:20px;">
-        <h3>استبانات قياس الأثر المتاحة (يمكنك نسخ الروابط أو إضافتها/حذفها)</h3>
+        <h3>استبانات قياس الأثر المتاحة</h3>
         
         <div id="dynamicSurveysListContainer" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-top:15px;">
           <!-- تعبئة ديناميكية -->
@@ -564,7 +574,9 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       
       <div class="field full" id="fieldBlock1">
         <label id="lblField1Name">أهداف البرنامج / الفعالية</label>
-        <textarea id="repField1Input" oninput="updateReportPreview()">1. تعزيز الانتماء الوطني والولاء للقيادة الرشيدة.\n2. إبراز جهود المملكة وتاريخها العريق.\n3. مشاركة الطلاب بفعالية في الأنشطة اللاصفية.</textarea>
+        <textarea id="repField1Input" oninput="updateReportPreview()">1. تعزيز الانتماء الوطني والولاء للقيادة الرشيدة.
+2. إبراز جهود المملكة وتاريخها العريق.
+3. مشاركة الطلاب بفعالية في الأنشطة اللاصفية.</textarea>
       </div>
 
       <div class="field full" id="fieldBlock2">
@@ -590,8 +602,10 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="text" id="repCap2" value="تفاعل الطلاب" oninput="updateReportPreview()">
       </div>
 
-      <div class="actions full" style="display:flex; gap:10px; align-items:center; margin-top:10px;">
+      <div class="actions full" style="display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap;">
         <button class="btn primary" onclick="printSingleReport()"><i class="fa-solid fa-print"></i> طباعة التقرير / حفظ PDF</button>
+        <!-- زر نسخ التقرير يظهر للمسؤول غير المشارك عبر رابط مباشر فقط -->
+        <button class="btn gold admin-only hidden" id="copyReportLinkBtn" onclick="copyDirectReportLink()"><i class="fa-solid fa-link"></i> نسخ رابط هذا التقرير فقط للمختصين</button>
       </div>
     </div>
   </div>
@@ -728,12 +742,15 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <label>رفع شعار المدرسة أو الوزارة (اختياري)</label>
         <input type="file" id="certLogoInput" accept="image/*" onchange="loadCertLogo(event)">
       </div>
-      <div class="actions full" style="display:flex; gap:10px; align-items:center;">
+      <div class="actions full" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <button class="btn primary" onclick="printSingleCert()"><i class="fa-solid fa-print"></i> طباعة هذه الشهادة / حفظ PDF</button>
+        <!-- زر نسخ الشهادة يظهر للمسؤول في الوضع الطبيعي فقط ولا يظهر عبر رابط المشاركة -->
+        <button class="btn gold admin-only hidden" id="copyCertLinkBtn" onclick="copyDirectCertLink()"><i class="fa-solid fa-link"></i> نسخ رابط هذه الشهادة للمستلم</button>
       </div>
     </div>
   </div>
 
+  <!-- سجل حفظ الأسماء والطباعة الجماعية (مخفي تماماً عبر روابط المشاركة المباشرة) -->
   <div id="activityBatchPanel" class="panel no-print admin-only hidden" style="border: 2px dashed var(--brand); background: var(--surface2);">
     <h3><i class="fa-solid fa-users-gear" style="color:var(--brand)"></i> سجل حفظ الأسماء والطباعة الجماعية (خاص بالنشاط الطلابي)</h3>
     <p class="muted">يمكنك حفظ بيانات الطلاب أو المعلمين في السجل السحابي وطباعة شهاداتهم دفعة واحدة بنقرة زر.</p>
@@ -1060,7 +1077,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   window.copyCompetitionLink = function(compTitle) {
     const compUrl = window.location.href.split('?')[0] + "?competition=" + encodeURIComponent(compTitle);
     
-    // استخدام طريقة معالجة النص المتوافقة مع جميع المشغلات وتتجنب قيود الأذونات
     const dummyInput = document.createElement('textarea');
     dummyInput.value = compUrl;
     document.body.appendChild(dummyInput);
@@ -1069,6 +1085,31 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.body.removeChild(dummyInput);
     
     toast("تم نسخ رابط المسابقة بنجاح لإرساله للمشاركين!");
+  };
+
+  /* دوال نسخ روابط التقارير والشهادات (للمسؤول فقط) */
+  window.copyDirectReportLink = function() {
+    const reportUrl = window.location.href.split('?')[0] + "?report=" + activeReportDept;
+    const dummyInput = document.createElement('textarea');
+    dummyInput.value = reportUrl;
+    document.body.appendChild(dummyInput);
+    dummyInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummyInput);
+    
+    toast("تم نسخ رابط التقرير المحدد بنجاح لإرساله للمختصين!");
+  };
+
+  window.copyDirectCertLink = function() {
+    const certUrl = window.location.href.split('?')[0] + "?cert=" + activeDept;
+    const dummyInput = document.createElement('textarea');
+    dummyInput.value = certUrl;
+    document.body.appendChild(dummyInput);
+    dummyInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummyInput);
+    
+    toast("تم نسخ رابط شهادات القسم المحدد بنجاح للمستلم!");
   };
 
   window.backToMainCompetitions = function() {
@@ -1152,7 +1193,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     `;
 
     setTimeout(() => {
-      // توليد باركود رابط التسجيل فقط إذا كان الرابط الخارجي موجهاً وموجوداً
       if(hasLink) {
         const linkQrEl = document.getElementById('printLinkQrBox');
         if(linkQrEl) {
@@ -1266,7 +1306,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   window.copySurveyLink = function(type) {
     const surveyUrl = window.location.href.split('?')[0] + "?survey=" + type;
     
-    // استخدام طريقة معالجة النص المتوافقة مع جميع المشغلات وتتجنب قيود الأذونات
     const dummyInput = document.createElement('textarea');
     dummyInput.value = surveyUrl;
     document.body.appendChild(dummyInput);
@@ -1349,7 +1388,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       <head><title>تقرير قياس الأثر الشامل</title>
       <style>
         body { font-family: Tahoma, sans-serif; padding: 40px; color: #000; }
-        .box { border: 2px solid #0B5345; padding: 30px; border-radius: 10px; max-width: 800px; margin: 0 auto; position: relative; }
+        .box { border: 2px solid #0B5345; padding: 30px; border-radius: 10px; max-width: 800px; margin: 0 auto; relative; }
         .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 55px; color: rgba(0,0,0,0.03); font-weight: bold; z-index: 0; pointer-events: none; }
         h2 { text-align: center; color: #0B5345; margin-bottom: 5px; }
         h4 { text-align: center; color: #555; margin-top: 0; }
@@ -1492,32 +1531,59 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     renderSurveysList();
   });
 
-  /* ------------------- فحص الروابط المباشرة عند فتح الصفحة ------------------- */
+  /* ------------------- فحص الروابط المباشرة وإخفاء الأقسام الأخرى عند مشاركة مسابقة ------------------- */
   window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const surveyParam = urlParams.get('survey');
     const compParam = urlParams.get('competition') || urlParams.get('comp');
+    const reportParam = urlParams.get('report');
+    const certParam = urlParams.get('cert');
 
-    if(surveyParam || compParam) {
-      const navTabs = document.getElementById('mainTabsNav');
-      const topHero = document.querySelector('.top.hero');
+    if(surveyParam || compParam || reportParam || certParam) {
+      const copyCertBtn = document.getElementById('copyCertLinkBtn');
+      if(copyCertBtn) copyCertBtn.style.display = 'none';
+
+      const copyReportBtn = document.getElementById('copyReportLinkBtn');
+      if(copyReportBtn) copyReportBtn.style.display = 'none';
+
+      const batchPanel = document.getElementById('activityBatchPanel');
+      if(batchPanel) batchPanel.style.display = 'none';
 
       if(surveyParam) {
-        if(navTabs) navTabs.style.display = 'none';
-        if(topHero) topHero.style.display = 'none';
         switchTab('impact');
         openSurveyPreview(surveyParam);
       } else if(compParam) {
-        if(navTabs) navTabs.style.display = 'none';
+        // عند فتح رابط مسابقة مباشر، يتم إخفاء الترويسة وأزرار التبويبات بالكامل لتظهر المسابقة فقط وحدها
+        const topHero = document.querySelector('.top.hero');
+        const mainTabs = document.getElementById('mainTabsNav');
         if(topHero) topHero.style.display = 'none';
+        if(mainTabs) mainTabs.style.display = 'none';
+
         switchTab('home');
-        
         const decodedCompTitle = decodeURIComponent(compParam);
+        
+        // التحقق من تحميل البيانات ثم فتح تفاصيل المسابقة وإخفاء زر العودة للقائمة
+        const checkAndOpen = setInterval(() => {
+          if(state.competitions && state.competitions.length > 0) {
+            clearInterval(checkAndOpen);
+            openCompetitionForm(decodedCompTitle);
+            const backBtn = document.getElementById('backCompBtn');
+            if(backBtn) backBtn.style.display = 'none';
+          }
+        }, 150);
+
+        // احتياطاً بعد نصف ثانية إذا تأخر تحميل الفايربيس
         setTimeout(() => {
+          clearInterval(checkAndOpen);
           openCompetitionForm(decodedCompTitle);
           const backBtn = document.getElementById('backCompBtn');
           if(backBtn) backBtn.style.display = 'none';
-        }, 300);
+        }, 600);
+
+      } else if(reportParam) {
+        selectReportDept(reportParam);
+      } else if(certParam) {
+        selectCertDept(certParam);
       }
     }
   });
@@ -1542,7 +1608,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   onAuthStateChanged(auth, (user) => {      
       currentUser = user;      
       const adminElems = document.querySelectorAll('.admin-only');      
-      if (user) {          
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const isSharedLink = urlParams.has('report') || urlParams.has('cert') || urlParams.has('survey') || urlParams.has('competition') || urlParams.has('comp');
+
+      if (user && !isSharedLink) {          
           document.getElementById('loginBtn').classList.add('hidden');          
           document.getElementById('userInfo').classList.remove('hidden');          
           document.getElementById('userEmailSpan').textContent = user.email;          
@@ -1783,7 +1853,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     if(file) {
       try {
         const dataUrl = await fileToDataUrl(file);
-        document.getElementById('repLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار">`;
+        document.getElementById('repLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار" style="max-height: 55px; max-width: 120px; object-fit: contain;">`;
       } catch(e) { alert("خطأ في تحميل الشعار"); }
     }
   };
@@ -1797,13 +1867,16 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     const signerNameInput = document.getElementById('certSignerName');
     const activityBatchPanel = document.getElementById('activityBatchPanel');
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const isSharedLink = urlParams.has('report') || urlParams.has('cert') || urlParams.has('survey') || urlParams.has('competition') || urlParams.has('comp');
+
     if(dept === 'activity') {
       titleEl.textContent = 'النشاط الطلابي';
       headerDeptText.textContent = 'النشاط الطلابي';
       headerDeptText.style.display = 'inline';
       signerTitleInput.value = 'رائد النشاط الطلابي';
       signerNameInput.value = 'عواد محمد العوفي';
-      if(currentUser) activityBatchPanel.classList.remove('hidden');
+      if(currentUser && !isSharedLink) activityBatchPanel.classList.remove('hidden');
     } else if(dept === 'guidance') {
       titleEl.textContent = 'التوجيه الطلابي';
       headerDeptText.textContent = 'التوجيه الطلابي';
