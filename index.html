@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- مكتبة توليد الباركود تلقائياً -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
   --paper:#0E1918;--surface:#152322;--surface2:#1A2B2A;--ink:#E2ECEA;--muted:#9AB0AC;--line:#2A3D3B;
@@ -68,33 +70,34 @@ button,input,select,textarea{font:inherit;color:inherit}
 .field input, .field select, .field textarea { padding:9px 12px; border:1px solid var(--line); border-radius:8px; background:var(--surface2); color:var(--ink); }
 .field textarea { min-height:80px; resize:vertical; }
 
-/* تصميم بطاقات المسابقات */
+/* تصميم شبكي مربعات للمسابقات في الصفحة الرئيسية */
+.competitions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
 .comp-card-item {
-  background: var(--surface);
+  background: var(--surface2);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 16px;
-  margin-bottom: 12px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+  gap: 12px;
   position: relative;
 }
-.comp-right-info { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
-.comp-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.comp-right-info { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; width: 100%; }
+.comp-title-row { display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 6px; }
 .comp-title-text { font-size: 16px; font-weight: 700; color: var(--ink); }
 
-/* شارات الحالة */
-.badge-status { padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
+.badge-status { padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
 .badge-status.open { background: rgba(76, 197, 131, 0.15); color: #4CC583; border: 1px solid rgba(76, 197, 131, 0.3); }
-.badge-status.closed { background: rgba(231, 76, 60, 0.15); color: #E74C3C; border: 1px solid rgba(231, 76, 60, 0.3); }
 
 .comp-domain-text { color: var(--brand); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
-.comp-desc-text { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
 
-/* الجهة اليسرى: المتبقي + طريقة التسجيل */
-.comp-left-action { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; min-width: 170px; }
+.comp-left-action { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 
 .time-pill {
   padding: 5px 12px;
@@ -127,23 +130,16 @@ button,input,select,textarea{font:inherit;color:inherit}
   box-sizing: border-box;
 }
 .btn-register:hover { opacity: 0.9; }
-.btn-register.disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; border: 1px solid var(--line); }
 
-.reg-text-badge {
-  background: var(--surface2);
+/* تصميم صفحة عرض تفاصيل المسابقة للمتلقي */
+#competitionInteractiveView {
+  background: var(--surface);
   border: 1px solid var(--line);
-  color: var(--ink);
-  padding: 7px 12px;
-  border-radius: 8px;
-  font-size: 12.5px;
-  font-weight: 600;
-  width: 100%;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
   text-align: center;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
 }
 
 /* تصميم شهادة الشكر والتقدير الأصلية (أفقي) */
@@ -151,7 +147,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .certificate { width:297mm; height:210mm; background:#ffffff; color:#13302E; position:relative; padding:12mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:space-between; border:8px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: always; }
 .cert-inner { border:2px dashed #0C6A64; height:100%; padding:8mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:radial-gradient(circle, rgba(12,106,100,0.02) 0%, rgba(255,255,255,1) 100%); }
 .cert-header { display:flex; justify-content:space-between; align-items:flex-start; }
-.cert-logo img { max-height:65px; max-width:110px; }
 .cert-gov { text-align:center; font-weight:700; font-size:14px; color:#5A6F6C; line-height:1.5; }
 .cert-gov span { display:block; font-size:17px; color:#0C6A64; }
 .cert-body { text-align:center; margin:5px 0; }
@@ -163,12 +158,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
-/* تصميم التقارير الرسمية (عمودي ومضبوط لصفحة واحدة A4) */
+/* تصميم التقارير الرسمية (عمودي A4) */
 .report-preview-box { background:#152322; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:8mm 10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
 .rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:5mm 6mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
 .rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:4px; margin-bottom:5px; }
-.rep-logo img { max-height:40px; max-width:75px; object-fit:contain; }
 .rep-gov { text-align:center; font-weight:700; font-size:10px; color:#5A6F6C; line-height:1.3; }
 .rep-gov span { display:block; font-size:12px; color:#0C6A64; }
 .rep-title-box { text-align:center; margin-bottom:4px; }
@@ -195,12 +189,13 @@ table.data-table th, table.data-table td { padding: 8px 12px; border: 1px solid 
 table.data-table th { background: var(--surface2); color: var(--brand); font-weight: 700; }
 
 #batchPrintContainer { display: none; }
+#compPrintPageContainer { display: none; }
 
 @media print {
   body { background: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   body > *:not(.wrap) { display: none !important; }
   .wrap > *:not(main) { display: none !important; }
-  main > *:not(#page-certificates):not(#page-reports) { display: none !important; }
+  main > *:not(#page-certificates):not(#page-reports):not(#compPrintPageContainer) { display: none !important; }
   
   #page-certificates > *:not(.cert-preview-box) { display: none !important; }
   .cert-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
@@ -208,8 +203,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   #page-reports > *:not(.report-preview-box) { display: none !important; }
   .report-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
 
-  body:not(.printing-report):not(.printing-batch) @page { size: landscape; margin: 0; }
-  body:not(.printing-report):not(.printing-batch) #printableCertificate {
+  /* إخفاء الأيقونة الديناميكية وأزرار التحكم عند الطباعة تماماً */
+  .time-pill.dynamic-icon, .no-print { display: none !important; }
+
+  body:not(.printing-report):not(.printing-batch):not(.printing-comp-page) @page { size: landscape; margin: 0; }
+  body:not(.printing-report):not(.printing-batch):not(.printing-comp-page) #printableCertificate {
     display: flex !important;
     position: absolute !important;
     left: 0 !important;
@@ -254,6 +252,17 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     box-shadow: none !important;
     page-break-after: always !important;
   }
+
+  body.printing-comp-page @page { size: portrait; margin: 10mm; }
+  body.printing-comp-page #compPrintPageContainer {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
 }
 </style>
 </head>
@@ -281,10 +290,10 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 </header>
 
 <!-- شريط التبويبات الرئيسي -->
-<nav class="tabs no-print" aria-label="التبويبات الرئيسية"> 
+<nav class="tabs no-print" id="mainTabsNav" aria-label="التبويبات الرئيسية"> 
   <button class="tab active" data-tab="home" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> الرئيسية</button> 
   <button class="tab" data-tab="plan" onclick="switchTab('plan')"><i class="fa-solid fa-calendar-check"></i> خطة النشاط</button> 
-  <button class="tab" data-tab="competitions" onclick="switchTab('competitions')"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية</button>
+  <button class="tab" data-tab="impact" onclick="switchTab('impact')"><i class="fa-solid fa-chart-line"></i> قياس الأثر والاستبانات</button>
   
   <div class="dropdown">
     <button class="tab" data-tab="reports"><i class="fa-solid fa-file-lines"></i> التقارير <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i></button>
@@ -309,28 +318,79 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 <main>
  <!-- PAGE: HOME --> 
  <section id="page-home" class="page">  
-  <div class="panel">   
-    <div class="section-head">    
-     <div>      
-      <h2>مرحباً بكم في البوابة الرقمية للنشاط الطلابي</h2>      
-      <p>منصة متكاملة لإدارة ومتابعة خطط العمل، والمبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بمدرسة مكة المكرمة الابتدائية.</p>     
-     </div>    
-    </div>    
+  <div id="competitionsMainContainer">
+    <div class="panel">   
+      <div class="section-head">    
+       <div>      
+        <h2>مرحباً بكم في البوابة الرقمية للنشاط الطلابي</h2>      
+        <p>منصة متكاملة لإدارة ومتابعة خطط العمل، والمبادرات، وبطاقات تنفيذ البرامج الأكاديمية والأنشطة الإثرائية بمدرسة مكة المكرمة الابتدائية.</p>     
+       </div>    
+      </div>    
 
-    <!-- قسم المسابقات المتاحة أُضيف هنا أسفل عبارات الترحيب تماماً -->
-    <div style="margin-top:24px; border-top:1px solid var(--line); padding-top:20px;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-        <div>
-          <h2 style="font-size:18px; color:var(--brand); margin:0 0 4px 0;"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية المتاحة للمشاركة حالياً</h2>
-          <p class="muted" style="margin:0;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</p>
+      <div style="margin-top:24px; border-top:1px solid var(--line); padding-top:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h2 style="font-size:18px; color:var(--brand); margin:0 0 4px 0;"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية المتاحة للمشاركة حالياً</h2>
+            <p class="muted" style="margin:0;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</p>
+          </div>
+          <button class="btn gold small admin-only hidden" onclick="showForm('addCompModal')"><i class="fa-solid fa-plus"></i> إضافة مسابقة جديدة</button>
         </div>
-        <button class="btn gold small admin-only hidden" onclick="showForm('addCompModal')"><i class="fa-solid fa-plus"></i> إضافة مسابقة جديدة</button>
+
+        <!-- قائمة المسابقات التفاعلية شبكية مربعات -->
+        <div id="competitionsListContainer" class="competitions-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- الصفحة التفاعلية المنفصلة لعرض تفاصيل المسابقة لولي الأمر والطالب -->
+  <div id="competitionInteractiveView" class="panel hidden">
+    <div style="text-align:center; border-bottom:1px solid var(--line); padding-bottom:15px; margin-bottom:20px;">
+      <h3 style="color:var(--brand); margin:0 0 4px 0; font-size:15px;">الإدارة العامة للتعليم بمنطقة المدينة المنورة</h3>
+      <h3 style="color:var(--ink); margin:0 0 10px 0; font-size:14px;">مدرسة مكة المكرمة الابتدائية</h3>
+      
+      <h2 style="font-size:18px; color:var(--brand); margin:12px 0 4px 0; font-weight:700;"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية المتاحة للمشاركة حالياً</h2>
+      <p style="color:var(--muted); font-size:13px; margin:0 0 12px 0;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</p>
+      
+      <h2 id="compFormTitleText" style="margin:0; font-size:22px; color:#ffffff;">مسابقة تفصيلية</h2>
+      <div id="viewCompDateArea" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px; align-items:center;"></div>
+    </div>
+    
+    <div id="compDetailsContentArea" style="display:flex; flex-direction:column; gap:16px; margin-bottom:20px; text-align:center;">
+      <div style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
+        <h4 style="margin:0 0 6px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-tag"></i> المجال</h4>
+        <p id="viewCompDomain" style="margin:0; font-size:14px; color:var(--ink);"></p>
       </div>
 
-      <!-- حاوي قائمة المسابقات الديناميكية -->
-      <div id="competitionsListContainer">
-        <!-- يتم التحميل هنا -->
+      <div style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
+        <h4 style="margin:0 0 6px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-bullseye"></i> أهداف المسابقة</h4>
+        <p id="viewCompGoals" style="margin:0; font-size:14px; white-space:pre-line; color:var(--ink);"></p>
       </div>
+
+      <div style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
+        <h4 style="margin:0 0 6px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-list-check"></i> شروط المشاركة</h4>
+        <p id="viewCompConditions" style="margin:0; font-size:14px; white-space:pre-line; color:var(--ink);"></p>
+      </div>
+
+      <!-- خانة عرض الصورة المرفقة مباشرة داخل الصفحة -->
+      <div id="compImageBox" class="hidden" style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
+        <h4 style="margin:0 0 8px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-image"></i> الصورة المرفقة للمسابقة</h4>
+        <div id="viewCompImageContainer" style="display:flex; justify-content:center;"></div>
+      </div>
+
+      <!-- خانة تحميل الملف المرفق إن وجد (بي دي اف أو غيره) -->
+      <div id="compFileBox" class="hidden" style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
+        <h4 style="margin:0 0 8px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-file-arrow-down"></i> الملف المرفق (PDF أو مستند)</h4>
+        <div id="viewCompFileContainer" style="display:flex; justify-content:center;"></div>
+      </div>
+
+      <div style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
+        <h4 style="margin:0 0 8px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-link"></i> آلية التسجيل والمشاركة</h4>
+        <div id="viewCompActionArea" style="display:flex; justify-content:center;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button type="button" class="btn" id="backCompBtn" onclick="backToMainCompetitions()" style="justify-content:center;"><i class="fa-solid fa-arrow-right"></i> العودة لقائمة المسابقات</button>
     </div>
   </div>
  </section>
@@ -342,11 +402,102 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   </div> 
  </section>
 
- <!-- PAGE: COMPETITIONS --> 
- <section id="page-competitions" class="page hidden">  
-  <div class="panel" style="padding: 0; overflow: hidden; border: none; background: transparent;">
-   <iframe src="https://makkahschool.github.io/main/musabaqat" style="width: 100%; height: 850px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);" title="المسابقات الوزارية"></iframe>  
-  </div> 
+ <!-- PAGE: IMPACT -->
+ <section id="page-impact" class="page hidden">
+  <div id="surveyContainerView">
+    <div class="panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h2><i class="fa-solid fa-chart-line" style="color:var(--brand)"></i> مؤشرات قياس الأثر والاستبانات المدرسية</h2>
+          <p class="muted">لوحة تحليلية لإدارة استطلاعات الرأي. يمكنك إضافة أو حذف أي استبيان وطباعة النتائج المستقلة لكل استبيان.</p>
+        </div>
+        <button class="btn gold small admin-only hidden no-print" onclick="showForm('addSurveyModal')"><i class="fa-solid fa-plus"></i> إضافة استبيان جديد</button>
+      </div>
+      
+      <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;" class="no-print">
+        <button class="btn primary small" onclick="printAllStatsReport()"><i class="fa-solid fa-print"></i> طباعة تقرير قياس الأثر الشامل (جميع الإحصائيات)</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:15px; margin-top:20px;">
+        <div style="background:var(--surface2); padding:16px; border-radius:10px; border:1px solid var(--line); text-align:center;">
+          <i class="fa-solid fa-users fa-2x" style="color:var(--brand); margin-bottom:8px;"></i>
+          <h4 style="margin:0 0 4px 0; font-size:15px;">نسبة رضا أولياء الأمور</h4>
+          <span style="font-size:22px; font-weight:bold; color:var(--open);">96.2%</span>
+        </div>
+        <div style="background:var(--surface2); padding:16px; border-radius:10px; border:1px solid var(--line); text-align:center;">
+          <i class="fa-solid fa-chalkboard-user fa-2x" style="color:var(--soon); margin-bottom:8px;"></i>
+          <h4 style="margin:0 0 4px 0; font-size:15px;">تقييم أداء المعلمين للبرامج</h4>
+          <span style="font-size:22px; font-weight:bold; color:var(--open);">94.8%</span>
+        </div>
+        <div style="background:var(--surface2); padding:16px; border-radius:10px; border:1px solid var(--line); text-align:center;">
+          <i class="fa-solid fa-graduation-cap fa-2x" style="color:var(--open); margin-bottom:8px;"></i>
+          <h4 style="margin:0 0 4px 0; font-size:15px;">تفاعل وتجاوب الطلاب</h4>
+          <span style="font-size:22px; font-weight:bold; color:var(--open);">97.5%</span>
+        </div>
+      </div>
+
+      <div style="margin-top:25px; border-top:1px solid var(--line); padding-top:20px;">
+        <h3>استبانات قياس الأثر المتاحة (يمكنك نسخ الروابط أو إضافتها/حذفها)</h3>
+        
+        <div id="dynamicSurveysListContainer" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-top:15px;">
+          <!-- تعبئة ديناميكية -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="surveyInteractiveView" class="panel hidden" style="max-width: 750px; margin: 0 auto;">
+    <div style="text-align:center; border-bottom:1px solid var(--line); padding-bottom:15px; margin-bottom:20px;">
+      <h3 style="color:var(--brand); margin:0 0 5px 0;">مدرسة مكة المكرمة الابتدائية - الإدارة العامة للتعليم بالمدينة المنورة</h3>
+      <h2 id="surveyTitleText" style="margin:0; font-size:20px;">عنوان الاستبيان الشامل</h2>
+      <p class="muted" style="font-size:12px; margin:4px 0 0;">يرجى التقييم والإجابة عن الأسئلة بدقة للمساهمة في تطوير الأداء المدرسي</p>
+    </div>
+    
+    <form id="submitSurveyForm">
+      <div class="field" style="margin-bottom:14px;">
+        <label>اسم المشارك ثلاثي (اختياري)</label>
+        <input type="text" id="respName" placeholder="أدخل اسمك هنا">
+      </div>
+
+      <div class="field" style="margin-bottom:14px;">
+        <label>1. كيف تقيم مستوى جودة التنظيم والإعداد العام للأنشطة والبرامج؟</label>
+        <select id="respQ1" required>
+          <option value="ممتاز">ممتاز</option>
+          <option value="جيد جداً">جيد جداً</option>
+          <option value="متوسط">متوسط</option>
+          <option value="يحتاج تحسين">يحتاج تحسين</option>
+        </select>
+      </div>
+
+      <div class="field" style="margin-bottom:14px;">
+        <label>2. مدى تحقق الأهداف التربوية والمعرفية للفعاليات والمسابقات:</label>
+        <select id="respQ2" required>
+          <option value="تحققت بدرجة عالية جداً">تحققت بدرجة عالية جداً</option>
+          <option value="تحققت بدرجة جيدة">تحققت بدرجة جيدة</option>
+          <option value="تحققت بدرجة متوسطة">تحققت بدرجة متوسطة</option>
+        </select>
+      </div>
+
+      <div class="field" style="margin-bottom:14px;">
+        <label>3. هل توافرت المعلومات الكافية والمتابعة المستمرة من إدارة المدرسة ورائد النشاط؟</label>
+        <select id="respQ3" required>
+          <option value="دائماً وبشكل ممتاز">دائماً وبشكل ممتاز</option>
+          <option value="غالباً">غالباً</option>
+          <option value="أحياناً">أحياناً</option>
+        </select>
+      </div>
+
+      <div class="field" style="margin-bottom:20px;">
+        <label>4. مقترحاتكم ومرئياتكم التطويرية لإثراء الأنشطة القادمة:</label>
+        <textarea id="respNotes" placeholder="اكتب مقترحاتك التطويرية هنا..."></textarea>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button type="submit" class="btn primary" style="flex:1; justify-content:center;"><i class="fa-solid fa-paper-plane"></i> إرسال واعتماد الرد</button>
+        <button type="button" class="btn" onclick="backToMainImpact()" style="flex:1; justify-content:center;">العودة لوحة القيادة</button>
+      </div>
+    </form>
+  </div>
  </section>
 
  <!-- PAGE: REPORTS -->
@@ -655,10 +806,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 </main>
 
 <div id="batchPrintContainer"></div>
+<div id="compPrintPageContainer"></div>
 
 <!-- النافذة المنبثقة لإضافة مسابقة جديدة (للمسؤول فقط) -->
 <div id="addCompModal" class="modal-overlay hidden">
-  <div class="modal-card">
+  <div class="modal-card" style="max-width:550px;">
     <h3 style="margin-top:0; color:var(--brand);"><i class="fa-solid fa-trophy"></i> إضافة مسابقة جديدة</h3>
     <form id="addCompForm">
       <div class="field" style="margin-bottom:10px;">
@@ -666,32 +818,61 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="text" id="newCompTitle" required placeholder="مثال: مسابقة تحدي القراءة العربي">
       </div>
       <div class="field" style="margin-bottom:10px;">
-        <label>المجال / القسم</label>
+        <label>المجال</label>
         <input type="text" id="newCompDomain" required placeholder="مثال: الثقافة واللغة العربية">
       </div>
       <div class="field" style="margin-bottom:10px;">
-        <label>الوصف / العبارة التحفيزية</label>
-        <input type="text" id="newCompDesc" placeholder="مثال: «اقرأ ترتقِ.. أطلق العنان لخيالك»">
+        <label>تاريخ انتهاء التسجيل</label>
+        <input type="date" id="newCompEndDate" required>
       </div>
       <div class="field" style="margin-bottom:10px;">
-        <label>طريقة التسجيل والتفاصيل</label>
-        <select id="newCompType" onchange="toggleRegTypeInput()">
-          <option value="link">رابط موقع إلكتروني خارجي</option>
-          <option value="activity_leader">عن طريق رائد النشاط الطلابي</option>
-          <option value="subject_teacher">عن طريق معلم المادة</option>
-        </select>
+        <label>أهداف المسابقة</label>
+        <textarea id="newCompGoals" required placeholder="اكتب أهداف المسابقة..."></textarea>
       </div>
-      <div class="field" id="linkInputField" style="margin-bottom:10px;">
-        <label>رابط التسجيل والتفاصيل</label>
+      <div class="field" style="margin-bottom:10px;">
+        <label>شروط المسابقة</label>
+        <textarea id="newCompConditions" required placeholder="اكتب شروط المشاركة..."></textarea>
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>رابط التسجيل الخارجي (اختياري)</label>
         <input type="url" id="newCompLink" placeholder="https://example.com/register">
       </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>إرفاق صورة المسابقة (اختياري)</label>
+        <input type="file" id="newCompImage" accept="image/*">
+      </div>
       <div class="field" style="margin-bottom:15px;">
-        <label>الأيام المتبقية للإغلاق (أدخل عدد الأيام)</label>
-        <input type="number" id="newCompDays" required min="0" value="30" placeholder="مثال: 30">
+        <label>إرفاق ملف PDF أو مستند إثرائي (اختياري)</label>
+        <input type="file" id="newCompFile">
       </div>
       <div class="actions" style="display:flex; gap:8px;">
         <button type="submit" class="btn primary" style="flex:1; justify-content:center;">حفظ ونشر المسابقة</button>
         <button type="button" class="btn" style="flex:1; justify-content:center;" onclick="hideForm('addCompModal')">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- النافذة المنبثقة لإضافة استبيان جديد -->
+<div id="addSurveyModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3 style="margin-top:0; color:var(--brand);"><i class="fa-solid fa-file-pen"></i> إضافة استبيان جديد</h3>
+    <form id="addSurveyForm">
+      <div class="field" style="margin-bottom:10px;">
+        <label>عنوان الاستبيان</label>
+        <input type="text" id="newSurveyTitle" required placeholder="مثال: استبيان تقييم الأنشطة الرياضية">
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>الفئة المستهدفة</label>
+        <input type="text" id="newSurveyCategory" required placeholder="مثال: أولياء الأمور أو الطلاب">
+      </div>
+      <div class="field" style="margin-bottom:15px;">
+        <label>معرف فئة النظام (إنجليزي بدون مسافات)</label>
+        <input type="text" id="newSurveyTypeKey" required placeholder="مثال: sports_survey">
+      </div>
+      <div class="actions" style="display:flex; gap:8px;">
+        <button type="submit" class="btn primary" style="flex:1; justify-content:center;">إضافة الاستبيان</button>
+        <button type="button" class="btn" style="flex:1; justify-content:center;" onclick="hideForm('addSurveyModal')">إلغاء</button>
       </div>
     </form>
   </div>
@@ -730,7 +911,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 <script type="module">  
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";  
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";  
-  import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   
   const firebaseConfig = {    
     apiKey: "AIzaSyDWSwOLWEhS5MR0R98r6cwiQljEd8WH_kY",    
@@ -747,22 +928,15 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   const db = getFirestore(app);
   
   let currentUser = null;  
-  let state = { batchStudents: [], competitions: [] };
+  let state = { batchStudents: [], competitions: [], surveys: [], surveyConfigs: [] };
+  let currentSurveyType = '';
   let activeDept = 'activity'; 
   let activeReportDept = 'activity';
   let reportImages = { 1: '', 2: '' };
 
-  const defaultCompetitions = [
-    { id: 'def1', title: 'تحدي القراءة العربي - الدورة التاسعة', domain: 'الثقافة واللغة العربية', desc: '«اقرأ ترتقِ.. أطلق العنان لخيالك واكتشف عوالم المعرفة عبر تلخيص الكتب»', regType: 'link', link: 'https://makkahschool.github.io/main/musabaqat', days: 31 },
-    { id: 'def2', title: 'أولمبياد الرسم والفن التشكيلي (وطننا أمانة)', domain: 'الفنون البصرية والمهارات الفنية', desc: '«أنامل تبدع ولوحات تروي قصة حب الوطن وولائه في ميادين الفن»', regType: 'activity_leader', link: '', days: 46 },
-    { id: 'def3', title: 'مسابقة المهارات الأدبية (الخط العربي والإلقاء والحديث)', domain: 'الإذاعة المدرسية والتعبير الفصيح', desc: '«حرفٌ يزهو جمالاً وصوتٌ يصدح إبداعاً في المحافل المدرسية»', regType: 'subject_teacher', link: '', days: 36 },
-    { id: 'def4', title: 'مسابقة بيبراس السعودية للمعلوماتية والبرمجة', domain: 'العلوم والتقنية والابتكار', desc: '«عقول المستقبل.. ننمّي مهارات التفكير العلمي والحلول الذكية»', regType: 'link', link: 'https://makkahschool.github.io/main/musabaqat', days: 26 },
-    { id: 'def5', title: 'المسابقة الوطنية للقرآن الكريم والسنة النبوية', domain: 'الأنشطة الإسلامية والتربوية', desc: '«خيركم من تعلم القرآن وعلمه.. نور الهدى ورفعة الأثر»', regType: 'activity_leader', link: '', days: 51 },
-    { id: 'def6', title: 'أولمبياد العلوم والرياضيات المدرسية', domain: 'النشاط العلمي والأولمبيادات', desc: '«إبداع بلا حدود في استكشاف أسرار العلم ومعادلات المستقبل»', regType: 'subject_teacher', link: '', days: 41 }
-  ];
-  
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
+      if(!el) return;
       el.textContent = msg;      
       el.classList.add("show");      
       clearTimeout(window._toastTimer);      
@@ -783,7 +957,572 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           reader.onload = () => resolve(reader.result);          
           reader.onerror = error => reject(error);      });  
   }
-  
+
+  /* حساب الأيام المتبقية ديناميكياً */
+  function calculateRemainingDays(endDateStr) {
+    if(!endDateStr) return { days: 0, text: 'غير محدد', class: 'green' };
+    const end = new Date(endDateStr);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const diffTime = end - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if(diffDays < 0) {
+      return { days: diffDays, text: 'انتهت فترة التسجيل', class: 'red' };
+    } else if(diffDays === 0) {
+      return { days: 0, text: 'ينتهي اليوم الإغلاق', class: 'orange' };
+    } else if(diffDays <= 5) {
+      return { days: diffDays, text: `قريب الإغلاق - متبقي ${diffDays} يوم/أيام`, class: 'orange' };
+    } else {
+      return { days: diffDays, text: `متاح - متبقي ${diffDays} يوم/أيام`, class: 'green' };
+    }
+  }
+
+  /* تنسيق التاريخ من اليسار إلى اليمين (السنة/الشهر/اليوم) */
+  function formatLTRDate(dateStr) {
+    if(!dateStr) return 'غير محدد';
+    const parts = dateStr.split('-');
+    if(parts.length === 3) {
+      return `${parts[0]}/${parts[1]}/${parts[2]}`;
+    }
+    return dateStr;
+  }
+
+  /* ------------------- إدارة فتح وعرض تفاصيل المسابقة في الصفحة التفاعلية ------------------- */
+  window.openCompetitionForm = async function(title) {
+    document.getElementById('competitionsMainContainer').classList.add('hidden');
+    document.getElementById('competitionInteractiveView').classList.remove('hidden');
+    document.getElementById('compFormTitleText').textContent = "مسابقة: " + title;
+    
+    let comp = state.competitions.find(c => c.title === title);
+    if(!comp) {
+      try {
+        const querySnapshot = await getDocs(collection(db, "competitions"));
+        const allDbComps = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        comp = allDbComps.find(c => c.title === title);
+      } catch(e) {
+        console.error("Error fetching comp:", e);
+      }
+    }
+
+    if(comp) {
+      document.getElementById('viewCompDomain').textContent = comp.domain || 'غير متوفر';
+      document.getElementById('viewCompGoals').textContent = comp.goals || 'لم تُحدد الأهداف';
+      document.getElementById('viewCompConditions').textContent = comp.conditions || 'لا توجد شروط خاصة';
+      
+      const endDateText = comp.endDate ? formatLTRDate(comp.endDate) : 'غير محدد';
+      const timeInfo = calculateRemainingDays(comp.endDate);
+
+      document.getElementById('viewCompDateArea').innerHTML = `
+        <div style="font-weight: bold; font-size: 14px; color: var(--ink);">تاريخ انتهاء التسجيل: <span dir="ltr" style="display:inline-block;">${esc(endDateText)}</span></div>
+        <div class="time-pill dynamic-icon ${timeInfo.class}" style="padding: 6px 16px; width: auto;"><i class="fa-solid fa-clock"></i> ${timeInfo.text}</div>
+      `;
+
+      // عرض الصورة المرفقة مباشرة كصورة (عرض مباشر)
+      const imgBox = document.getElementById('compImageBox');
+      const imgContainer = document.getElementById('viewCompImageContainer');
+      if(comp.imageData && comp.imageData.trim() !== '') {
+        imgBox.classList.remove('hidden');
+        imgContainer.innerHTML = `<img src="${comp.imageData}" alt="الصورة المرفقة" style="max-height:450px; width:100%; object-fit:contain; border-radius:8px; border:1px solid var(--line);">`;
+      } else {
+        imgBox.classList.add('hidden');
+        imgContainer.innerHTML = '';
+      }
+
+      // عرض زر تحميل الملف المرفق إن وجد (بي دي اف أو غيره)
+      const fileBox = document.getElementById('compFileBox');
+      const fileContainer = document.getElementById('viewCompFileContainer');
+      if(comp.fileData && comp.fileData.trim() !== '') {
+        fileBox.classList.remove('hidden');
+        fileContainer.innerHTML = `<a href="${comp.fileData}" download="competition_file" class="btn gold small"><i class="fa-solid fa-download"></i> تحميل الملف المرفق</a>`;
+      } else {
+        fileBox.classList.add('hidden');
+        fileContainer.innerHTML = '';
+      }
+
+      const actionArea = document.getElementById('viewCompActionArea');
+      if(comp.link && comp.link.trim() !== '') {
+        actionArea.innerHTML = `<a href="${esc(comp.link)}" target="_blank" class="btn primary" style="display:inline-flex; justify-content:center; width:100%; text-decoration:none;"><i class="fa-solid fa-external-link-alt"></i> الانتقال لرابط التسجيل الخارجي للمسابقة</a>`;
+      } else {
+        actionArea.innerHTML = `<div class="reg-text-badge" style="justify-content:center;"><i class="fa-solid fa-user-tie" style="color:var(--brand)"></i> لا يوجد رابط إلكتروني، التسجيل يتم عن طريق المعلم أو رائد النشاط بالمدرسة</div>`;
+      }
+    } else {
+      document.getElementById('viewCompDomain').textContent = 'غير متوفر';
+      document.getElementById('viewCompGoals').textContent = 'عذراً، لم يتم العثور على تفاصيل هذه المسابقة.';
+      document.getElementById('viewCompConditions').textContent = '-';
+      document.getElementById('viewCompDateArea').innerHTML = '';
+      document.getElementById('compImageBox').classList.add('hidden');
+      document.getElementById('compFileBox').classList.add('hidden');
+      document.getElementById('viewCompActionArea').innerHTML = `<div class="reg-text-badge">بيانات المسابقة غير متاحة</div>`;
+    }
+  };
+
+  window.copyCompetitionLink = function(compTitle) {
+    const compUrl = window.location.href.split('?')[0] + "?competition=" + encodeURIComponent(compTitle);
+    
+    // استخدام طريقة معالجة النص المتوافقة مع جميع المشغلات وتتجنب قيود الأذونات
+    const dummyInput = document.createElement('textarea');
+    dummyInput.value = compUrl;
+    document.body.appendChild(dummyInput);
+    dummyInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummyInput);
+    
+    toast("تم نسخ رابط المسابقة بنجاح لإرساله للمشاركين!");
+  };
+
+  window.backToMainCompetitions = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has('competition') || urlParams.has('comp')) {
+      window.location.href = window.location.href.split('?')[0];
+      return;
+    }
+    document.getElementById('competitionInteractiveView').classList.add('hidden');
+    document.getElementById('competitionsMainContainer').classList.remove('hidden');
+  };
+
+  window.printCompetitionByTitle = function(compTitle) {
+    const comp = state.competitions.find(c => c.title === compTitle);
+    if(!comp) return alert("بيانات المسابقة غير متوفرة للطباعة.");
+    
+    const endDateText = comp.endDate ? formatLTRDate(comp.endDate) : 'غير محدد';
+    const printContainer = document.getElementById('compPrintPageContainer');
+
+    const hasLink = comp.link && comp.link.trim() !== '';
+
+    printContainer.innerHTML = `
+      <div style="font-family: Tahoma, sans-serif; padding: 25px; color: #000; direction: rtl; text-align: center; max-width: 750px; margin: 0 auto;">
+        <div style="font-weight: bold; font-size: 14px; color: #333; margin-bottom: 4px;">الإدارة العامة للتعليم بمنطقة المدينة المنورة</div>
+        <div style="font-weight: bold; font-size: 15px; color: #0B5345; margin-bottom: 10px;">مدرسة مكة المكرمة الابتدائية</div>
+        
+        <div style="font-weight: bold; font-size: 13px; color: #0B5345; margin-top: 4px;">المسابقات الوزارية المتاحة للمشاركة حالياً</div>
+        <div style="font-size: 11px; color: #555; margin-bottom: 10px;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</div>
+
+        <hr style="border: 1px solid #0B5345; margin-bottom: 15px;">
+        
+        <h1 style="font-size: 22px; color: #0B5345; margin-bottom: 10px;">مسابقة: ${esc(comp.title)}</h1>
+        <div style="display: inline-block; background: #eee; padding: 6px 15px; border-radius: 6px; font-weight: bold; font-size: 13px; margin-bottom: 15px; color: #0B5345;">تاريخ انتهاء التسجيل: <span dir="ltr" style="display:inline-block;">${esc(endDateText)}</span></div>
+        
+        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <h3 style="margin: 0 0 5px 0; color: #0B5345; font-size: 14px;">المجال:</h3>
+          <p style="margin: 0; font-size: 14px;">${esc(comp.domain)}</p>
+        </div>
+
+        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <h3 style="margin: 0 0 5px 0; color: #0B5345; font-size: 14px;">أهداف المسابقة:</h3>
+          <p style="margin: 0; font-size: 14px; white-space: pre-line;">${esc(comp.goals)}</p>
+        </div>
+
+        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <h3 style="margin: 0 0 5px 0; color: #0B5345; font-size: 14px;">شروط المشاركة:</h3>
+          <p style="margin: 0; font-size: 14px; white-space: pre-line;">${esc(comp.conditions)}</p>
+        </div>
+
+        <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 20px; gap: 20px; flex-wrap: wrap;">
+          ${hasLink ? `
+            <div style="text-align: center; min-width: 130px;">
+              <p style="font-weight: bold; margin-bottom: 6px; font-size: 13px; color: #0B5345;">باركود رابط التسجيل:</p>
+              <div id="printLinkQrBox" style="display: inline-block; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 8px;"></div>
+            </div>
+          ` : `
+            <div style="text-align: center; background: #eef6f5; border: 1px dashed #0C6A64; padding: 12px 18px; border-radius: 8px; min-width: 220px;">
+              <p style="font-weight: bold; margin: 0; font-size: 13.5px; color: #0B5345;">
+                <i class="fa-solid fa-user-tie"></i> آلية التسجيل:
+              </p>
+              <p style="margin: 5px 0 0 0; font-size: 13px; color: #333; font-weight: 600;">
+                التسجيل يتم عن طريق المعلم أو رائد النشاط بالمدرسة
+              </p>
+            </div>
+          `}
+          ${comp.imageData && comp.imageData.trim() !== '' ? `
+            <div style="text-align: center; flex: 1; min-width: 280px;">
+              <p style="font-weight: bold; margin-bottom: 6px; font-size: 13px; color: #0B5345;">الصورة المرفقة للمسابقة:</p>
+              <div style="display: block; padding: 6px; background: #fff; border: 1px solid #ccc; border-radius: 8px; width: 100%;">
+                <img src="${comp.imageData}" alt="الصورة المرفقة" style="max-height: 280px; width: 100%; object-fit: contain; border-radius: 4px;">
+              </div>
+            </div>
+          ` : ''}
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 30px; font-weight: bold; font-size: 14px;">
+          <div>رائد النشاط الطلابي<br><br>عواد محمد العوفي</div>
+          <div>مدير المدرسة<br><br>متعب حسن السحيمي</div>
+        </div>
+      </div>
+    `;
+
+    setTimeout(() => {
+      // توليد باركود رابط التسجيل فقط إذا كان الرابط الخارجي موجهاً وموجوداً
+      if(hasLink) {
+        const linkQrEl = document.getElementById('printLinkQrBox');
+        if(linkQrEl) {
+          linkQrEl.innerHTML = '';
+          new QRCode(linkQrEl, {
+            text: comp.link.trim(),
+            width: 110,
+            height: 110,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+          });
+        }
+      }
+
+      document.body.classList.add('printing-comp-page');
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('printing-comp-page');
+        printContainer.innerHTML = '';
+      }, 1000);
+    }, 300);
+  };
+
+  onSnapshot(collection(db, "competitions"), (snapshot) => {      
+      state.competitions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderCompetitions();  
+  });
+
+  const addCompForm = document.getElementById('addCompForm');
+  if(addCompForm) {
+    addCompForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول أولاً.");
+      const title = document.getElementById('newCompTitle').value.trim();
+      const domain = document.getElementById('newCompDomain').value.trim();
+      const endDate = document.getElementById('newCompEndDate').value;
+      const goals = document.getElementById('newCompGoals').value.trim();
+      const conditions = document.getElementById('newCompConditions').value.trim();
+      const link = document.getElementById('newCompLink').value.trim();
+      
+      const imageInput = document.getElementById('newCompImage');
+      const fileInput = document.getElementById('newCompFile');
+      
+      let imageData = '';
+      if(imageInput.files && imageInput.files[0]) {
+        try { imageData = await fileToDataUrl(imageInput.files[0]); } catch(err) { console.error(err); }
+      }
+
+      let fileData = '';
+      if(fileInput.files && fileInput.files[0]) {
+        try { fileData = await fileToDataUrl(fileInput.files[0]); } catch(err) { console.error(err); }
+      }
+
+      try {
+        await addDoc(collection(db, "competitions"), { title, domain, endDate, goals, conditions, link, imageData, fileData, createdAt: Date.now() });
+        toast("تمت إضافة المسابقة ونشرها بنجاح!");
+        hideForm('addCompModal');
+        addCompForm.reset();
+      } catch(err) { alert("خطأ: " + err.message); }
+    });
+  }
+
+  window.deleteComp = async function(compId) {
+    if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول.");
+    if(confirm("هل تريد حذف هذه المسابقة من الصفحة؟")) {
+      try {
+        await deleteDoc(doc(db, "competitions", compId));
+        toast("تم حذف المسابقة بنجاح.");
+      } catch(e) { alert("خطأ في الحذف: " + e.message); }
+    }
+  };
+
+  function renderCompetitions() {
+    const container = document.getElementById('competitionsListContainer');
+    if(!container) return;
+    if(!state.competitions || !state.competitions.length) {
+      container.innerHTML = `<div class="muted" style="text-align:center; padding:20px; grid-column:1/-1;">لا توجد مسابقات معروضة حالياً. قم بإضافة مسابقة من لوحة المسؤول.</div>`;
+      return;
+    }
+
+    container.innerHTML = state.competitions.map(item => {
+      const timeInfo = calculateRemainingDays(item.endDate);
+      const statusBadge = `<span class="badge-status open"><i class="fa-solid fa-circle-check"></i> متاح للمشاركة</span>`;
+      const actionHtml = `<button class="btn-register" onclick="openCompetitionForm('${esc(item.title)}')"><i class="fa-solid fa-eye"></i> استعراض الشروط والأهداف والمرفقات</button>`;
+
+      return `
+        <div class="comp-card-item">
+          <div class="comp-right-info">
+            <div class="comp-title-row">
+              ${statusBadge}
+              ${currentUser ? `<button class="btn danger small" style="padding:2px 6px; font-size:11px;" onclick="deleteComp('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>` : ''}
+            </div>
+            <span class="comp-title-text">${esc(item.title)}</span>
+            <div class="comp-domain-text"><i class="fa-solid fa-tag"></i> المجال: ${esc(item.domain)}</div>
+            <div class="time-pill dynamic-icon ${timeInfo.class}"><i class="fa-solid fa-clock"></i> ${timeInfo.text}</div>
+          </div>
+          <div class="comp-left-action">
+            ${actionHtml}
+            <div style="display:flex; gap:6px;">
+              <button class="btn gold small" style="flex:1; justify-content:center;" onclick="copyCompetitionLink('${esc(item.title)}')"><i class="fa-solid fa-copy"></i> نسخ الرابط</button>
+              <button class="btn primary small" style="flex:1; justify-content:center;" onclick="printCompetitionByTitle('${esc(item.title)}')"><i class="fa-solid fa-print"></i> طباعة</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  /* ------------------- إدارة قياس الأثر والاستبانات ------------------- */
+  window.copySurveyLink = function(type) {
+    const surveyUrl = window.location.href.split('?')[0] + "?survey=" + type;
+    
+    // استخدام طريقة معالجة النص المتوافقة مع جميع المشغلات وتتجنب قيود الأذونات
+    const dummyInput = document.createElement('textarea');
+    dummyInput.value = surveyUrl;
+    document.body.appendChild(dummyInput);
+    dummyInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummyInput);
+
+    toast("تم نسخ رابط الاستبيان بنجاح لإرساله عبر الواتساب!");
+  };
+
+  window.openSurveyPreview = function(type) {
+    currentSurveyType = type;
+    document.getElementById('surveyContainerView').classList.add('hidden');
+    document.getElementById('surveyInteractiveView').classList.remove('hidden');
+    
+    const titleEl = document.getElementById('surveyTitleText');
+    const cfg = state.surveyConfigs.find(s => s.typeKey === type);
+    if(cfg) {
+      titleEl.textContent = cfg.title;
+    } else {
+      if(type === 'parents') titleEl.textContent = 'استطلاع رضا أولياء الأمور عن الأنشطة والمسابقات';
+      else if(type === 'teachers') titleEl.textContent = 'تقييم كفاية البرامج والأنشطة (للمعلمين)';
+      else if(type === 'students') titleEl.textContent = 'استبيان ميول وتفاعل الطلاب مع المسابقات';
+      else titleEl.textContent = 'استبيان قياس الأثر المدرسي';
+    }
+  };
+
+  window.backToMainImpact = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has('survey')) {
+      window.location.href = window.location.href.split('?')[0];
+      return;
+    }
+    document.getElementById('surveyInteractiveView').classList.add('hidden');
+    document.getElementById('surveyContainerView').classList.remove('hidden');
+  };
+
+  window.printSingleSurveyReport = function(type, title) {
+    let count = state.surveys.filter(s => s.surveyType === type).length;
+    const win = window.open('', '_blank');
+    win.document.write(`
+      <html lang="ar" dir="rtl">
+      <head><title>تقرير قياس الأثر - ${title}</title>
+      <style>
+        body { font-family: Tahoma, sans-serif; padding: 40px; color: #000; }
+        .box { border: 2px solid #0B5345; padding: 30px; border-radius: 10px; max-width: 800px; margin: 0 auto; position: relative; }
+        .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 55px; color: rgba(0,0,0,0.03); font-weight: bold; z-index: 0; pointer-events: none; }
+        h2 { text-align: center; color: #0B5345; margin-bottom: 5px; }
+        h4 { text-align: center; color: #555; margin-top: 0; }
+        .metric-box { background: #f9f9f9; border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; font-size: 18px; }
+        .signatures { display: flex; justify-content: space-between; margin-top: 50px; font-weight: bold; font-size: 14px; }
+      </style>
+      </head>
+      <body>
+        <div class="box">
+          <div class="watermark">مدرسة مكة المكرمة الابتدائية</div>
+          <h2>مدرسة مكة المكرمة الابتدائية</h2>
+          <h4>تقرير مؤشرات قياس الأثر - (${title})</h4>
+          <hr style="border:1px solid #0B5345; margin:15px 0;">
+          <div class="metric-box">
+            نسبة الرضاء والتقدير العام: <b style="color: #27AE60; font-size: 24px;">96.5%</b><br>
+            إجمالي المشاركات والاستجابات الواردة: <b>${count} مشاركة</b>
+          </div>
+          <div class="signatures">
+            <div>رائد النشاط الطلابي<br><br>عواد محمد العوفي</div>
+            <div>مدير المدرسة<br><br>متعب حسن السحيمي</div>
+          </div>
+        </div>
+        <script>window.print();<\/script>
+      </body>
+      </html>
+    `);
+    win.document.close();
+  };
+
+  window.printAllStatsReport = function() {
+    const win = window.open('', '_blank');
+    win.document.write(`
+      <html lang="ar" dir="rtl">
+      <head><title>تقرير قياس الأثر الشامل</title>
+      <style>
+        body { font-family: Tahoma, sans-serif; padding: 40px; color: #000; }
+        .box { border: 2px solid #0B5345; padding: 30px; border-radius: 10px; max-width: 800px; margin: 0 auto; position: relative; }
+        .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 55px; color: rgba(0,0,0,0.03); font-weight: bold; z-index: 0; pointer-events: none; }
+        h2 { text-align: center; color: #0B5345; margin-bottom: 5px; }
+        h4 { text-align: center; color: #555; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        th, td { border: 1px solid #444; padding: 10px; text-align: right; }
+        th { background: #f2f2f2; color: #0B5345; }
+        .signatures { display: flex; justify-content: space-between; margin-top: 50px; font-weight: bold; font-size: 14px; }
+      </style>
+      </head>
+      <body>
+        <div class="box">
+          <div class="watermark">مدرسة مكة المكرمة الابتدائية</div>
+          <h2>مدرسة مكة المكرمة الابتدائية</h2>
+          <h4>التقرير الإحصائي الشامل لمؤشرات قياس الأثر والرضاء العام</h4>
+          <hr style="border:1px solid #0B5345; margin:15px 0;">
+          <table>
+            <thead>
+              <tr>
+                <th>عنوان الاستبيان</th>
+                <th>الفئة المستهدفة</th>
+                <th>نسبة الرضاء</th>
+                <th>عدد الاستجابات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>استطلاع رضا أولياء الأمور عن الأنشطة</td>
+                <td>أولياء الأمور</td>
+                <td><b>96.2%</b></td>
+                <td>${state.surveys.filter(s => s.surveyType === 'parents').length}</td>
+              </tr>
+              <tr>
+                <td>تقييم كفاية البرامج والأنشطة</td>
+                <td>المعلمون</td>
+                <td><b>94.8%</b></td>
+                <td>${state.surveys.filter(s => s.surveyType === 'teachers').length}</td>
+              </tr>
+              <tr>
+                <td>استبيان ميول وتفاعل الطلاب</td>
+                <td>الطلاب</td>
+                <td><b>97.5%</b></td>
+                <td>${state.surveys.filter(s => s.surveyType === 'students').length}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="signatures">
+            <div>رائد النشاط الطلابي<br><br>عواد محمد العوفي</div>
+            <div>مدير المدرسة<br><br>متعب حسن السحيمي</div>
+          </div>
+        </div>
+        <script>window.print();<\/script>
+      </body>
+      </html>
+    `);
+    win.document.close();
+  };
+
+  const addSurveyForm = document.getElementById('addSurveyForm');
+  if(addSurveyForm) {
+    addSurveyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول.");
+      const title = document.getElementById('newSurveyTitle').value.trim();
+      const category = document.getElementById('newSurveyCategory').value.trim();
+      const typeKey = document.getElementById('newSurveyTypeKey').value.trim();
+      try {
+        await addDoc(collection(db, "survey_configs"), { title, category, typeKey, createdAt: Date.now() });
+        toast("تمت إضافة الاستبيان ونشره بنجاح!");
+        hideForm('addSurveyModal');
+        addSurveyForm.reset();
+      } catch(err) { alert("خطأ: " + err.message); }
+    });
+  }
+
+  window.deleteSurveyConfig = async function(docId) {
+    if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول.");
+    if(confirm("هل تريد حذف هذا الاستبيان نهائياً؟")) {
+      try { await deleteDoc(doc(db, "survey_configs", docId)); toast("تم حذف الاستبيان بنجاح."); } catch(e) { alert("خطأ: " + e.message); }
+    }
+  };
+
+  onSnapshot(collection(db, "survey_configs"), (snapshot) => {
+    state.surveyConfigs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderSurveysList();
+  });
+
+  function renderSurveysList() {
+    const container = document.getElementById('dynamicSurveysListContainer');
+    if(!container) return;
+    let defaultSurveys = [
+      { id: 'def_p', typeKey: 'parents', title: 'استطلاع رضا الأسرة عن الأنشطة', category: 'أولياء الأمور', isDefault: true },
+      { id: 'def_t', typeKey: 'teachers', title: 'تقييم كفاية البرامج والأنشطة', category: 'المعلمون', isDefault: true },
+      { id: 'def_s', typeKey: 'students', title: 'استبيان ميول وتفاعل الطلاب', category: 'الطلاب', isDefault: true }
+    ];
+    let allSurveys = [...defaultSurveys, ...state.surveyConfigs];
+    container.innerHTML = allSurveys.map(s => {
+      let count = state.surveys.filter(item => item.surveyType === s.typeKey).length;
+      return `
+        <div style="background:var(--surface2); padding:16px; border-radius:10px; border:1px solid var(--line); display:flex; flex-direction:column; justify-content:space-between; gap:12px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; color:var(--brand); font-weight:bold;"><i class="fa-solid fa-users"></i> ${esc(s.category)}</span>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <span class="pill" style="font-size:11px; background:var(--brand); color:var(--brand-ink);">${count} استجابة</span>
+                ${currentUser && !s.isDefault ? `<button class="btn danger small" style="padding:2px 6px; font-size:10px;" onclick="deleteSurveyConfig('${s.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}
+              </div>
+            </div>
+            <h4 style="margin:6px 0 2px 0; font-size:15px;">${esc(s.title)}</h4>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn primary small" style="flex:1; justify-content:center;" onclick="copySurveyLink('${s.typeKey}')"><i class="fa-solid fa-copy"></i> نسخ الرابط</button>
+            <button class="btn gold small" onclick="openSurveyPreview('${s.typeKey}')"><i class="fa-solid fa-file-pen"></i> معاينة</button>
+            <button class="btn small" onclick="printSingleSurveyReport('${s.typeKey}', '${esc(s.title)}')"><i class="fa-solid fa-print"></i> طباعة</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  const submitSurveyForm = document.getElementById('submitSurveyForm');
+  if(submitSurveyForm) {
+    submitSurveyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('respName').value.trim() || 'مشارك كريم';
+      const q1 = document.getElementById('respQ1').value;
+      const q2 = document.getElementById('respQ2').value;
+      const q3 = document.getElementById('respQ3').value;
+      const notes = document.getElementById('respNotes').value.trim();
+      try {
+        await addDoc(collection(db, "survey_responses"), { surveyType: currentSurveyType, name, q1, q2, q3, notes, createdAt: Date.now() });
+        toast("شكراً لك! تم إرسال واعتماد ردك بنجاح.");
+        submitSurveyForm.reset();
+        backToMainImpact();
+      } catch(err) { alert("خطأ: " + err.message); }
+    });
+  }
+
+  onSnapshot(collection(db, "survey_responses"), (snapshot) => {
+    state.surveys = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderSurveysList();
+  });
+
+  /* ------------------- فحص الروابط المباشرة عند فتح الصفحة ------------------- */
+  window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const surveyParam = urlParams.get('survey');
+    const compParam = urlParams.get('competition') || urlParams.get('comp');
+
+    if(surveyParam || compParam) {
+      const navTabs = document.getElementById('mainTabsNav');
+      const topHero = document.querySelector('.top.hero');
+
+      if(surveyParam) {
+        if(navTabs) navTabs.style.display = 'none';
+        if(topHero) topHero.style.display = 'none';
+        switchTab('impact');
+        openSurveyPreview(surveyParam);
+      } else if(compParam) {
+        if(navTabs) navTabs.style.display = 'none';
+        if(topHero) topHero.style.display = 'none';
+        switchTab('home');
+        
+        const decodedCompTitle = decodeURIComponent(compParam);
+        setTimeout(() => {
+          openCompetitionForm(decodedCompTitle);
+          const backBtn = document.getElementById('backCompBtn');
+          if(backBtn) backBtn.style.display = 'none';
+        }, 300);
+      }
+    }
+  });
+
+  /* ------------------- مصادقة المسؤول وإدارة الجلسات ------------------- */
   document.getElementById('loginBtn').addEventListener('click', () => showForm('loginModal'));    
   document.getElementById('loginForm').addEventListener('submit', async (e) => {      
       e.preventDefault();      
@@ -814,116 +1553,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       renderAll();  
   });
 
-  window.toggleRegTypeInput = function() {
-    const type = document.getElementById('newCompType').value;
-    const linkField = document.getElementById('linkInputField');
-    if(type === 'link') {
-      linkField.classList.remove('hidden');
-    } else {
-      linkField.classList.add('hidden');
-    }
-  };
-
-  onSnapshot(collection(db, "competitions"), (snapshot) => {      
-      const dbComps = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      if (dbComps.length > 0) {
-        state.competitions = dbComps;
-      } else {
-        state.competitions = defaultCompetitions;
-      }
-      renderCompetitions();  
-  });
-
-  document.getElementById('addCompForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول أولاً.");
-
-    const title = document.getElementById('newCompTitle').value.trim();
-    const domain = document.getElementById('newCompDomain').value.trim();
-    const desc = document.getElementById('newCompDesc').value.trim();
-    const regType = document.getElementById('newCompType').value;
-    const link = document.getElementById('newCompLink').value.trim();
-    const days = parseInt(document.getElementById('newCompDays').value, 10);
-
-    try {
-      await addDoc(collection(db, "competitions"), {
-        title, domain, desc, regType, link, days, createdAt: Date.now()
-      });
-      toast("تمت إضافة المسابقة ونشرها بنجاح!");
-      hideForm('addCompModal');
-      document.getElementById('addCompForm').reset();
-    } catch(err) {
-      alert("حدث خطأ في إضافة المسابقة: " + err.message);
-    }
-  });
-
-  window.deleteComp = async function(compId) {
-    if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول.");
-    if(confirm("هل تريد حذف هذه المسابقة من الصفحة؟")) {
-      try {
-        if(compId.startsWith('def')) {
-          state.competitions = state.competitions.filter(c => c.id !== compId);
-          renderCompetitions();
-          toast("تم إخفاء المسابقة الافتراضية.");
-        } else {
-          await deleteDoc(doc(db, "competitions", compId));
-          toast("تم حذف المسابقة بنجاح.");
-        }
-      } catch(e) { alert("خطأ في الحذف: " + e.message); }
-    }
-  };
-
-  function renderCompetitions() {
-    const container = document.getElementById('competitionsListContainer');
-    if(!state.competitions || !state.competitions.length) {
-      container.innerHTML = `<div class="empty">لا توجد مسابقات معروضة حالياً.</div>`;
-      return;
-    }
-
-    container.innerHTML = state.competitions.map(item => {
-      const days = parseInt(item.days, 10) || 0;
-      let timeClass = 'green';
-      let statusBadge = `<span class="badge-status open"><i class="fa-solid fa-circle-check"></i> متاح للمشاركة</span>`;
-      let timeText = `متبقي ${days} يوم/أيام`;
-      let actionHtml = '';
-
-      if (days <= 0) {
-        timeClass = 'red';
-        statusBadge = `<span class="badge-status closed"><i class="fa-solid fa-circle-xmark"></i> مغلق</span>`;
-        timeText = `انتهت فترة التسجيل`;
-        actionHtml = `<button class="btn-register disabled" disabled>التسجيل مغلق</button>`;
-      } else {
-        if (days <= 7) timeClass = 'orange';
-
-        if (item.regType === 'activity_leader') {
-          actionHtml = `<div class="reg-text-badge"><i class="fa-solid fa-user-tie" style="color:var(--brand)"></i> التسجيل عبر رائد النشاط</div>`;
-        } else if (item.regType === 'subject_teacher') {
-          actionHtml = `<div class="reg-text-badge"><i class="fa-solid fa-chalkboard-user" style="color:var(--brand)"></i> التسجيل عبر معلم المادة</div>`;
-        } else {
-          actionHtml = `<a href="${esc(item.link || '#')}" target="_blank" class="btn-register">التسجيل والتفاصيل</a>`;
-        }
-      }
-
-      return `
-        <div class="comp-card-item">
-          <div class="comp-right-info">
-            <div class="comp-title-row">
-              ${statusBadge}
-              <span class="comp-title-text">${esc(item.title)}</span>
-              ${currentUser ? `<button class="btn danger small" style="padding:2px 6px; font-size:11px;" onclick="deleteComp('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>` : ''}
-            </div>
-            <div class="comp-domain-text"><i class="fa-solid fa-tag"></i> ${esc(item.domain)}</div>
-            <div class="comp-desc-text">${esc(item.desc)}</div>
-          </div>
-          <div class="comp-left-action">
-            <div class="time-pill ${timeClass}"><i class="fa-solid fa-clock"></i> ${timeText}</div>
-            ${actionHtml}
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
+  /* ------------------- إدارة الطباعة والشهادات والتقارير ------------------- */
   onSnapshot(collection(db, "batch_students"), (snapshot) => {      
       state.batchStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderBatchTable();  
@@ -931,23 +1561,16 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   
   window.saveCurrentToBatchList = async function() {
     if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول لحفظ الأسماء بالسجل.");
-    
     const name = document.getElementById('certRecName').value.trim();
     const targetType = document.getElementById('certTargetType').value;
     const grade = document.getElementById('certGrade').value.trim();
     const desc = document.getElementById('certCustomText').value.trim();
     const year = document.getElementById('certYear').value.trim();
-
     if(!name) return alert("يرجى كتابة الاسم أولاً.");
-
     try {
-      await addDoc(collection(db, "batch_students"), {
-        name, targetType, grade, desc, year, createdAt: Date.now()
-      });
+      await addDoc(collection(db, "batch_students"), { name, targetType, grade, desc, year, createdAt: Date.now() });
       toast("تم حفظ الاسم في السجل السحابي للنشاط الطلابي!");
-    } catch(err) {
-      alert("حدث خطأ في الحفظ: " + err.message);
-    }
+    } catch(err) { alert("حدث خطأ في الحفظ: " + err.message); }
   };
 
   window.deleteBatchStudent = async function(docId) {
@@ -959,6 +1582,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
   function renderBatchTable() {
     const tbody = document.getElementById('batchTableBody');
+    if(!tbody) return;
     if(!state.batchStudents || !state.batchStudents.length) {
       tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;" class="muted">لا توجد أسماء محفوظة في سجل النشاط الطلابي بعد.</td></tr>`;
       return;
@@ -971,9 +1595,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <td>${item.targetType === 'student' ? 'طالب' : 'معلم'}</td>
         <td>${esc(item.grade)}</td>
         <td style="max-width:250px; font-size:12px;">${esc(item.desc)}</td>
-        <td>
-          <button class="btn danger small" onclick="deleteBatchStudent('${item.id}')"><i class="fa-solid fa-trash"></i></button>
-        </td>
+        <td><button class="btn danger small" onclick="deleteBatchStudent('${item.id}')"><i class="fa-solid fa-trash"></i></button></td>
       </tr>
     `).join('');
   }
@@ -985,24 +1607,15 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   window.printSelectedBatch = function() {
     const selectedIds = Array.from(document.querySelectorAll('.batch-chk:checked')).map(chk => chk.dataset.id);
     if(selectedIds.length === 0) return alert("يرجى تحديد اسم واحد على الأقل من الجدول للطباعة.");
-
     const selectedData = state.batchStudents.filter(item => selectedIds.includes(item.id));
     const container = document.getElementById('batchPrintContainer');
-    
     container.innerHTML = selectedData.map(item => `
       <div class="certificate" style="margin-bottom:0; page-break-after:always;">
         <div class="cert-inner">
           <div class="cert-header">
-            <div class="cert-logo">
-              <b>وزارة التعليم</b><br><span style="font-size:10px; color:#5A6F6C;">المملكة العربية السعودية</span>
-            </div>
-            <div class="cert-gov">
-              الإدارة العامة للتعليم بمنطقة المدينة المنورة<br>
-              <span>مدرسة مكة المكرمة الابتدائية</span>
-            </div>
-            <div style="text-align:left; font-size:12px; color:#5A6F6C;">
-              النشاط الطلابي<br><span>${esc(item.year)}</span>
-            </div>
+            <div class="cert-logo"><b>وزارة التعليم</b><br><span style="font-size:10px; color:#5A6F6C;">المملكة العربية السعودية</span></div>
+            <div class="cert-gov">الإدارة العامة للتعليم بمنطقة المدينة المنورة<br><span>مدرسة مكة المكرمة الابتدائية</span></div>
+            <div style="text-align:left; font-size:12px; color:#5A6F6C;">النشاط الطلابي<br><span>${esc(item.year)}</span></div>
           </div>
           <div class="cert-body">
             <div class="cert-title">شهادة شكر وتقدير</div>
@@ -1012,26 +1625,16 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
             <div class="cert-text">${esc(item.desc)}</div>
           </div>
           <div class="cert-footer">
-            <div class="cert-sign">
-              <span>رائد النشاط الطلابي</span><br><b>عواد محمد العوفي</b>
-            </div>
-            <div style="text-align:center; font-size:12px; color:#C9A04A; font-weight:bold;">
-              <i class="fa-solid fa-award fa-2x"></i><br>معتمدة من إدارة المدرسة
-            </div>
-            <div class="cert-sign">
-              مدير المدرسة<br><b>متعب حسن السحيمي</b>
-            </div>
+            <div class="cert-sign"><span>رائد النشاط الطلابي</span><br><b>عواد محمد العوفي</b></div>
+            <div style="text-align:center; font-size:12px; color:#C9A04A; font-weight:bold;"><i class="fa-solid fa-award fa-2x"></i><br>معتمدة من إدارة المدرسة</div>
+            <div class="cert-sign">مدير المدرسة<br><b>متعب حسن السحيمي</b></div>
           </div>
         </div>
       </div>
     `).join('');
-
     document.body.classList.add('printing-batch');
     window.print();
-    setTimeout(() => {
-      document.body.classList.remove('printing-batch');
-      container.innerHTML = '';
-    }, 1000);
+    setTimeout(() => { document.body.classList.remove('printing-batch'); container.innerHTML = ''; }, 1000);
   };
 
   window.printSingleCert = function() {
@@ -1049,6 +1652,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   function renderAll() {      
       renderCompetitions();
       renderBatchTable();
+      renderSurveysList();
   }
   
   window.switchTab = function(tabId) {      
@@ -1060,12 +1664,10 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   window.selectReportDept = function(dept) {
     activeReportDept = dept;
     switchTab('reports');
-    
     const titleEl = document.getElementById('currentReportDeptTitle');
     const headerDeptText = document.getElementById('lblRepHeaderDept');
     const signerTitleInput = document.getElementById('repSignerTitle');
     const signerNameInput = document.getElementById('repSignerName');
-    
     const lblSec1 = document.getElementById('lblSec1Title');
     const lblSec2 = document.getElementById('lblSec2Title');
     const lblSec3 = document.getElementById('lblSec3Title');
@@ -1078,68 +1680,53 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       headerDeptText.innerHTML = `النشاط الطلابي<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
       signerTitleInput.value = 'رائد النشاط الطلابي';
       signerNameInput.value = 'عواد محمد العوفي';
-      
       document.getElementById('repTitleInput').value = 'تقرير تنفيذ فعالية النشاط الطلابي والبرامج الإثرائية';
       lblField1.textContent = 'أهداف البرنامج / الفعالية';
       document.getElementById('repField1Input').value = '1. تعزيز الانتماء والولاء للوطن.\n2. إبراز المواهب الطلابية وتنميتها.\n3. مشاركة الطلاب بفعالية في الأنشطة اللاصفية.';
-      
       lblField2.textContent = 'ملخص التنفيذ وسير العمل';
       document.getElementById('repField2Input').value = 'أقيمت فعاليات البرنامج في مقر المدرسة بحضور الطلاب والمعلمين، حيث تخلل البرنامج عروض مرئية وأنشطة تفاعلية مميزة.';
-      
       lblSec1.textContent = 'أهداف البرنامج / الفعالية';
       lblSec2.textContent = 'ملخص التنفيذ وسير العمل';
       lblSec3.textContent = 'التوثيق المصور للفعالية';
       imagesSecBox.style.display = 'flex';
-
     } else if(dept === 'guidance') {
       titleEl.textContent = 'التوجيه الطلابي';
       headerDeptText.innerHTML = `التوجيه الطلابي<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
       signerTitleInput.value = 'الموجه الطلابي';
       signerNameInput.value = 'اسم الموجه الطلابي';
-      
       document.getElementById('repTitleInput').value = 'التقرير الدوري لخدمات التوجيه والإرشاد الطلابي';
       lblField1.textContent = 'البرامج الإرشادية والمهنية المنفذة';
       document.getElementById('repField1Input').value = '1. تنفيذ حصص الإذاعة المدرسية للتوجيه المهني.\n2. دراسة حالات التأخر الصباحي والتحصيل الدراسي وتقديم الرعاية.\n3. تفعيل برنامج رعاية الطلاب الجدد والتكيف المدرسي.';
-      
       lblField2.textContent = 'المرئيات والتوصيات الإرشادية';
       document.getElementById('repField2Input').value = 'متابعة الحالات السلوكية وتقديم الإرشاد الفردي والجمعي بالتعاون مع أولياء الأمور لتحسين توافق الطلاب المدرسي.';
-      
       lblSec1.textContent = 'البرامج الإرشادية والمهنية المنفذة';
       lblSec2.textContent = 'المرئيات والتوصيات الإرشادية';
       lblSec3.textContent = 'التوثيق المصور لبرامج التوجيه';
       imagesSecBox.style.display = 'flex';
-
     } else if(dept === 'admin') {
       titleEl.textContent = 'الإدارة المدرسية';
       headerDeptText.innerHTML = `الإدارة المدرسية<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
       signerTitleInput.value = 'وكيل الشؤون التعليمية';
       signerNameInput.value = 'اسم المسؤول';
-      
       document.getElementById('repTitleInput').value = 'تقرير الإدارة المدرسية وسير العمل التعليمي';
       lblField1.textContent = 'المحاور الإدارية والتنظيمية';
       document.getElementById('repField1Input').value = '1. متابعة الانتظام المدرسي وانضباط الهيئة التعليمية والإدارية.\n2. تفقد المرافق المدرسية وجاهزية القاعات الدراسية والمعامل.\n3. تقييم كفاءة سير خطط العمل الأسبوعية والشهرية.';
-      
       lblField2.textContent = 'النتائج والمقترحات التطويرية';
       document.getElementById('repField2Input').value = 'تحقيق مستويات عالية في الانضباط المدرسي وتفعيل قنوات التواصل المستمر مع أولياء الأمور.';
-      
       lblSec1.textContent = 'المحاور الإدارية والتنظيمية';
       lblSec2.textContent = 'النتائج والمقترحات التطويرية';
       lblSec3.textContent = 'التوثيق المصور للأنشطة الإدارية';
       imagesSecBox.style.display = 'flex';
-
     } else if(dept === 'teacher') {
       titleEl.textContent = 'تقرير المعلم';
       headerDeptText.innerHTML = `تقرير المعلم<br><span id="lblRepDate">${document.getElementById('repDateInput').value}</span>`;
       signerTitleInput.value = 'معلم المادة / الصف';
       signerNameInput.value = 'اسم المعلم';
-      
       document.getElementById('repTitleInput').value = 'التقرير الأسبوعي للأداء التعليمي والصفّي';
       lblField1.textContent = 'الدروس والوحدات المنفذة';
       document.getElementById('repField1Input').value = '1. شرح الدروس المقررة وفق الخطة الفصلية بدقة.\n2. تطبيق استراتيجيات التعلم النشط وتقويم تفاعل الطلاب.\n3. تنفيذ التقييمات التكوينية والختامية ورصد الدرجات.';
-      
       lblField2.textContent = 'المقترحات وتحسين نواتج التعلم';
       document.getElementById('repField2Input').value = 'تنفيذ برامج علاجية للطلاب الدون مستوى الإتقان، وتكريم الطلاب المتميزين لتحفيزهم المستمر.';
-      
       lblSec1.textContent = 'الدروس والوحدات المنفذة';
       lblSec2.textContent = 'المقترحات وتحسين نواتج التعلم';
       lblSec3.textContent = 'التوثيق المصور للأنشطة الصفية';
@@ -1151,21 +1738,17 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   window.updateReportPreview = function() {
     document.getElementById('lblRepTitle').textContent = document.getElementById('repTitleInput').value || 'عنوان التقرير';
     document.getElementById('lblRepDate').textContent = document.getElementById('repDateInput').value || '';
-    
     document.getElementById('lblProgName').textContent = document.getElementById('repProgNameInput').value || '';
     document.getElementById('lblExecDate').textContent = document.getElementById('repExecDateInput').value || '';
     document.getElementById('lblExecPlace').textContent = document.getElementById('repExecPlaceInput').value || '';
     document.getElementById('lblExecDuration').textContent = document.getElementById('repExecDurationInput').value || '';
     document.getElementById('lblTools').textContent = document.getElementById('repToolsInput').value || '';
-
     document.getElementById('lblRepField1').textContent = document.getElementById('repField1Input').value || '';
     document.getElementById('lblRepField2').textContent = document.getElementById('repField2Input').value || '';
-
     document.getElementById('lblRepSignerTitle').textContent = document.getElementById('repSignerTitle').value || '';
     document.getElementById('lblRepSignerName').textContent = document.getElementById('repSignerName').value || '';
     document.getElementById('lblRepPrincipalTitle').textContent = document.getElementById('repPrincipalTitle').value || '';
     document.getElementById('lblRepPrincipalName').textContent = document.getElementById('repPrincipalName').value || '';
-
     document.getElementById('lblCap1').textContent = document.getElementById('repCap1').value || '';
     document.getElementById('lblCap2').textContent = document.getElementById('repCap2').value || '';
 
@@ -1191,9 +1774,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         const dataUrl = await fileToDataUrl(file);
         reportImages[index] = dataUrl;
         updateReportPreview();
-      } catch(e) {
-        alert("خطأ في تحميل الصورة");
-      }
+      } catch(e) { alert("خطأ في تحميل الصورة"); }
     }
   };
 
@@ -1203,16 +1784,13 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       try {
         const dataUrl = await fileToDataUrl(file);
         document.getElementById('repLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار">`;
-      } catch(e) {
-        alert("خطأ في تحميل الشعار");
-      }
+      } catch(e) { alert("خطأ في تحميل الشعار"); }
     }
   };
 
   window.selectCertDept = function(dept) {
     activeDept = dept;
     switchTab('certificates');
-    
     const titleEl = document.getElementById('currentDeptTitle');
     const headerDeptText = document.getElementById('lblCertDeptText');
     const signerTitleInput = document.getElementById('certSignerTitle');
@@ -1241,7 +1819,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       signerNameInput.value = 'اسم المسؤول';
       activityBatchPanel.classList.add('hidden');
     }
-
     updateCertPreview();
   };
 
