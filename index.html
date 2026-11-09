@@ -1021,6 +1021,15 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
   function compressImage(file, maxWidth = 800, quality = 0.7) {
     return new Promise((resolve, reject) => {
+      // الحفاظ على شفافية صور PNG المفرغة لكي لا تتحول لخلفية سوداء
+      if (file.type === 'image/png') {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => resolve(event.target.result);
+        reader.onerror = (err) => reject(err);
+        return;
+      }
+
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event) => {
@@ -1233,7 +1242,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.getElementById('competitionsMainContainer').classList.remove('hidden');
   };
 
-  /* ------------------- طباعة المسابقة (الصورة يسار بالحجم السابق الكبير، والباركودات عمودية يمين بدون نص توضيحي أو خطوط) ------------------- */
+  /* ------------------- طباعة المسابقة (صورة كبيرة يسار، باركودات عمودية يمين بدون خطوط أو عناوين جانبية) ------------------- */
   window.printCompetitionByTitle = function(compTitle) {
     const comp = state.competitions.find(c => c.title === compTitle);
     if(!comp) return alert("بيانات المسابقة غير متوفرة للطباعة.");
@@ -1276,10 +1285,10 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           <p style="margin: 0; font-size: 13px; white-space: pre-line;">${esc(comp.conditions)}</p>
         </div>
 
-        <!-- التخطيط: الباركودات عمودياً في اليمين والصورة كبيرة في اليسار -->
+        <!-- التخطيط النهائي: الباركودات عمودياً في اليمين، والصورة الكبيرة في اليسار -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; gap: 20px;">
           
-          <!-- الجهة اليمين: الباركودات فوق بعضها عمودياً بدون عبارات أو خطوط -->
+          <!-- اليمين: الباركودات عمودية فوق بعضها -->
           <div style="display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; min-width: 130px;">
             ${hasRegLink ? `
               <div style="text-align: center;">
@@ -1307,7 +1316,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
             ` : ''}
           </div>
 
-          <!-- الجهة اليسار: الصورة المرفقة للمسابقة بالحجم السابق الكبير -->
+          <!-- اليسار: الصورة المرفقة بالحجم الكبير السابق -->
           ${hasImage ? `
             <div style="text-align: center; flex-grow: 1; background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 8px;">
               <p style="font-weight: bold; margin: 0 0 6px 0; font-size: 12px; color: #0B5345;">الصورة المرفقة للمسابقة</p>
