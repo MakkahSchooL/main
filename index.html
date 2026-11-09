@@ -54,8 +54,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* toast & modal */
 .toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
 .toast.show{opacity:1}
-.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; display:flex; align-items:center; justify-content:center; padding:16px; }
-.modal-card { background:var(--surface); border-radius:14px; padding:24px; width:100%; max-width:480px; box-shadow:0 10px 30px rgba(0,0,0,0.5); border:1px solid var(--line); }
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; display:flex; align-items:center; justify-content:center; padding:16px; overflow-y:auto; }
+.modal-card { background:var(--surface); border-radius:14px; padding:24px; width:100%; max-width:520px; box-shadow:0 10px 30px rgba(0,0,0,0.5); border:1px solid var(--line); max-height: 90vh; overflow-y: auto; }
 
 /* Extra UI Components */
 .hero-bottom { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; width:100%; margin-top:12px; }
@@ -158,7 +158,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cert-sign { text-align:center; line-height:1.8; }
 .cert-sign b { display:block; font-size:17px; color:#0C6A64; }
 
-/* تنسيق الشعار داخل الشهادة ليظهر بحجم مناسب وغير كبير */
 .cert-logo img {
   max-height: 55px !important;
   max-width: 120px !important;
@@ -168,30 +167,30 @@ button,input,select,textarea{font:inherit;color:inherit}
   display: block !important;
 }
 
-/* تصميم التقارير الرسمية (عمودي A4) */
+/* تصميم التقارير الرسمية (عمودي A4 - بخط أكبر وأوضح) */
 .report-preview-box { background:#152322; border:1px solid var(--line); border-radius:12px; padding:20px; display:flex; justify-content:center; align-items:center; overflow-x:auto; }
 .report-page { width:210mm; height:297mm; background:#ffffff; color:#13302E; position:relative; padding:8mm 10mm; font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:space-between; border:6px solid #0C6A64; box-sizing:border-box; margin:0 auto; page-break-after: avoid; page-break-inside: avoid; overflow:hidden; }
 .rep-inner-frame { border:2px dashed #C9A04A; height:100%; padding:5mm 6mm; display:flex; flex-direction:column; justify-content:space-between; position:relative; background:#ffffff; box-sizing:border-box; }
-.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:4px; margin-bottom:5px; }
-.rep-gov { text-align:center; font-weight:700; font-size:10px; color:#5A6F6C; line-height:1.3; }
-.rep-gov span { display:block; font-size:12px; color:#0C6A64; }
-.rep-title-box { text-align:center; margin-bottom:4px; }
-.rep-title { font-size:16px; font-weight:700; color:#0C6A64; margin-bottom:2px; }
+.rep-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0C6A64; padding-bottom:6px; margin-bottom:6px; }
+.rep-gov { text-align:center; font-weight:700; font-size:11.5px; color:#5A6F6C; line-height:1.35; }
+.rep-gov span { display:block; font-size:13.5px; color:#0C6A64; }
+.rep-title-box { text-align:center; margin-bottom:6px; }
+.rep-title { font-size:19px; font-weight:700; color:#0C6A64; margin-bottom:3px; }
 
-.rep-info-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:4px 8px; margin-bottom:4px; font-size:11px; background:#F6F9F8; padding:4px 6px; border-radius:4px; border:1px solid #D3DEDB; color:#13302E; }
+.rep-info-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px 10px; margin-bottom:6px; font-size:12.5px; background:#F6F9F8; padding:6px 8px; border-radius:4px; border:1px solid #D3DEDB; color:#13302E; }
 .rep-info-item span { font-weight:700; color:#0C6A64; }
 
-.rep-section { margin-bottom:4px; }
-.rep-section h4 { background:#F6F9F8; border-inline-start:4px solid #0C6A64; padding:2px 5px; margin:0 0 2px 0; font-size:11px; color:#0C6A64; }
-.rep-content-box { border:1px solid #D3DEDB; border-radius:4px; padding:3px 5px; min-height:22px; font-size:10.5px; line-height:1.35; background:#fff; color:#13302E; }
+.rep-section { margin-bottom:6px; }
+.rep-section h4 { background:#F6F9F8; border-inline-start:4px solid #0C6A64; padding:3px 6px; margin:0 0 3px 0; font-size:12.5px; color:#0C6A64; }
+.rep-content-box { border:1px solid #D3DEDB; border-radius:4px; padding:6px 8px; min-height:28px; font-size:12px; line-height:1.5; background:#fff; color:#13302E; }
 
-.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; margin-top:2px; height: 110mm; }
-.rep-img-card { border:1px solid #D3DEDB; border-radius:6px; padding:3px; text-align:center; background:#fafafa; display:flex; flex-direction:column; height: 100%; box-sizing: border-box; }
+.rep-images-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-top:3px; height: 110mm; }
+.rep-img-card { border:1px solid #D3DEDB; border-radius:6px; padding:4px; text-align:center; background:#fafafa; display:flex; flex-direction:column; height: 100%; box-sizing: border-box; }
 .rep-img-card div[id^="imgPreview"] { flex-grow: 1; width: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #eef3f2; border-radius: 4px; }
 .rep-img-card img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
-.rep-img-caption { font-size:10px; color:#5A6F6C; font-weight:600; margin-top:2px; flex-shrink: 0; }
+.rep-img-caption { font-size:11px; color:#5A6F6C; font-weight:600; margin-top:3px; flex-shrink: 0; }
 
-.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:4px; font-size:10.5px; font-weight:600; border-top:1px solid #D3DEDB; padding-top:4px; }
+.rep-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:6px; font-size:12px; font-weight:600; border-top:1px solid #D3DEDB; padding-top:6px; }
 
 .table-wrap { overflow-x: auto; margin-top: 10px; }
 table.data-table { width: 100%; border-collapse: collapse; text-align: right; font-size: 13.5px; }
@@ -213,7 +212,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   #page-reports > *:not(.report-preview-box) { display: none !important; }
   .report-preview-box { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
 
-  /* إخفاء الأيقونة الديناميكية وأزرار التحكم عند الطباعة تماماً */
   .time-pill.dynamic-icon, .no-print { display: none !important; }
 
   body:not(.printing-report):not(.printing-batch):not(.printing-comp-page) @page { size: landscape; margin: 0; }
@@ -343,7 +341,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
             <h2 style="font-size:18px; color:var(--brand); margin:0 0 4px 0;"><i class="fa-solid fa-trophy"></i> المسابقات الوزارية المتاحة للمشاركة حالياً</h2>
             <p class="muted" style="margin:0;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</p>
           </div>
-          <button class="btn gold small admin-only hidden" onclick="showForm('addCompModal')"><i class="fa-solid fa-plus"></i> إضافة مسابقة جديدة</button>
+          <button class="btn gold small admin-only hidden" onclick="openAddCompModal()"><i class="fa-solid fa-plus"></i> إضافة مسابقة جديدة</button>
         </div>
 
         <!-- قائمة المسابقات التفاعلية شبكية مربعات -->
@@ -352,7 +350,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     </div>
   </div>
 
-  <!-- الصفحة التفاعلية المنفصلة لعرض تفاصيل المسابقة لولي الأمر والطالب -->
+  <!-- الصفحة التفاعلية المنفصلة لعرض تفاصيل المسابقة للمتلقي -->
   <div id="competitionInteractiveView" class="panel hidden">
     <div style="text-align:center; border-bottom:1px solid var(--line); padding-bottom:15px; margin-bottom:20px;">
       <h3 style="color:var(--brand); margin:0 0 4px 0; font-size:15px;">الإدارة العامة للتعليم بمنطقة المدينة المنورة</h3>
@@ -385,6 +383,12 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       <div id="compImageBox" class="hidden" style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
         <h4 style="margin:0 0 8px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-image"></i> الصورة المرفقة للمسابقة</h4>
         <div id="viewCompImageContainer" style="display:flex; justify-content:center;"></div>
+      </div>
+
+      <!-- خانة عرض فيديو الشرح -->
+      <div id="compVideoBox" class="hidden" style="background:var(--surface2); padding:14px; border-radius:8px; border:1px solid var(--line);">
+        <h4 style="margin:0 0 8px 0; color:var(--brand); font-size:14px;"><i class="fa-solid fa-video"></i> فيديو طريقة التسجيل</h4>
+        <div id="viewCompVideoContainer" style="display:flex; justify-content:center;"></div>
       </div>
 
       <!-- خانة تحميل الملف المرفق إن وجد (بي دي اف أو غيره) -->
@@ -450,7 +454,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <h3>استبانات قياس الأثر المتاحة</h3>
         
         <div id="dynamicSurveysListContainer" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-top:15px;">
-          <!-- تعبئة ديناميكية -->
         </div>
       </div>
     </div>
@@ -514,7 +517,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
  <section id="page-reports" class="page hidden">
   <div class="panel no-print">
     <h2><i class="fa-solid fa-file-lines" style="color:var(--brand)"></i> مُولّد التقارير الرسمية - <span id="currentReportDeptTitle">النشاط الطلابي</span></h2>
-    <p>قم بتعبئة تفاصيل التقرير، اسم البرنامج، وتفاصيل التنفيذ، مع إمكانية إرفاق صورتين توثيقيتين لكافة التقارير.</p>
+    <p>قم بتعبئة تفاصيل التقرير، اسم البرنامج، وتفاصيل التنفيذ، مع إمكانية اختيار عدد الشواهد التوثيقية (صورتين أو أربع صور).</p>
     
     <div class="formgrid" style="margin-top:15px;">
       <div class="field">
@@ -572,6 +575,14 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="text" id="repPrincipalName" value="متعب حسن السحيمي" oninput="updateReportPreview()">
       </div>
       
+      <div class="field">
+        <label><i class="fa-solid fa-images"></i> اختيار عدد الشواهد (الصور التوثيقية)</label>
+        <select id="repImageCountSelect" onchange="changeReportImageCount()">
+          <option value="2">صورتان (2 شواهد)</option>
+          <option value="4">أربع صور (4 شواهد)</option>
+        </select>
+      </div>
+
       <div class="field full" id="fieldBlock1">
         <label id="lblField1Name">أهداف البرنامج / الفعالية</label>
         <textarea id="repField1Input" oninput="updateReportPreview()">1. تعزيز الانتماء الوطني والولاء للقيادة الرشيدة.
@@ -581,7 +592,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 
       <div class="field full" id="fieldBlock2">
         <label id="lblField2Name">ملخص التنفيذ وسير العمل</label>
-        <textarea id="repField2Input" oninput="updateReportPreview()">أقيمت فعاليات البرنامج في مقر المدرسة بحضور طاقم الإدارة والمعلمين والطلاب، حيث تخلل البرنامج كلمات توجيهية، وعروض مرئية.</textarea>
+        <textarea id="repField2Input" oninput="updateReportPreview()">أقيمت فعاليات البرنامج in مقر المدرسة بحضور طاقم الإدارة والمعلمين والطلاب، حيث تخلل البرنامج كلمات توجيهية، وعروض مرئية.</textarea>
       </div>
 
       <div class="field" id="imgField1">
@@ -602,16 +613,33 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="text" id="repCap2" value="تفاعل الطلاب" oninput="updateReportPreview()">
       </div>
 
+      <div class="field hidden extra-img-field" id="imgField3">
+        <label>الصورة التوثيقية (3)</label>
+        <input type="file" accept="image/*" onchange="loadReportImage(event, 3)">
+      </div>
+      <div class="field hidden extra-img-field" id="capField3">
+        <label>تعليق الصورة (3)</label>
+        <input type="text" id="repCap3" value="تكريم المشاركين" oninput="updateReportPreview()">
+      </div>
+
+      <div class="field hidden extra-img-field" id="imgField4">
+        <label>الصورة التوثيقية (4)</label>
+        <input type="file" accept="image/*" onchange="loadReportImage(event, 4)">
+      </div>
+      <div class="field hidden extra-img-field" id="capField4">
+        <label>تعليق الصورة (4)</label>
+        <input type="text" id="repCap4" value="لقطة جماعية" oninput="updateReportPreview()">
+      </div>
+
       <div class="actions full" style="display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap;">
         <button class="btn primary" onclick="printSingleReport()"><i class="fa-solid fa-print"></i> طباعة التقرير / حفظ PDF</button>
-        <!-- زر نسخ التقرير يظهر للمسؤول غير المشارك عبر رابط مباشر فقط -->
         <button class="btn gold admin-only hidden" id="copyReportLinkBtn" onclick="copyDirectReportLink()"><i class="fa-solid fa-link"></i> نسخ رابط هذا التقرير فقط للمختصين</button>
       </div>
     </div>
   </div>
 
   <div class="panel no-print">
-    <h3>معاينة التقرير الرسمي (عمودي لصفحة واحدة)</h3>
+    <h3>معاينة التقرير الرسمي (عمودي لصفحة واحدة - بخط أكبر وأوضح)</h3>
   </div>
   
   <div class="report-preview-box">
@@ -679,7 +707,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           <div>
             <span id="lblRepSignerTitle">رائد النشاط الطلابي</span><br><b id="lblRepSignerName">عواد محمد العوفي</b>
           </div>
-          <div style="text-align:center; font-size:10.5px; color:#0C6A64; font-weight:bold;">
+          <div style="text-align:center; font-size:11.5px; color:#0C6A64; font-weight:bold;">
             معتمد من إدارة المدرسة<br><span id="lblRepPrincipalTitle">مدير المدرسة</span> <span id="lblRepPrincipalName">متعب حسن السحيمي</span>
           </div>
         </div>
@@ -744,13 +772,11 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       </div>
       <div class="actions full" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <button class="btn primary" onclick="printSingleCert()"><i class="fa-solid fa-print"></i> طباعة هذه الشهادة / حفظ PDF</button>
-        <!-- زر نسخ الشهادة يظهر للمسؤول في الوضع الطبيعي فقط ولا يظهر عبر رابط المشاركة -->
         <button class="btn gold admin-only hidden" id="copyCertLinkBtn" onclick="copyDirectCertLink()"><i class="fa-solid fa-link"></i> نسخ رابط هذه الشهادة للمستلم</button>
       </div>
     </div>
   </div>
 
-  <!-- سجل حفظ الأسماء والطباعة الجماعية (مخفي تماماً عبر روابط المشاركة المباشرة) -->
   <div id="activityBatchPanel" class="panel no-print admin-only hidden" style="border: 2px dashed var(--brand); background: var(--surface2);">
     <h3><i class="fa-solid fa-users-gear" style="color:var(--brand)"></i> سجل حفظ الأسماء والطباعة الجماعية (خاص بالنشاط الطلابي)</h3>
     <p class="muted">يمكنك حفظ بيانات الطلاب أو المعلمين في السجل السحابي وطباعة شهاداتهم دفعة واحدة بنقرة زر.</p>
@@ -825,11 +851,13 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 <div id="batchPrintContainer"></div>
 <div id="compPrintPageContainer"></div>
 
-<!-- النافذة المنبثقة لإضافة مسابقة جديدة (للمسؤول فقط) -->
+<!-- النافذة المنبثقة لإضافة / تعديل مسابقة (للمسؤول فقط) -->
 <div id="addCompModal" class="modal-overlay hidden">
-  <div class="modal-card" style="max-width:550px;">
-    <h3 style="margin-top:0; color:var(--brand);"><i class="fa-solid fa-trophy"></i> إضافة مسابقة جديدة</h3>
+  <div class="modal-card">
+    <h3 id="compModalHeading" style="margin-top:0; color:var(--brand);"><i class="fa-solid fa-trophy"></i> إضافة مسابقة جديدة</h3>
     <form id="addCompForm">
+      <input type="hidden" id="editCompDocId" value="">
+
       <div class="field" style="margin-bottom:10px;">
         <label>عنوان المسابقة / البرنامج</label>
         <input type="text" id="newCompTitle" required placeholder="مثال: مسابقة تحدي القراءة العربي">
@@ -855,15 +883,30 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <input type="url" id="newCompLink" placeholder="https://example.com/register">
       </div>
       <div class="field" style="margin-bottom:10px;">
-        <label>إرفاق صورة المسابقة (اختياري)</label>
+        <label>إرفاق صورة المسابقة (رفع ملف اختياري)</label>
         <input type="file" id="newCompImage" accept="image/*">
       </div>
-      <div class="field" style="margin-bottom:15px;">
-        <label>إرفاق ملف PDF أو مستند إثرائي (اختياري)</label>
+
+      <div class="field" style="margin-bottom:6px;">
+        <label><i class="fa-solid fa-file-pdf"></i> إرفاق ملف PDF أو مستند إثرائي (رفع ملف اختياري)</label>
         <input type="file" id="newCompFile">
       </div>
+      <div class="field" style="margin-bottom:12px;">
+        <label>أو ضع رابط مباشر لملف المستند (URL) - يتحول لباركود عند الطباعة</label>
+        <input type="url" id="newCompFileUrl" placeholder="https://example.com/document.pdf">
+      </div>
+
+      <div class="field" style="margin-bottom:6px;">
+        <label><i class="fa-solid fa-video"></i> فيديو شرح طريقة التسجيل (رابط مباشر / YouTube / Drive)</label>
+        <input type="url" id="newCompVideoUrl" placeholder="https://www.youtube.com/watch?v=... أو رابط مباشر">
+      </div>
+      <div class="field" style="margin-bottom:15px;">
+        <label>أو رفع فيديو مباشر (يفضل استخدام الروابط للملفات الكبيرة)</label>
+        <input type="file" id="newCompVideoFile" accept="video/*">
+      </div>
+
       <div class="actions" style="display:flex; gap:8px;">
-        <button type="submit" class="btn primary" style="flex:1; justify-content:center;">حفظ ونشر المسابقة</button>
+        <button type="submit" class="btn primary" style="flex:1; justify-content:center;" id="btnSaveCompSubmit">حفظ ونشر المسابقة</button>
         <button type="button" class="btn" style="flex:1; justify-content:center;" onclick="hideForm('addCompModal')">إلغاء</button>
       </div>
     </form>
@@ -928,7 +971,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
 <script type="module">  
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";  
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";  
-  import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   
   const firebaseConfig = {    
     apiKey: "AIzaSyDWSwOLWEhS5MR0R98r6cwiQljEd8WH_kY",    
@@ -949,7 +992,8 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
   let currentSurveyType = '';
   let activeDept = 'activity'; 
   let activeReportDept = 'activity';
-  let reportImages = { 1: '', 2: '' };
+  let reportImages = { 1: '', 2: '', 3: '', 4: '' };
+  let currentImageCount = 2;
 
   window.toast = function(msg) {      
       let el = document.getElementById("toast");      
@@ -975,7 +1019,33 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           reader.onerror = error => reject(error);      });  
   }
 
-  /* حساب الأيام المتبقية ديناميكياً */
+  function compressImage(file, maxWidth = 800, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = (err) => reject(err);
+      };
+      reader.onerror = (err) => reject(err);
+    });
+  }
+
   function calculateRemainingDays(endDateStr) {
     if(!endDateStr) return { days: 0, text: 'غير محدد', class: 'green' };
     const end = new Date(endDateStr);
@@ -995,7 +1065,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     }
   }
 
-  /* تنسيق التاريخ من اليسار إلى اليمين (السنة/الشهر/اليوم) */
   function formatLTRDate(dateStr) {
     if(!dateStr) return 'غير محدد';
     const parts = dateStr.split('-');
@@ -1005,7 +1074,34 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     return dateStr;
   }
 
-  /* ------------------- إدارة فتح وعرض تفاصيل المسابقة في الصفحة التفاعلية ------------------- */
+  window.openAddCompModal = function() {
+    document.getElementById('editCompDocId').value = "";
+    document.getElementById('compModalHeading').innerHTML = `<i class="fa-solid fa-trophy"></i> إضافة مسابقة جديدة`;
+    document.getElementById('btnSaveCompSubmit').textContent = "حفظ ونشر المسابقة";
+    document.getElementById('addCompForm').reset();
+    showForm('addCompModal');
+  };
+
+  window.openEditCompModal = function(compId) {
+    const comp = state.competitions.find(c => c.id === compId);
+    if(!comp) return alert("تعذر العثور على المسابقة للتعديل.");
+
+    document.getElementById('editCompDocId').value = comp.id;
+    document.getElementById('compModalHeading').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> تعديل بيانات المسابقة`;
+    document.getElementById('btnSaveCompSubmit').textContent = "حفظ والتحديث";
+
+    document.getElementById('newCompTitle').value = comp.title || "";
+    document.getElementById('newCompDomain').value = comp.domain || "";
+    document.getElementById('newCompEndDate').value = comp.endDate || "";
+    document.getElementById('newCompGoals').value = comp.goals || "";
+    document.getElementById('newCompConditions').value = comp.conditions || "";
+    document.getElementById('newCompLink').value = comp.link || "";
+    document.getElementById('newCompFileUrl').value = comp.fileUrl || "";
+    document.getElementById('newCompVideoUrl').value = comp.videoUrl || "";
+
+    showForm('addCompModal');
+  };
+
   window.openCompetitionForm = async function(title) {
     document.getElementById('competitionsMainContainer').classList.add('hidden');
     document.getElementById('competitionInteractiveView').classList.remove('hidden');
@@ -1035,7 +1131,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         <div class="time-pill dynamic-icon ${timeInfo.class}" style="padding: 6px 16px; width: auto;"><i class="fa-solid fa-clock"></i> ${timeInfo.text}</div>
       `;
 
-      // عرض الصورة المرفقة مباشرة كصورة (عرض مباشر)
       const imgBox = document.getElementById('compImageBox');
       const imgContainer = document.getElementById('viewCompImageContainer');
       if(comp.imageData && comp.imageData.trim() !== '') {
@@ -1046,12 +1141,28 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         imgContainer.innerHTML = '';
       }
 
-      // عرض زر تحميل الملف المرفق إن وجد (بي دي اف أو غيره)
+      const videoBox = document.getElementById('compVideoBox');
+      const videoContainer = document.getElementById('viewCompVideoContainer');
+      const videoTarget = comp.videoUrl || comp.videoData;
+      if(videoTarget && videoTarget.trim() !== '') {
+        videoBox.classList.remove('hidden');
+        if(videoTarget.includes('youtube.com') || videoTarget.includes('youtu.be')) {
+          let embedUrl = videoTarget.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/");
+          videoContainer.innerHTML = `<iframe width="100%" height="315" src="${embedUrl}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe>`;
+        } else {
+          videoContainer.innerHTML = `<video controls style="max-width:100%; max-height:350px; border-radius:8px;"><source src="${videoTarget}">متصفحك لا يدعم عرض الفيديو</video>`;
+        }
+      } else {
+        videoBox.classList.add('hidden');
+        videoContainer.innerHTML = '';
+      }
+
       const fileBox = document.getElementById('compFileBox');
       const fileContainer = document.getElementById('viewCompFileContainer');
-      if(comp.fileData && comp.fileData.trim() !== '') {
+      const fileTarget = comp.fileUrl || comp.fileData;
+      if(fileTarget && fileTarget.trim() !== '') {
         fileBox.classList.remove('hidden');
-        fileContainer.innerHTML = `<a href="${comp.fileData}" download="competition_file" class="btn gold small"><i class="fa-solid fa-download"></i> تحميل الملف المرفق</a>`;
+        fileContainer.innerHTML = `<a href="${fileTarget}" target="_blank" download="competition_file" class="btn gold small"><i class="fa-solid fa-download"></i> فتح / تحميل الملف المرفق</a>`;
       } else {
         fileBox.classList.add('hidden');
         fileContainer.innerHTML = '';
@@ -1069,6 +1180,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       document.getElementById('viewCompConditions').textContent = '-';
       document.getElementById('viewCompDateArea').innerHTML = '';
       document.getElementById('compImageBox').classList.add('hidden');
+      document.getElementById('compVideoBox').classList.add('hidden');
       document.getElementById('compFileBox').classList.add('hidden');
       document.getElementById('viewCompActionArea').innerHTML = `<div class="reg-text-badge">بيانات المسابقة غير متاحة</div>`;
     }
@@ -1087,7 +1199,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     toast("تم نسخ رابط المسابقة بنجاح لإرساله للمشاركين!");
   };
 
-  /* دوال نسخ روابط التقارير والشهادات (للمسؤول فقط) */
   window.copyDirectReportLink = function() {
     const reportUrl = window.location.href.split('?')[0] + "?report=" + activeReportDept;
     const dummyInput = document.createElement('textarea');
@@ -1122,6 +1233,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.getElementById('competitionsMainContainer').classList.remove('hidden');
   };
 
+  /* ------------------- طباعة المسابقة (الصورة يسار بالحجم السابق الكبير، والباركودات عمودية يمين بدون نص توضيحي أو خطوط) ------------------- */
   window.printCompetitionByTitle = function(compTitle) {
     const comp = state.competitions.find(c => c.title === compTitle);
     if(!comp) return alert("بيانات المسابقة غير متوفرة للطباعة.");
@@ -1129,63 +1241,83 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     const endDateText = comp.endDate ? formatLTRDate(comp.endDate) : 'غير محدد';
     const printContainer = document.getElementById('compPrintPageContainer');
 
-    const hasLink = comp.link && comp.link.trim() !== '';
+    const hasRegLink = comp.link && comp.link.trim() !== '';
+    const fileTarget = comp.fileUrl || comp.fileData;
+    const hasFileLink = fileTarget && fileTarget.trim() !== '';
+    const videoTarget = comp.videoUrl || comp.videoData;
+    const hasVideoLink = videoTarget && videoTarget.trim() !== '';
+    const hasImage = comp.imageData && comp.imageData.trim() !== '';
 
     printContainer.innerHTML = `
-      <div style="font-family: Tahoma, sans-serif; padding: 25px; color: #000; direction: rtl; text-align: center; max-width: 750px; margin: 0 auto;">
-        <div style="font-weight: bold; font-size: 14px; color: #333; margin-bottom: 4px;">الإدارة العامة للتعليم بمنطقة المدينة المنورة</div>
-        <div style="font-weight: bold; font-size: 15px; color: #0B5345; margin-bottom: 10px;">مدرسة مكة المكرمة الابتدائية</div>
+      <div style="font-family: Tahoma, sans-serif; padding: 20px; color: #000; direction: rtl; text-align: center; max-width: 800px; margin: 0 auto;">
+        <div style="font-weight: bold; font-size: 13px; color: #333; margin-bottom: 2px;">الإدارة العامة للتعليم بمنطقة المدينة المنورة</div>
+        <div style="font-weight: bold; font-size: 14px; color: #0B5345; margin-bottom: 8px;">مدرسة مكة المكرمة الابتدائية</div>
         
-        <div style="font-weight: bold; font-size: 13px; color: #0B5345; margin-top: 4px;">المسابقات الوزارية المتاحة للمشاركة حالياً</div>
-        <div style="font-size: 11px; color: #555; margin-bottom: 10px;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</div>
+        <div style="font-weight: bold; font-size: 12.5px; color: #0B5345; margin-top: 2px;">المسابقات الوزارية المتاحة للمشاركة حالياً</div>
+        <div style="font-size: 11px; color: #555; margin-bottom: 8px;">شاركونا التميز والإبداع عبر التسجيل المباشر في المسابقات والبرامج الوطنية</div>
 
-        <hr style="border: 1px solid #0B5345; margin-bottom: 15px;">
+        <hr style="border: 1px solid #0B5345; margin-bottom: 12px;">
         
-        <h1 style="font-size: 22px; color: #0B5345; margin-bottom: 10px;">مسابقة: ${esc(comp.title)}</h1>
-        <div style="display: inline-block; background: #eee; padding: 6px 15px; border-radius: 6px; font-weight: bold; font-size: 13px; margin-bottom: 15px; color: #0B5345;">تاريخ انتهاء التسجيل: <span dir="ltr" style="display:inline-block;">${esc(endDateText)}</span></div>
+        <h1 style="font-size: 20px; color: #0B5345; margin-bottom: 8px;">مسابقة: ${esc(comp.title)}</h1>
+        <div style="display: inline-block; background: #eee; padding: 5px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; margin-bottom: 12px; color: #0B5345;">تاريخ انتهاء التسجيل: <span dir="ltr" style="display:inline-block;">${esc(endDateText)}</span></div>
         
-        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-          <h3 style="margin: 0 0 5px 0; color: #0B5345; font-size: 14px;">المجال:</h3>
-          <p style="margin: 0; font-size: 14px;">${esc(comp.domain)}</p>
+        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+          <h3 style="margin: 0 0 4px 0; color: #0B5345; font-size: 13px;">المجال:</h3>
+          <p style="margin: 0; font-size: 13px;">${esc(comp.domain)}</p>
         </div>
 
-        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-          <h3 style="margin: 0 0 5px 0; color: #0B5345; font-size: 14px;">أهداف المسابقة:</h3>
-          <p style="margin: 0; font-size: 14px; white-space: pre-line;">${esc(comp.goals)}</p>
+        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+          <h3 style="margin: 0 0 4px 0; color: #0B5345; font-size: 13px;">أهداف المسابقة:</h3>
+          <p style="margin: 0; font-size: 13px; white-space: pre-line;">${esc(comp.goals)}</p>
         </div>
 
-        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-          <h3 style="margin: 0 0 5px 0; color: #0B5345; font-size: 14px;">شروط المشاركة:</h3>
-          <p style="margin: 0; font-size: 14px; white-space: pre-line;">${esc(comp.conditions)}</p>
+        <div style="text-align: right; background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+          <h3 style="margin: 0 0 4px 0; color: #0B5345; font-size: 13px;">شروط المشاركة:</h3>
+          <p style="margin: 0; font-size: 13px; white-space: pre-line;">${esc(comp.conditions)}</p>
         </div>
 
-        <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 20px; gap: 20px; flex-wrap: wrap;">
-          ${hasLink ? `
-            <div style="text-align: center; min-width: 130px;">
-              <p style="font-weight: bold; margin-bottom: 6px; font-size: 13px; color: #0B5345;">باركود رابط التسجيل:</p>
-              <div id="printLinkQrBox" style="display: inline-block; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 8px;"></div>
-            </div>
-          ` : `
-            <div style="text-align: center; background: #eef6f5; border: 1px dashed #0C6A64; padding: 12px 18px; border-radius: 8px; min-width: 220px;">
-              <p style="font-weight: bold; margin: 0; font-size: 13.5px; color: #0B5345;">
-                <i class="fa-solid fa-user-tie"></i> آلية التسجيل:
-              </p>
-              <p style="margin: 5px 0 0 0; font-size: 13px; color: #333; font-weight: 600;">
-                التسجيل يتم عن طريق المعلم أو رائد النشاط بالمدرسة
-              </p>
-            </div>
-          `}
-          ${comp.imageData && comp.imageData.trim() !== '' ? `
-            <div style="text-align: center; flex: 1; min-width: 280px;">
-              <p style="font-weight: bold; margin-bottom: 6px; font-size: 13px; color: #0B5345;">الصورة المرفقة للمسابقة:</p>
-              <div style="display: block; padding: 6px; background: #fff; border: 1px solid #ccc; border-radius: 8px; width: 100%;">
-                <img src="${comp.imageData}" alt="الصورة المرفقة" style="max-height: 280px; width: 100%; object-fit: contain; border-radius: 4px;">
+        <!-- التخطيط: الباركودات عمودياً في اليمين والصورة كبيرة في اليسار -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; gap: 20px;">
+          
+          <!-- الجهة اليمين: الباركودات فوق بعضها عمودياً بدون عبارات أو خطوط -->
+          <div style="display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; min-width: 130px;">
+            ${hasRegLink ? `
+              <div style="text-align: center;">
+                <p style="font-weight: bold; margin-bottom: 3px; font-size: 11px; color: #0B5345;">رابط التسجيل</p>
+                <div id="printLinkQrBox" style="display: inline-block; padding: 4px; background: #fff; border: 1px solid #ccc; border-radius: 6px;"></div>
               </div>
+            ` : `
+              <div style="text-align: center; background: #eef6f5; border: 1px dashed #0C6A64; padding: 8px; border-radius: 6px; font-size: 11px; color: #0B5345; font-weight: bold;">
+                التسجيل عبر رائد النشاط
+              </div>
+            `}
+
+            ${hasFileLink ? `
+              <div style="text-align: center;">
+                <p style="font-weight: bold; margin-bottom: 3px; font-size: 11px; color: #0B5345;">الملف المرفق</p>
+                <div id="printFileQrBox" style="display: inline-block; padding: 4px; background: #fff; border: 1px solid #ccc; border-radius: 6px;"></div>
+              </div>
+            ` : ''}
+
+            ${hasVideoLink ? `
+              <div style="text-align: center;">
+                <p style="font-weight: bold; margin-bottom: 3px; font-size: 11px; color: #0B5345;">فيديو الشرح</p>
+                <div id="printVideoQrBox" style="display: inline-block; padding: 4px; background: #fff; border: 1px solid #ccc; border-radius: 6px;"></div>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- الجهة اليسار: الصورة المرفقة للمسابقة بالحجم السابق الكبير -->
+          ${hasImage ? `
+            <div style="text-align: center; flex-grow: 1; background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 8px;">
+              <p style="font-weight: bold; margin: 0 0 6px 0; font-size: 12px; color: #0B5345;">الصورة المرفقة للمسابقة</p>
+              <img src="${comp.imageData}" alt="الصورة المرفقة" style="max-height: 280px; width: 100%; object-fit: contain; border-radius: 4px;">
             </div>
           ` : ''}
+
         </div>
 
-        <div style="display: flex; justify-content: space-between; margin-top: 30px; font-weight: bold; font-size: 14px;">
+        <div style="display: flex; justify-content: space-between; margin-top: 25px; font-weight: bold; font-size: 13px;">
           <div>رائد النشاط الطلابي<br><br>عواد محمد العوفي</div>
           <div>مدير المدرسة<br><br>متعب حسن السحيمي</div>
         </div>
@@ -1193,18 +1325,25 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     `;
 
     setTimeout(() => {
-      if(hasLink) {
+      if(hasRegLink) {
         const linkQrEl = document.getElementById('printLinkQrBox');
         if(linkQrEl) {
           linkQrEl.innerHTML = '';
-          new QRCode(linkQrEl, {
-            text: comp.link.trim(),
-            width: 110,
-            height: 110,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-          });
+          new QRCode(linkQrEl, { text: comp.link.trim(), width: 90, height: 90, colorDark : "#000000", colorLight : "#ffffff" });
+        }
+      }
+      if(hasFileLink) {
+        const fileQrEl = document.getElementById('printFileQrBox');
+        if(fileQrEl) {
+          fileQrEl.innerHTML = '';
+          new QRCode(fileQrEl, { text: fileTarget.trim(), width: 90, height: 90, colorDark : "#000000", colorLight : "#ffffff" });
+        }
+      }
+      if(hasVideoLink) {
+        const videoQrEl = document.getElementById('printVideoQrBox');
+        if(videoQrEl) {
+          videoQrEl.innerHTML = '';
+          new QRCode(videoQrEl, { text: videoTarget.trim(), width: 90, height: 90, colorDark : "#000000", colorLight : "#ffffff" });
         }
       }
 
@@ -1227,19 +1366,24 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     addCompForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if(!currentUser) return alert("يجب تسجيل الدخول كمسؤول أولاً.");
+
+      const docId = document.getElementById('editCompDocId').value;
       const title = document.getElementById('newCompTitle').value.trim();
       const domain = document.getElementById('newCompDomain').value.trim();
       const endDate = document.getElementById('newCompEndDate').value;
       const goals = document.getElementById('newCompGoals').value.trim();
       const conditions = document.getElementById('newCompConditions').value.trim();
       const link = document.getElementById('newCompLink').value.trim();
+      const fileUrl = document.getElementById('newCompFileUrl').value.trim();
+      const videoUrl = document.getElementById('newCompVideoUrl').value.trim();
       
       const imageInput = document.getElementById('newCompImage');
       const fileInput = document.getElementById('newCompFile');
+      const videoFileInput = document.getElementById('newCompVideoFile');
       
       let imageData = '';
       if(imageInput.files && imageInput.files[0]) {
-        try { imageData = await fileToDataUrl(imageInput.files[0]); } catch(err) { console.error(err); }
+        try { imageData = await compressImage(imageInput.files[0]); } catch(err) { console.error(err); }
       }
 
       let fileData = '';
@@ -1247,12 +1391,32 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         try { fileData = await fileToDataUrl(fileInput.files[0]); } catch(err) { console.error(err); }
       }
 
+      let videoData = '';
+      if(videoFileInput.files && videoFileInput.files[0]) {
+        try { videoData = await fileToDataUrl(videoFileInput.files[0]); } catch(err) { console.error(err); }
+      }
+
+      const compPayload = {
+        title, domain, endDate, goals, conditions, link, fileUrl, videoUrl,
+        updatedAt: Date.now()
+      };
+
+      if(imageData) compPayload.imageData = imageData;
+      if(fileData) compPayload.fileData = fileData;
+      if(videoData) compPayload.videoData = videoData;
+
       try {
-        await addDoc(collection(db, "competitions"), { title, domain, endDate, goals, conditions, link, imageData, fileData, createdAt: Date.now() });
-        toast("تمت إضافة المسابقة ونشرها بنجاح!");
+        if(docId) {
+          await updateDoc(doc(db, "competitions", docId), compPayload);
+          toast("تم تحديث وتعديل بيانات المسابقة بنجاح!");
+        } else {
+          compPayload.createdAt = Date.now();
+          await addDoc(collection(db, "competitions"), compPayload);
+          toast("تمت إضافة المسابقة ونشرها بنجاح!");
+        }
         hideForm('addCompModal');
         addCompForm.reset();
-      } catch(err) { alert("خطأ: " + err.message); }
+      } catch(err) { alert("خطأ في الحفظ: " + err.message); }
     });
   }
 
@@ -1284,7 +1448,12 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           <div class="comp-right-info">
             <div class="comp-title-row">
               ${statusBadge}
-              ${currentUser ? `<button class="btn danger small" style="padding:2px 6px; font-size:11px;" onclick="deleteComp('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>` : ''}
+              ${currentUser ? `
+                <div style="display:flex; gap:4px;">
+                  <button class="btn gold small" style="padding:2px 6px; font-size:11px;" onclick="openEditCompModal('${item.id}')"><i class="fa-solid fa-pen-to-square"></i> تعديل</button>
+                  <button class="btn danger small" style="padding:2px 6px; font-size:11px;" onclick="deleteComp('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>
+                </div>
+              ` : ''}
             </div>
             <span class="comp-title-text">${esc(item.title)}</span>
             <div class="comp-domain-text"><i class="fa-solid fa-tag"></i> المجال: ${esc(item.domain)}</div>
@@ -1302,7 +1471,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     }).join('');
   }
 
-  /* ------------------- إدارة قياس الأثر والاستبانات ------------------- */
   window.copySurveyLink = function(type) {
     const surveyUrl = window.location.href.split('?')[0] + "?survey=" + type;
     
@@ -1531,7 +1699,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     renderSurveysList();
   });
 
-  /* ------------------- فحص الروابط المباشرة وإخفاء الأقسام الأخرى عند مشاركة مسابقة ------------------- */
   window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const surveyParam = urlParams.get('survey');
@@ -1553,7 +1720,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         switchTab('impact');
         openSurveyPreview(surveyParam);
       } else if(compParam) {
-        // عند فتح رابط مسابقة مباشر، يتم إخفاء الترويسة وأزرار التبويبات بالكامل لتظهر المسابقة فقط وحدها
         const topHero = document.querySelector('.top.hero');
         const mainTabs = document.getElementById('mainTabsNav');
         if(topHero) topHero.style.display = 'none';
@@ -1562,7 +1728,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
         switchTab('home');
         const decodedCompTitle = decodeURIComponent(compParam);
         
-        // التحقق من تحميل البيانات ثم فتح تفاصيل المسابقة وإخفاء زر العودة للقائمة
         const checkAndOpen = setInterval(() => {
           if(state.competitions && state.competitions.length > 0) {
             clearInterval(checkAndOpen);
@@ -1572,7 +1737,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
           }
         }, 150);
 
-        // احتياطاً بعد نصف ثانية إذا تأخر تحميل الفايربيس
         setTimeout(() => {
           clearInterval(checkAndOpen);
           openCompetitionForm(decodedCompTitle);
@@ -1588,7 +1752,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     }
   });
 
-  /* ------------------- مصادقة المسؤول وإدارة الجلسات ------------------- */
   document.getElementById('loginBtn').addEventListener('click', () => showForm('loginModal'));    
   document.getElementById('loginForm').addEventListener('submit', async (e) => {      
       e.preventDefault();      
@@ -1623,7 +1786,6 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
       renderAll();  
   });
 
-  /* ------------------- إدارة الطباعة والشهادات والتقارير ------------------- */
   onSnapshot(collection(db, "batch_students"), (snapshot) => {      
       state.batchStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));      
       renderBatchTable();  
@@ -1805,6 +1967,29 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     updateReportPreview();
   };
 
+  window.changeReportImageCount = function() {
+    const selVal = parseInt(document.getElementById('repImageCountSelect').value);
+    currentImageCount = selVal;
+    
+    const imgField3 = document.getElementById('imgField3');
+    const capField3 = document.getElementById('capField3');
+    const imgField4 = document.getElementById('imgField4');
+    const capField4 = document.getElementById('capField4');
+
+    if(selVal === 4) {
+      imgField3.classList.remove('hidden');
+      capField3.classList.remove('hidden');
+      imgField4.classList.remove('hidden');
+      capField4.classList.remove('hidden');
+    } else {
+      imgField3.classList.add('hidden');
+      capField3.classList.add('hidden');
+      imgField4.classList.add('hidden');
+      capField4.classList.add('hidden');
+    }
+    updateReportPreview();
+  };
+
   window.updateReportPreview = function() {
     document.getElementById('lblRepTitle').textContent = document.getElementById('repTitleInput').value || 'عنوان التقرير';
     document.getElementById('lblRepDate').textContent = document.getElementById('repDateInput').value || '';
@@ -1819,21 +2004,43 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     document.getElementById('lblRepSignerName').textContent = document.getElementById('repSignerName').value || '';
     document.getElementById('lblRepPrincipalTitle').textContent = document.getElementById('repPrincipalTitle').value || '';
     document.getElementById('lblRepPrincipalName').textContent = document.getElementById('repPrincipalName').value || '';
-    document.getElementById('lblCap1').textContent = document.getElementById('repCap1').value || '';
-    document.getElementById('lblCap2').textContent = document.getElementById('repCap2').value || '';
 
-    const prev1 = document.getElementById('imgPreview1');
-    if(reportImages[1]) {
-      prev1.innerHTML = `<img src="${reportImages[1]}" alt="صورة 1">`;
+    const gridContainer = document.getElementById('lblRepImagesGrid');
+    
+    if(currentImageCount === 4) {
+      gridContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+      gridContainer.style.height = '110mm';
+      gridContainer.innerHTML = `
+        <div class="rep-img-card">
+          <div id="imgPreview1">${reportImages[1] ? `<img src="${reportImages[1]}" alt="صورة 1">` : `<span style="color:#9ab0ac; font-size:11px;">الصورة الأولى</span>`}</div>
+          <div class="rep-img-caption" id="lblCap1">${document.getElementById('repCap1').value || ''}</div>
+        </div>
+        <div class="rep-img-card">
+          <div id="imgPreview2">${reportImages[2] ? `<img src="${reportImages[2]}" alt="صورة 2">` : `<span style="color:#9ab0ac; font-size:11px;">الصورة الثانية</span>`}</div>
+          <div class="rep-img-caption" id="lblCap2">${document.getElementById('repCap2').value || ''}</div>
+        </div>
+        <div class="rep-img-card">
+          <div id="imgPreview3">${reportImages[3] ? `<img src="${reportImages[3]}" alt="صورة 3">` : `<span style="color:#9ab0ac; font-size:11px;">الصورة الثالثة</span>`}</div>
+          <div class="rep-img-caption" id="lblCap3">${document.getElementById('repCap3').value || ''}</div>
+        </div>
+        <div class="rep-img-card">
+          <div id="imgPreview4">${reportImages[4] ? `<img src="${reportImages[4]}" alt="صورة 4">` : `<span style="color:#9ab0ac; font-size:11px;">الصورة الرابعة</span>`}</div>
+          <div class="rep-img-caption" id="lblCap4">${document.getElementById('repCap4').value || ''}</div>
+        </div>
+      `;
     } else {
-      prev1.innerHTML = `<span style="color:#9ab0ac; font-size:11px;">الصورة الأولى</span>`;
-    }
-
-    const prev2 = document.getElementById('imgPreview2');
-    if(reportImages[2]) {
-      prev2.innerHTML = `<img src="${reportImages[2]}" alt="صورة 2">`;
-    } else {
-      prev2.innerHTML = `<span style="color:#9ab0ac; font-size:11px;">الصورة الثانية</span>`;
+      gridContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+      gridContainer.style.height = '110mm';
+      gridContainer.innerHTML = `
+        <div class="rep-img-card">
+          <div id="imgPreview1">${reportImages[1] ? `<img src="${reportImages[1]}" alt="صورة 1">` : `<span style="color:#9ab0ac; font-size:11px;">الصورة الأولى</span>`}</div>
+          <div class="rep-img-caption" id="lblCap1">${document.getElementById('repCap1').value || ''}</div>
+        </div>
+        <div class="rep-img-card">
+          <div id="imgPreview2">${reportImages[2] ? `<img src="${reportImages[2]}" alt="صورة 2">` : `<span style="color:#9ab0ac; font-size:11px;">الصورة الثانية</span>`}</div>
+          <div class="rep-img-caption" id="lblCap2">${document.getElementById('repCap2').value || ''}</div>
+        </div>
+      `;
     }
   };
 
@@ -1841,7 +2048,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     const file = event.target.files[0];
     if(file) {
       try {
-        const dataUrl = await fileToDataUrl(file);
+        const dataUrl = await compressImage(file);
         reportImages[index] = dataUrl;
         updateReportPreview();
       } catch(e) { alert("خطأ في تحميل الصورة"); }
@@ -1852,7 +2059,7 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     const file = event.target.files[0];
     if(file) {
       try {
-        const dataUrl = await fileToDataUrl(file);
+        const dataUrl = await compressImage(file, 400);
         document.getElementById('repLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار" style="max-height: 55px; max-width: 120px; object-fit: contain;">`;
       } catch(e) { alert("خطأ في تحميل الشعار"); }
     }
@@ -1940,14 +2147,13 @@ table.data-table th { background: var(--surface2); color: var(--brand); font-wei
     updateCertPreview();
   };
 
-  window.loadCertLogo = function(event) {
+  window.loadCertLogo = async function(event) {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('certLogoArea').innerHTML = `<img src="${e.target.result}" alt="شعار">`;
-      }
-      reader.readAsDataURL(file);
+      try {
+        const dataUrl = await compressImage(file, 400);
+        document.getElementById('certLogoArea').innerHTML = `<img src="${dataUrl}" alt="شعار">`;
+      } catch(e) { alert("خطأ في تحميل الشعار"); }
     }
   };
 </script>
